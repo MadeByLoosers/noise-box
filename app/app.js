@@ -6,10 +6,9 @@
 var _ = require('underscore');
 
 var HostModel = require('./model/host-model');
+var ClientModel = require('./model/client-model');
 
 module.exports = function(app, io) {
-
-
 
   /*
    * Scratch area
@@ -45,8 +44,8 @@ module.exports = function(app, io) {
       console.log('a room was hosted', data.name);
 
       var host = new HostModel(data.name);
-      host.clients.push(host.id);
-      host.ownerID = host.id;
+      // store owner id
+      host.ownerID = socket.id; 
       hosts.push(host);
     });
 
@@ -56,6 +55,9 @@ module.exports = function(app, io) {
       var host = _.find(hosts, function(host) {
         return host.name = data.name;
       });
+
+      // add new client to host
+      host.clients.push(new ClientModel(socket.id, host));
 
       // send a message out
       socket.emit('message', { 
