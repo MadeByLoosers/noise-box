@@ -106,9 +106,16 @@ module.exports = function(app, io) {
         content: socket.id + ' joined the room ' + host.name,
         clients: clientIDs
       });
+    });
 
+    // a new client
+    socket.on('addTrack', function (data) {
+      var trackName = data.trackName;
+      var clientID = socket.id;
+      // var host = clients.findHostByClientId(clientId);
 
-
+      // host.addTrack(trackName);
+      console.log(clientID + ' is adding track ' + trackName);
     });
 
   });
