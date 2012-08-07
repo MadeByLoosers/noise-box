@@ -34,10 +34,14 @@ ClientModelsCollection.prototype.clientExists = function (clientID) {
 
 ClientModelsCollection.prototype.getClientByClientID = function(clientID) {
 
-    return _.find(this.clients,function (client) {
+    var i;
+    for ( i=0; i<this.clients.length; i=i+1 ) {
 
-        return client.clientID === clientID;
-    });
+        if ( this.clients[i].clientID === clientID ) {
+
+            return this.clients[i];
+        }
+    }
 };
 
 ClientModelsCollection.prototype.getHostByClientID = function(clientID) {
