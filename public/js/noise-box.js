@@ -7,20 +7,25 @@ var NB = {};
 NB.initSocket = function(){
 
 	var socket = io.connect('http://'+window.location.hostname+':3000');
-	  socket.on('message', function (data) {
-	    var p = document.createElement('p');
-	    p.innerHTML = data.content;
-	    document.body.appendChild(p); 
+	 
+      socket.emit('join', { name: <%= id %> });
 
-	    console.log(data);
-	    // socket.emit('my other event', { my: 'data' });
-	});	
+      socket.on('message', function(data){
+        console.log('received message: ', data);
+      });
+
+
+      /// HOST
+      var socket = io.connect('http://mikebook.local:3000');
+        socket.emit('host', { name: <%= id %> });
+      });
 };
 
 
 
 $(document).ready(function(e){
 	
+
 	NB.initSocket();
 });
 

@@ -6,6 +6,7 @@ var HostModel = function (id) {
     this.id = id;
     this.queue = [];
     this.trackIndex = -1;
+    this.clients = [];
 
     events.EventEmitter.call(this);
 };
@@ -34,4 +35,4 @@ HostModel.prototype.notifyTrackComplete = function () {
 
 module.exports = HostModel;
 
-// var host = new Host(id,[])
+// var host = new HostModel('1');

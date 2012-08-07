@@ -27,3 +27,20 @@ a {
     -webkit-appearance:none;
   }
 
+
+/* file list */
+  section#file-list {
+    text-align:left;
+  }
+
+  section#file-list h3 {
+    clear:both;
+  }
+
+  section#file-list li {
+    float:left;
+    list-style:none;
+    padding:5px;
+    margin:5px;
+    background:#eee;
+  }
