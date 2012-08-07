@@ -51,7 +51,8 @@ module.exports = function(app) {
     // TODO:
 
     var fileHelper = require('../../lib/file-helper');
-        fileHelper.listFiles("./public/sfx/", function(files){
+        fileHelper.listFiles("./public/sfx", function(err, files){
+          console.log(files);
           res.render('room', {
             title: 'NoiseBox Room',
             id: id,

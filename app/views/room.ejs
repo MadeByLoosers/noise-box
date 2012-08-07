@@ -7,11 +7,15 @@
   <body>
     <h1><%= title %></h1>
     <h2>Welcome to the room <%= id %></h2>
-    <p>Files</p>
-    <ul>
-      <% files.forEach(function(file){ %>
-      <li><a href="#"><%= file %></a></li>
+    <section id="file-list">
+      <% files.forEach(function(dir){ %>
+        <h3><%= dir.name %></h3>
+        <ul>
+          <% dir.files.forEach(function(file){ %>
+          <li><a href="<%= file.path %>"><%= file.filename %></a></li>
+          <% }); %>
+        </ul>
       <% }); %>
-    </ul>
+    </section>
   </body>
 </html>
