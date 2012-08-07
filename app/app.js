@@ -44,6 +44,7 @@ module.exports = function(app, io) {
       console.log('a room was hosted', data.name);
 
       var host = new HostModel(data.name);
+      console.log('created room: ' + data.name);
       // store owner id
       host.ownerID = socket.id; 
       hosts.push(host);
@@ -66,7 +67,7 @@ module.exports = function(app, io) {
       });
 
       socket.broadcast.emit('message', { 
-        content: host.id + 'joined the room',
+        content: socket.id + ' joined the room ' + host.id,
         clients: hosts.clients
       });
     });
