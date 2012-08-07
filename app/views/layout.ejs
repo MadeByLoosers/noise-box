@@ -3,12 +3,12 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/css/style.css' />
-   
   </head>
   <body id="<%= bodyid %>">
     <%- body %>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/js/lib/zepto.js"></script>
+    <script type="text/javascript" src="/js/noise-box.js"></script>
   </body>
-  <script src="/socket.io/socket.io.js"></script>
-  <script type="text/javascript" src="/js/lib/zepto.js"></script>
-  <script type="text/javascript" src="/js/noise-box.js"></script>
 </html>
