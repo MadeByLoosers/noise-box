@@ -1,4 +1,4 @@
-var sys = require("sys");
+var utils = require("utils");
 var events = require("events");
 
 var HostModel = function (name,ownerID) {
@@ -12,7 +12,7 @@ var HostModel = function (name,ownerID) {
 
     events.EventEmitter.call(this);
 };
-sys.inherits(HostModel, events.EventEmitter);
+utils.inherits(HostModel,events.EventEmitter);
 
 HostModel.prototype = {
 
