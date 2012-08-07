@@ -1,29 +1,8 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <h2>Welcome to the room <%= id %></h2>
-    <p>Files</p>
-    <ul>
-      <% files.forEach(function(file){ %>
-      <li><a href="#"><%= file %></a></li>
-      <% }); %>
-    </ul>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-      var socket = io.connect('http://mikebook.local:3000');
-      socket.on('message', function (data) {
-        var p = document.createElement('p');
-        p.innerHTML = data.content;
-        document.body.appendChild(p); 
-
-        console.log(data);
-        // socket.emit('my other event', { my: 'data' });
-      });
-    </script>
-  </body>
-</html>
+<h1><%= title %></h1>
+<h2>Welcome to the room <%= id %></h2>
+<p>Files</p>
+<ul>
+  <% files.forEach(function(file){ %>
+  <li><a href="#"><%= file %></a></li>
+  <% }); %>
+</ul>
