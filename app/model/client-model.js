@@ -5,7 +5,8 @@ var ClientModel = function (clientID,hostModel) {
     this.clientID = clientID;
     this.hostModel = hostModel;
 
-    hostModel.on(HostModel.INDEX_CHANGED,this.onHostTrackIndexChanged);
+    hostModel.on(HostModel.TRACK_STARTED,this.onHostTrackStarted);
+    hostModel.on(HostModel.TRACK_COMPLETE,this.onHostTrackComplete);
     hostModel.on(HostModel.QUEUE_CHANGED,this.onHostQueueChanged);
 };
 
@@ -15,14 +16,17 @@ ClientModel.prototype = {
     hostModel : undefined
 };
 
-ClientModel.prototype.onHostTrackIndexChanged = function (trackIndex) {
+ClientModel.prototype.onHostTrackStarted = function (trackIndex) {
 
-    // Emit change to client's socket
+};
+
+ClientModel.prototype.onHostTrackComplete = function (trackIndex) {
+
 };
 
 ClientModel.prototype.onHostQueueChanged = function (queue) {
 
-    // Emit change to client's socket
+
 };
 
 module.exports = ClientModel;
