@@ -12,7 +12,7 @@ var HostModel = function (name,ownerID) {
 
     events.EventEmitter.call(this);
 };
-utils.inherits(HostModel,events.EventEmitter);
+util.inherits(HostModel,events.EventEmitter);
 
 HostModel.prototype = {
 
