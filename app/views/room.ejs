@@ -7,24 +7,25 @@
   <body>
     <h1><%= title %></h1>
     <h2>Welcome to the room <%= id %></h2>
-    <p>Files</p>
-    <ul>
-      <% files.forEach(function(file){ %>
-      <li><a href="#"><%= file %></a></li>
+    <section id="file-list">
+      <% files.forEach(function(dir){ %>
+        <h3><%= dir.name %></h3>
+        <ul>
+          <% dir.files.forEach(function(file){ %>
+          <li><a href="<%= file.path %>"><%= file.filename %></a></li>
+          <% }); %>
+        </ul>
       <% }); %>
-    </ul>
+    </section>
 
-    <ul id="users">
-    </ul>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      var socket = io.connect('http://mikebook.local:3000');
+      var socket = io.connect('http://localhost:3000');
       socket.emit('join', { name: <%= id %> });
 
       socket.on('message', function(data){
         console.log('received message: ', data);
       });
-
     </script>
   </body>
 </html>
