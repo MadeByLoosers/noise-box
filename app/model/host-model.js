@@ -8,6 +8,7 @@ var HostModel = function (name, ownerID) {
     this.queue = [];
     this.clients = [];
     this.trackIndex = -1;
+    this.clients = [];
 
     events.EventEmitter.call(this);
 };
