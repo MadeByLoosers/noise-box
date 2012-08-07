@@ -1,5 +1,3 @@
-var _ = require("underscore");
-
 var HostModelsCollection = function () {
 
     this.hosts = [];
@@ -8,7 +6,7 @@ var HostModelsCollection = function () {
 HostModelsCollection.prototype = {
 
     hosts : []
-}
+};
 
 HostModelsCollection.prototype.addHost = function (host) {
 
@@ -34,10 +32,14 @@ HostModelsCollection.prototype.hostExists = function (name) {
 
 HostModelsCollection.prototype.getHostByName = function(name) {
 
-   return _.find(this.hosts,function (host) {
+    var i;
+    for ( i=0; i<this.hosts.length; i=i+1 ) {
 
-       return host.name === name;
-   });
+        if ( this.hosts[i].name === name ) {
+
+            return this.hosts[i];
+        }
+    }
 };
 
 HostModelsCollection.prototype.getNumHosts = function () {

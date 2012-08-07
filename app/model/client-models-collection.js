@@ -1,5 +1,3 @@
-var _ = require("underscore");
-
 var ClientModelsCollection = function () {
 
     this.clients = [];
