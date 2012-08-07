@@ -9,6 +9,8 @@ var HostModel = function (name,ownerID) {
     this.clients = [];
     this.trackIndex = 0;
 
+    this.on(this.QUEUE_CHANGED,this.onQueueChanged);
+
     events.EventEmitter.call(this);
 };
 
@@ -46,21 +48,22 @@ HostModel.prototype.removeClient = function (clientID) {
 };
 
 HostModel.prototype.addTrack = function (track) {
-
+	var self = this;
     this.queue.push(track);
-console.log('running hostmodel.addTrack');
-util.inspect(this.queue);
-console.log(HostModel.QUEUE_CHANGED);
 
-    this.emit(HostModel.QUEUE_CHANGED,this.queue);
+    this.emit(self.QUEUE_CHANGED,self.queue);
 };
 
-HostModel.prototype.queueChanged = function (queue) {
+HostModel.prototype.onQueueChanged = function (queue) {
 
-	console.log('running queueChanged');
-	util.inspect(queue);
+	// console.log('running queueChanged');
+	// util.inspect(queue);
 
 	// send queue to clients
+	
+
+	// PLAY
+	this.emit('play',queue);
 
 };
 

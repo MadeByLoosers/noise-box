@@ -42,11 +42,14 @@ NB.initHostPage = function(){
 
   //Wait for play commands
   NB.socket.on('play', function(data){
-    var path = data.content.path;
-    console.log(path);
+    var path = data.path;
+
     //Play
     NB.player.play(path, function(){
-      NB.socket.emit('finishedPlay', {path:path});
+      NB.socket.emit('finishedPlay', {
+        path:path, // don't need this?
+        name: hostName
+      });
     });
 
 

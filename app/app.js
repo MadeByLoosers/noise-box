@@ -4,7 +4,6 @@
  * App
  */
 var _ = require('underscore');
-
 var HostModel = require('./model/host-model');
 var ClientModel = require('./model/client-model');
 var HostModelsCollection = require('./model/host-models-collection');
@@ -22,22 +21,22 @@ module.exports = function(app, io) {
 
     // host created
     socket.on('host', function (data) {
-      createHost(data.name, socket.id);
+      createHost(data.name, socket);
     });
 
     // host finished playing
     socket.on('finishedPlay', function (data) {
-      finishedPlay();
+      finishedPlay(data.name, socket);
     });
 
     // client joins a host
     socket.on('join', function (data) {
-      addClient(data.name, socket.id);
+      addClient(data.name, socket);
     });
 
     // client adds a track to the queue
     socket.on('addTrack', function (data) {
-      addTrack(data.trackName, socket.id);
+      addTrack(data.trackName, socket);
     });
 
   });
@@ -49,38 +48,53 @@ module.exports = function(app, io) {
    * @param  {string} hostName The unique name for this host
    * @param  {string} clientID A reference to the owner of this host
    */
-  var createHost = function(hostName, ownerID){
-    var host = new HostModel(hostName, ownerID);
+  var createHost = function(hostName, socket){
+    var host = new HostModel(hostName, socket.id);
     console.log('created room: ' + hostName);
 
+    host.on('play', function(queue){
+      console.log('triggered host play message with queue: ', queue);
+      var data = {
+        path: queue[0]
+      }
+
+      socket.emit('play', data);
+    })
+
     // store owner id
-    host.ownerID = ownerID;
+    host.ownerID = socket.id;
     hosts.addHost(host);
   }
 
 
   // when a host has finished playing
-  var finishedPlay = function(){
+  var finishedPlay = function(hostName, socket){
+    var host = hosts.getHostByName(hostName);
 
+    // remove first item from array
+    host.queue.shift();
+
+    if (host.queue.length > 0) {
+      host.emit('play',host.queue);
+    }
       //Place queue logic here.
 
-      //TESTING CODE
-      //Play another if we've tried
-      count++;
-      if(count  < 2){
-        socket.emit('play', {
-          content: {path:'/sfx/tv/simpsons_computers.wav'}
-
-        });
-      }
+      // //TESTING CODE
+      // //Play another if we've tried
+      // count++;
+      // if(count  < 2){
+      //   socket.emit('play', {
+      //     path:'/sfx/tv/simpsons_computers.wav'
+      //   });
+      // }
   }
 
 
   // add a track to a queue
-  var addTrack = function(trackName, clientID){
-      var host = clients.getHostByClientID(clientID);
+  var addTrack = function(trackName, socket){
+      var host = clients.getHostByClientID(socket.id);
 
-      console.log(clientID + ' is adding track ' + trackName);
+      console.log(socket.id + ' is adding track ' + trackName);
       console.log('host typeof is ', typeof host);
 
       host.addTrack(trackName);
@@ -88,9 +102,9 @@ module.exports = function(app, io) {
 
 
   // add a client to a host
-  var addClient = function (hostName, clientID) {
+  var addClient = function (hostName, socket) {
     var host = hosts.getHostByName(hostName);
-    var message = clientID + ' joined the room: ' + hostName;
+    var message = socket.id + ' joined the room: ' + hostName;
     var client;
 
     // host does not exist, handle error here
@@ -100,7 +114,7 @@ module.exports = function(app, io) {
     }
 
     // add new client to host
-    client = new ClientModel(clientID, host);
+    client = new ClientModel(socket.id, host);
     clients.addClient(client);
 
     // queue change
