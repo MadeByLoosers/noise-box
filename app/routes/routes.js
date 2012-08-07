@@ -1,3 +1,7 @@
+/*
+* Default page vars. Override these.
+*/
+var pageOptions = {title:'NoiseBox', bodyid:''};
 
 /*
  * Noise Box
@@ -21,7 +25,11 @@ module.exports = function(app) {
 
   // get home page
   function index(req, res){
-    res.render('index', {title:'NoiseBox'});
+
+    var options = pageOptions;
+    options.bodyid = 'home';
+
+    res.render('index', pageOptions);
   }
 
 
@@ -34,11 +42,12 @@ module.exports = function(app) {
     // TODO: if host doesn't exist, create
     // TODO: connect to websockets
 
-    res.render('host', {
-      title: 'NoiseBox Host',
-      url: url,
-      id: id
-    });
+    var options = pageOptions;
+    options.bodyid = 'host';
+    options.url = url;
+    options.id = id;
+
+    res.render('host', options);
   }
 
 
@@ -53,11 +62,13 @@ module.exports = function(app) {
 
     var fileHelper = require('../../lib/file-helper');
         fileHelper.listFiles("./public/sfx", function(err, files){
-          res.render('room', {
-            title: 'NoiseBox Room',
-            id: id,
-            files: files
-          });
+
+          var options = pageOptions;
+          options.bodyid = 'room';
+          options.id = id;
+          options.files = files;
+
+          res.render('room', options);
     });
   }
 
