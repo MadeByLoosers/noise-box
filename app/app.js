@@ -52,10 +52,19 @@ module.exports = function(app, io) {
 
     // a new client
     socket.on('join', function (data) {
-      console.log('a room was joined', data.name);
       var host = _.find(hosts, function(host) {
         return host.name = data.name;
       });
+
+console.log('host name is', data.name);
+console.log(typeof(host));
+
+      // host does not exist, handle error here
+      if (typeof host === 'undefined') {
+        return;
+      }
+
+      console.log('a room was joined', data.name);
 
       // add new client to host
       host.clients.push(new ClientModel(socket.id, host));
