@@ -12,15 +12,9 @@ var HostModel = function (name,ownerID) {
 
     events.EventEmitter.call(this);
 };
-util.inherits(HostModel,events.EventEmitter);
 
 HostModel.prototype = {
 
-    name : 0,
-    ownerID : 0,
-    queue : undefined,
-    clients : undefined,
-    trackIndex : 0,
     TRACK_COMPLETE : "trackComplete",
     TRACK_STARTED : "trackStarted",
     QUEUE_CHANGED : "queueChanged"
@@ -62,4 +56,13 @@ HostModel.prototype.notifyTrackComplete = function () {
     this.emit(HostModel.TRACK_COMPLETE,this.trackIndex);
 };
 
+HostModel.prototype.toString = function() {
+
+    var s = "[object HostModel]";
+
+    //s = s + "  name : "+name;
+
+};
+
+util.inherits(HostModel,events.EventEmitter);
 module.exports = HostModel;
