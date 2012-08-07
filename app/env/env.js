@@ -1,8 +1,17 @@
-var partials = require('express-partials')
 /*
  * Noise Box
  *
  * Environmental config
+ */
+
+/*
+ * Imports
+ */
+var partials = require('express-partials');
+
+
+/*
+ * Module
  */
 module.exports = function(app, express) {
 
