@@ -11,6 +11,7 @@ var app = module.exports = express();
 // io needs an http server instance: http://bit.ly/vxOxL5
 var server = http.createServer(app),
     io = require('socket.io').listen(server);
+	io.set('log level', 1); // reduce logging
 
 // import app config
 require('./app/env/env')(app, express);
