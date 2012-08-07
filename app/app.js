@@ -60,15 +60,20 @@ module.exports = function(app, io) {
       // add new client to host
       host.clients.push(new ClientModel(socket.id, host));
 
+      // get ids of all clients
+      var clientIDs = _.map(host.clients, function(client){ 
+        return client.clientID; 
+      });
+
       // send a message out
       socket.emit('message', { 
-        content: 'you joined the room ' + host.id,
-        clients: host.clients
+        content: 'you joined the room ' + host.name,
+        clients: clientIDs
       });
 
       socket.broadcast.emit('message', { 
-        content: socket.id + ' joined the room ' + host.id,
-        clients: hosts.clients
+        content: socket.id + ' joined the room ' + host.name,
+        clients: clientIDs
       });
     });
 
