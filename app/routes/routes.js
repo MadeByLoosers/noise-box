@@ -1,12 +1,26 @@
 /*
-* Default page vars. Override these.
-*/
-var pageOptions = {title:'NoiseBox', bodyid:''};
-
-/*
  * Noise Box
  *
  * Routes
+ */
+
+/*
+ * Imports
+ */
+var _ = require('underscore');
+
+
+/*
+ * Default page vars. Override these.
+ */
+var pageOptions = {
+  title:'NoiseBox',
+  bodyid:''
+};
+
+
+/*
+ * Module
  */
 module.exports = function(app) {
 
@@ -26,8 +40,9 @@ module.exports = function(app) {
   // get home page
   function index(req, res){
 
-    var options = pageOptions;
-    options.bodyid = 'home';
+    var options = _.extend(pageOptions, {
+      bodyid : 'home'
+    });
 
     res.render('index', pageOptions);
   }
@@ -42,10 +57,11 @@ module.exports = function(app) {
     // TODO: if host doesn't exist, create
     // TODO: connect to websockets
 
-    var options = pageOptions;
-    options.bodyid = 'host';
-    options.url = url;
-    options.id = id;
+    var options = _.extend(pageOptions, {
+      bodyid : 'host',
+      url : url,
+      id : id
+    });
 
     res.render('host', options);
   }
@@ -63,10 +79,11 @@ module.exports = function(app) {
     var fileHelper = require('../../lib/file-helper');
         fileHelper.listFiles("./public/sfx", function(err, files){
 
-          var options = pageOptions;
-          options.bodyid = 'room';
-          options.id = id;
-          options.files = files;
+          var options = _.extend(pageOptions, {
+            bodyid : 'room',
+            id : id,
+            files : files
+          });
 
           res.render('room', options);
     });
