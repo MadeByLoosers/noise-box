@@ -54,6 +54,21 @@ NB.initHostPage = function(){
 }
 
 
+/**
+* Entry point for room page.
+*/
+NB.initRoomPage = function(){
+  NB.socket.emit('join', { name: hostName });
+
+  $('#file-list').on('click', 'a', function(event){
+    event.preventDefault();
+
+    console.log('clicked!', event.target.href);
+    NB.socket.emit('addTrack', { trackName:  event.target.href });
+  });
+}
+
+
 NB.player = (function() {
   'use strict';
 
@@ -87,7 +102,7 @@ $(document).ready(function(e){
       break;
 
       case 'room':
-        NB.socket.emit('join', { name: hostName });
+        NB.initRoomPage();
       break;
 
     }
