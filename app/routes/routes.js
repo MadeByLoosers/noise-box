@@ -1,3 +1,4 @@
+
 /*
  * Noise Box
  *
@@ -20,7 +21,7 @@ module.exports = function(app) {
 
   // get home page
   function index(req, res){
-    res.render('index');
+    res.render('index', {title:'NoiseBox'});
   }
 
 
@@ -52,7 +53,6 @@ module.exports = function(app) {
 
     var fileHelper = require('../../lib/file-helper');
         fileHelper.listFiles("./public/sfx", function(err, files){
-          console.log(files);
           res.render('room', {
             title: 'NoiseBox Room',
             id: id,
