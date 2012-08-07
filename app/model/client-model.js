@@ -26,5 +26,5 @@ ClientModel.prototype.onHostQueueChanged = function (queue) {
     this.emit(ClientModel.QUEUE_CHANGED,queue);
 };
 
-util.inherits(HostModel,events.EventEmitter);
+util.inherits(ClientModel,events.EventEmitter);
 module.exports = ClientModel;
