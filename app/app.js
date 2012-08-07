@@ -46,10 +46,9 @@ module.exports = function(app, io) {
 
 
     socket.on('host', function (data) {
-      console.log('a room was hosted', data.name);
-
       var host = new HostModel(data.name);
       console.log('created room: ' + data.name);
+
       // store owner id
       host.ownerID = socket.id; 
       hosts.push(host);
@@ -78,20 +77,26 @@ module.exports = function(app, io) {
 
     // a new client
     socket.on('join', function (data) {
-      console.log('a room was joined', data.name);
       var host = _.find(hosts, function(host) {
-        return host.name = data.name;
+        return host.name === data.name;
       });
+
+      // host does not exist, handle error here
+      if (typeof host === 'undefined') {
+        console.log('room name "' + data.name + '" does not exist');
+        return false;
+      }
 
       // add new client to host
       host.clients.push(new ClientModel(socket.id, host));
+      console.log('joined room: ' + host.name);
 
       // get ids of all clients
       var clientIDs = _.map(host.clients, function(client){ 
         return client.clientID; 
       });
 
-      // send a message out
+      // tell people you've joined
       socket.emit('message', { 
         content: 'you joined the room ' + host.name,
         clients: clientIDs
@@ -101,9 +106,16 @@ module.exports = function(app, io) {
         content: socket.id + ' joined the room ' + host.name,
         clients: clientIDs
       });
+    });
 
+    // a new client
+    socket.on('addTrack', function (data) {
+      var trackName = data.trackName;
+      var clientID = socket.id;
+      // var host = clients.findHostByClientId(clientId);
 
-
+      // host.addTrack(trackName);
+      console.log(clientID + ' is adding track ' + trackName);
     });
 
   });

@@ -3,6 +3,8 @@
 */
 var NB = {};
 
+var hostName =  $('#room-name').data('room-name');
+
 /**
 * Initialize Socket IO.
 * returns true|false 
@@ -36,7 +38,7 @@ NB.initSocket = function(){
 NB.initHostPage = function(){
 
   //Notify backend of new host
-  NB.socket.emit('host', { name: 'test' });
+  NB.socket.emit('host', { name: hostName });
 
   //Wait for play commands
   NB.socket.on('play', function(data){
@@ -48,6 +50,21 @@ NB.initHostPage = function(){
     });
 
 
+  });
+}
+
+
+/**
+* Entry point for room page.
+*/
+NB.initRoomPage = function(){
+  NB.socket.emit('join', { name: hostName });
+
+  $('#file-list').on('click', 'a', function(event){
+    event.preventDefault();
+
+    console.log('clicked!', event.target.href);
+    NB.socket.emit('addTrack', { trackName:  event.target.href });
   });
 }
 
@@ -85,14 +102,11 @@ $(document).ready(function(e){
       break;
 
       case 'room':
-        NB.socket.emit('join', { name: 'test '});
+        NB.initRoomPage();
       break;
 
     }
-
   }
-
-	
 });
 
 
