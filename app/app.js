@@ -46,10 +46,9 @@ module.exports = function(app, io) {
 
 
     socket.on('host', function (data) {
-      console.log('a room was hosted', data.name);
-
       var host = new HostModel(data.name);
       console.log('created room: ' + data.name);
+
       // store owner id
       host.ownerID = socket.id; 
       hosts.push(host);
@@ -79,28 +78,25 @@ module.exports = function(app, io) {
     // a new client
     socket.on('join', function (data) {
       var host = _.find(hosts, function(host) {
-        return host.name = data.name;
+        return host.name === data.name;
       });
-
-console.log('host name is', data.name);
-console.log(typeof(host));
 
       // host does not exist, handle error here
       if (typeof host === 'undefined') {
-        return;
+        console.log('room name "' + data.name + '" does not exist');
+        return false;
       }
-
-      console.log('a room was joined', data.name);
 
       // add new client to host
       host.clients.push(new ClientModel(socket.id, host));
+      console.log('joined room: ' + host.name);
 
       // get ids of all clients
       var clientIDs = _.map(host.clients, function(client){ 
         return client.clientID; 
       });
 
-      // send a message out
+      // tell people you've joined
       socket.emit('message', { 
         content: 'you joined the room ' + host.name,
         clients: clientIDs

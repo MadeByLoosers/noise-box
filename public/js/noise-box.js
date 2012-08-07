@@ -87,7 +87,7 @@ $(document).ready(function(e){
       break;
 
       case 'room':
-        NB.socket.emit('join', { name: 'test '});
+        NB.socket.emit('join', { name: hostName });
       break;
 
     }
