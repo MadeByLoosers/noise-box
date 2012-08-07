@@ -20,6 +20,11 @@ module.exports = function(app, io) {
   var hosts = new HostModelsCollection();
   var clients = new ClientModelsCollection();
 
+    var hostTest = new HostModel();
+
+    console.log(hostTest.addTrack);
+    console.log(hostTest.on);
+
   /**
    * Socket testing
    */
@@ -33,7 +38,7 @@ module.exports = function(app, io) {
       console.log('created room: ' + data.name);
 
       // store owner id
-      host.ownerID = socket.id; 
+      host.ownerID = socket.id;
       hosts.addHost(host);
 
       // test play
@@ -84,17 +89,17 @@ module.exports = function(app, io) {
       console.log('joined room: ' + host.name);
 
       // // get ids of all clients
-      // var clientIDs = _.map(host.clients, function(client){ 
-      //   return client.clientID; 
+      // var clientIDs = _.map(host.clients, function(client){
+      //   return client.clientID;
       // });
 
       // tell people you've joined
-      socket.emit('message', { 
+      socket.emit('message', {
         content: 'you joined the room ' + host.name//,
         // clients: clientIDs
       });
 
-      socket.broadcast.emit('message', { 
+      socket.broadcast.emit('message', {
         content: client.clientID + ' joined the room ' + host.name//,
         // clients: clientIDs
       });
@@ -108,7 +113,7 @@ module.exports = function(app, io) {
 
       console.log(clientID + ' is adding track ' + trackName);
       console.log('host typeof is ', typeof host);
-      
+
       host.addTrack(trackName);
     });
 

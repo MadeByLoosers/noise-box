@@ -25,6 +25,8 @@ HostModel.prototype = {
     trackIndex : -1
 };
 
+util.inherits(HostModel,events.EventEmitter);
+
 HostModel.prototype.addClient = function (client) {
 
     this.clients.host = this;
@@ -70,5 +72,4 @@ HostModel.prototype.toString = function() {
 
 };
 
-util.inherits(HostModel,events.EventEmitter);
 module.exports = HostModel;
