@@ -1,4 +1,4 @@
-var utils = require("utils");
+var util = require("util");
 var events = require("events");
 
 var HostModel = function (name,ownerID) {
