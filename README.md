@@ -13,6 +13,13 @@ Future versions
 
 For this version it'll just offer preset sfx clips, but v2 will allow people to upload their own tracks.
 
+Possible future features:
+
+ - Broadcast queue size to all clients.
+ - Broadcast currently playing track and who played it.
+ - Broadcast queue length in seconds to all clients.
+
+
 
 Scratchpad
 ----------
