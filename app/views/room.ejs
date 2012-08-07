@@ -1,6 +1,6 @@
 
     <h1><%= title %></h1>
-    <h2>Welcome to the room <%= id %></h2>
+    <h2 id="room-name" data-room-name="<%= id %>">Welcome to the room <%= id %></h2>
     <section id="file-list">
       <% files.forEach(function(dir){ %>
         <h3><%= dir.name %></h3>
