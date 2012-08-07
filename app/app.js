@@ -40,6 +40,11 @@ module.exports = function(app, io) {
    */
   io.sockets.on('connection', function (socket) {
     // a new host
+
+    //testing counter...
+    var count = 0;
+
+
     socket.on('host', function (data) {
       console.log('a room was hosted', data.name);
 
@@ -48,6 +53,27 @@ module.exports = function(app, io) {
       // store owner id
       host.ownerID = socket.id; 
       hosts.push(host);
+
+      socket.emit('play', {
+        content: {path:'/sfx/tv/simpsons_website.wav'}
+
+      });
+    });
+
+    //Host finished playing
+    socket.on('finishedPlay', function (data) {
+
+        //Place queue logic here.
+
+        //TESTING CODE
+        //Play another if we've tried
+        count++;
+        if(count  < 2){
+          socket.emit('play', {
+            content: {path:'/sfx/tv/simpsons_computers.wav'}
+
+          });
+        }
     });
 
     // a new client
@@ -84,6 +110,9 @@ console.log(typeof(host));
         content: socket.id + ' joined the room ' + host.name,
         clients: clientIDs
       });
+
+
+
     });
 
   });

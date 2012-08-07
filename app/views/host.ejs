@@ -1,7 +1,7 @@
-
     <h1><%= title %></h1>
     <h2 id="room-name" data-room-name="<%= id %>">You are hosting the room <%= id %></h2>
     <p>To allow people to play tracks, give them the following link:</p>
     <input type="text" readonly="readonly" value="<%= url %>/<%= id %>" size="50"> [copy]
     <p>Any tracks that people select will be played through this web browser</p>
     <p>If you close this browser, it will end the session for everyone</p>
+    <audio id="audioPlayer" src="" preload="auto"></audio>
