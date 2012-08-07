@@ -7,6 +7,8 @@ var _ = require('underscore');
 
 var HostModel = require('./model/host-model');
 var ClientModel = require('./model/client-model');
+var HostModelsCollection = require('./model/host-models-collection');
+var ClientModelsCollection = require('./model/client-models-collection');
 
 module.exports = function(app, io) {
 
@@ -15,48 +17,29 @@ module.exports = function(app, io) {
    *
    */
 
-  var hosts = [];
-
-  // // create room
-  // var Room = function(){
-  //     this.clients = []; // socket.io can manage connections...
-  //     this.playqueue = [];
-  //     this.history = [];
-  // };
-  // Room.prototype.addTrack = function() {
-  //   // add track to play queue
-  // };
-  // // etc
-
-
-
-  // // add a room
-  // var room = new Room();
-  // rooms['test'] = room;
-
+  var hosts = new HostModelsCollection();
+  var clients = new ClientModelsCollection();
 
   /**
    * Socket testing
    */
   io.sockets.on('connection', function (socket) {
-    // a new host
-
     //testing counter...
     var count = 0;
 
 
     socket.on('host', function (data) {
-      var host = new HostModel(data.name);
+      var host = new HostModel(data.name, socket.id);
       console.log('created room: ' + data.name);
 
       // store owner id
       host.ownerID = socket.id; 
-      hosts.push(host);
+      hosts.addHost(host);
 
-      socket.emit('play', {
-        content: {path:'/sfx/tv/simpsons_website.wav'}
-
-      });
+      // test play
+      // socket.emit('play', {
+      //   content: {path:'/sfx/tv/simpsons_website.wav'}
+      // });
     });
 
     //Host finished playing
@@ -77,9 +60,8 @@ module.exports = function(app, io) {
 
     // a new client
     socket.on('join', function (data) {
-      var host = _.find(hosts, function(host) {
-        return host.name === data.name;
-      });
+      var host = hosts.getHostByName(data.name);
+      var client;
 
       // host does not exist, handle error here
       if (typeof host === 'undefined') {
@@ -88,23 +70,33 @@ module.exports = function(app, io) {
       }
 
       // add new client to host
-      host.clients.push(new ClientModel(socket.id, host));
+      // host.clients.push(new ClientModel(socket.id, host));
+      client = new ClientModel(socket.id, host);
+      clients.addClient(client);
+
+      // queue change
+      client.on(ClientModel.QUEUE_CHANGED, function(queue){
+        // socket.emit();
+        console.log('ClientModel.QUEUE_CHANGED');
+      });
+
+
       console.log('joined room: ' + host.name);
 
-      // get ids of all clients
-      var clientIDs = _.map(host.clients, function(client){ 
-        return client.clientID; 
-      });
+      // // get ids of all clients
+      // var clientIDs = _.map(host.clients, function(client){ 
+      //   return client.clientID; 
+      // });
 
       // tell people you've joined
       socket.emit('message', { 
-        content: 'you joined the room ' + host.name,
-        clients: clientIDs
+        content: 'you joined the room ' + host.name//,
+        // clients: clientIDs
       });
 
       socket.broadcast.emit('message', { 
-        content: socket.id + ' joined the room ' + host.name,
-        clients: clientIDs
+        content: client.clientID + ' joined the room ' + host.name//,
+        // clients: clientIDs
       });
     });
 
@@ -112,10 +104,12 @@ module.exports = function(app, io) {
     socket.on('addTrack', function (data) {
       var trackName = data.trackName;
       var clientID = socket.id;
-      // var host = clients.findHostByClientId(clientId);
+      var host = clients.getHostByClientID(clientID);
 
-      // host.addTrack(trackName);
       console.log(clientID + ' is adding track ' + trackName);
+      console.log('host typeof is ', typeof host);
+      
+      host.addTrack(trackName);
     });
 
   });
