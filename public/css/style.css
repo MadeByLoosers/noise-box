@@ -1,0 +1,29 @@
+body {
+  padding: 50px;
+  background:rgba(255, 128, 0, 0.2);
+  border-radius:50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-align:center;
+}
+
+a {
+  color: #00B7FF;
+}
+
+
+/* forms */
+  form {
+    margin:30px;
+  }
+
+  label {
+    display:block;
+    margin-bottom:10px;
+  }
+
+  input {
+    padding:10px;
+    font-size:1.4em;
+    -webkit-appearance:none;
+  }
+
