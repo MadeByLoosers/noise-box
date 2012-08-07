@@ -1,13 +1,13 @@
 var sys = require("sys");
 var events = require("events");
 
-var HostModel = function (id, ownerID) {
+var HostModel = function (name, ownerID) {
 
-    this.id = id;
-    this.owner = ownerID;
+    this.name = name;
+    this.ownerID = ownerID;
     this.queue = [];
-    this.trackIndex = -1;
     this.clients = [];
+    this.trackIndex = -1;
 
     events.EventEmitter.call(this);
 };
@@ -15,7 +15,8 @@ sys.inherits(HostModel, events.EventEmitter);
 
 HostModel.prototype = {
 
-    id : 0,
+    name : 0,
+    ownerID : 0,
     queue : undefined,
     clients : undefined,
     trackIndex : 0,
@@ -23,9 +24,21 @@ HostModel.prototype = {
     QUEUE_CHANGED : "queueChanged"
 };
 
-HostModel.prototype.removeClient = function () {
+HostModel.prototype.addClient = function (clientID) {
 
-}
+    this.clients.push(clientID);
+};
+
+HostModel.prototype.removeClient = function (clientID) {
+
+    var i;
+    for (i = 0; i < this.clients.length; i = i + 1) {
+
+        if (this.clients[i] === clientID) {
+            this.clients.splice(i, 1);
+        }
+    }
+};
 
 HostModel.prototype.addTrack = function (track) {
 
