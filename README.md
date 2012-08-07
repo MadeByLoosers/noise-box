@@ -17,8 +17,12 @@ For this version it'll just offer preset sfx clips, but v2 will allow people to 
 Scratchpad
 ----------
 
- - on home page, have one button to create a room that creates a base-64 URL
  - and/or allow people to visit any URL, if that room doesn't currently exist, allow them to create one?
+ - only one host per room
+ - if someone tries to go to a host URL of a room that already exists, kick them out to the index
+ - if someone goes to the host URL of a room that doesn't exist, create it
+ - if someone goes to the url of a room that doesn't exist, kick them out to the index
+ - if someone goes to the url of a room that does exist, they should see the file list
 
 
 Articles
@@ -28,3 +32,4 @@ Articles
  * http://www.hacksparrow.com/handle-file-uploads-in-express-node-js.html
  * http://stackoverflow.com/questions/5778245/expressjs-how-to-structure-an-application
  * http://expressjs.com/api.html
+ * http://calv.info/node-and-express-tips/
