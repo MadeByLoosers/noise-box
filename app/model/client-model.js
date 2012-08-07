@@ -8,8 +8,6 @@ var ClientModel = function (clientID,host) {
     this.clientID = clientID;
     this.host = host;
 
-    host.on(HostModel.TRACK_STARTED,this.onHostTrackStarted);
-    host.on(HostModel.TRACK_COMPLETE,this.onHostTrackComplete);
     host.on(HostModel.QUEUE_CHANGED,this.onHostQueueChanged);
 
     events.EventEmitter.call(this);
