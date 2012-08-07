@@ -11,112 +11,109 @@ var HostModelsCollection = require('./model/host-models-collection');
 var ClientModelsCollection = require('./model/client-models-collection');
 
 module.exports = function(app, io) {
-
-  /*
-   * Scratch area
-   *
-   */
-
+  // global host and client collections
   var hosts = new HostModelsCollection();
   var clients = new ClientModelsCollection();
 
-    var hostTest = new HostModel();
-
-    console.log(hostTest.addTrack);
-    console.log(hostTest.on);
-
-  /**
-   * Socket testing
-   */
+  // event setup
   io.sockets.on('connection', function (socket) {
     //testing counter...
     var count = 0;
 
-
+    // host created
     socket.on('host', function (data) {
-      var host = new HostModel(data.name, socket.id);
-      console.log('created room: ' + data.name);
-
-      // store owner id
-      host.ownerID = socket.id;
-      hosts.addHost(host);
-
-      // test play
-      // socket.emit('play', {
-      //   content: {path:'/sfx/tv/simpsons_website.wav'}
-      // });
+      createHost(data.name, socket.id);
     });
 
-    //Host finished playing
+    // host finished playing
     socket.on('finishedPlay', function (data) {
-
-        //Place queue logic here.
-
-        //TESTING CODE
-        //Play another if we've tried
-        count++;
-        if(count  < 2){
-          socket.emit('play', {
-            content: {path:'/sfx/tv/simpsons_computers.wav'}
-
-          });
-        }
+      finishedPlay();
     });
 
-    // a new client
+    // client joins a host
     socket.on('join', function (data) {
-      var host = hosts.getHostByName(data.name);
-      var client;
-
-      // host does not exist, handle error here
-      if (typeof host === 'undefined') {
-        console.log('room name "' + data.name + '" does not exist');
-        return false;
-      }
-
-      // add new client to host
-      // host.clients.push(new ClientModel(socket.id, host));
-      client = new ClientModel(socket.id, host);
-      clients.addClient(client);
-
-      // queue change
-      client.on(ClientModel.QUEUE_CHANGED, function(queue){
-        // socket.emit();
-        console.log('ClientModel.QUEUE_CHANGED');
-      });
-
-
-      console.log('joined room: ' + host.name);
-
-      // // get ids of all clients
-      // var clientIDs = _.map(host.clients, function(client){
-      //   return client.clientID;
-      // });
-
-      // tell people you've joined
-      socket.emit('message', {
-        content: 'you joined the room ' + host.name//,
-        // clients: clientIDs
-      });
-
-      socket.broadcast.emit('message', {
-        content: client.clientID + ' joined the room ' + host.name//,
-        // clients: clientIDs
-      });
+      addClient(data.name, socket.id);
     });
 
-    // a new client
+    // client adds a track to the queue
     socket.on('addTrack', function (data) {
-      var trackName = data.trackName;
-      var clientID = socket.id;
+      addTrack(data.trackName, socket.id);
+    });
+
+  });
+
+
+
+  /**
+   * Create a new host
+   * @param  {string} hostName The unique name for this host
+   * @param  {string} clientID A reference to the owner of this host
+   */
+  var createHost = function(hostName, ownerID){
+    var host = new HostModel(hostName, ownerID);
+    console.log('created room: ' + hostName);
+
+    // store owner id
+    host.ownerID = ownerID;
+    hosts.addHost(host);
+  }
+
+
+  // when a host has finished playing
+  var finishedPlay = function(){
+
+      //Place queue logic here.
+
+      //TESTING CODE
+      //Play another if we've tried
+      count++;
+      if(count  < 2){
+        socket.emit('play', {
+          content: {path:'/sfx/tv/simpsons_computers.wav'}
+
+        });
+      }
+  }
+
+
+  // add a track to a queue
+  var addTrack = function(trackName, clientID){
       var host = clients.getHostByClientID(clientID);
 
       console.log(clientID + ' is adding track ' + trackName);
       console.log('host typeof is ', typeof host);
 
       host.addTrack(trackName);
+  }
+
+
+  // add a client to a host
+  var addClient = function (hostName, clientID) {
+    var host = hosts.getHostByName(hostName);
+    var message = clientID + ' joined the room: ' + hostName;
+    var client;
+
+    // host does not exist, handle error here
+    if (typeof host === 'undefined') {
+      console.log('room name "' + hostName + '" does not exist');
+      return false;
+    }
+
+    // add new client to host
+    client = new ClientModel(clientID, host);
+    clients.addClient(client);
+
+    // queue change
+    client.on(ClientModel.QUEUE_CHANGED, function(queue){
+      console.log('ClientModel.QUEUE_CHANGED');
     });
 
-  });
+    console.log(message);
+
+    // announce new client
+    io.sockets.emit('message', {
+      content: message
+    });
+  }
 
 };

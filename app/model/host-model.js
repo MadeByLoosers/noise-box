@@ -48,8 +48,20 @@ HostModel.prototype.removeClient = function (clientID) {
 HostModel.prototype.addTrack = function (track) {
 
     this.queue.push(track);
+console.log('running hostmodel.addTrack');
+util.inspect(this.queue);
+console.log(HostModel.QUEUE_CHANGED);
 
     this.emit(HostModel.QUEUE_CHANGED,this.queue);
+};
+
+HostModel.prototype.queueChanged = function (queue) {
+
+	console.log('running queueChanged');
+	util.inspect(queue);
+
+	// send queue to clients
+
 };
 
 HostModel.prototype.notifyTrackStarted = function () {

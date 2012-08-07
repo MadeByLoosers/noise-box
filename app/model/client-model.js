@@ -7,7 +7,7 @@ function ClientModel (clientID,host) {
     this.clientID = clientID;
     this.host = host;
 
-    //host.on(HostModel.QUEUE_CHANGED,this.onHostQueueChanged);
+    // host.on(host.QUEUE_CHANGED,this.onHostQueueChanged);
 
     events.EventEmitter.call(this);
 }
