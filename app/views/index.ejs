@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Noise Box</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body id="home">
+    <h1>Welcome to the Noise Box</h1>
+    <p>Create your own ghetto blaster experience</p>
+    <form action="/host/" method="post">
+      <label>Give your room a name</label>
+      <input type="text" name="id" id="id" value="" placeholder="e.g. ghetto-blaster" required="required" pattern="[a-zA-Z0-9]+" maxlength="20" />
+      <input type="submit" value="Create Room" />
+      <p>(Use letters and numbers only, no spaces)</p>
+    </form>
+  </body>
+</html>
