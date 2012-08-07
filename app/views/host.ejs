@@ -12,5 +12,14 @@
     <input type="text" readonly="readonly" value="<%= url %>/<%= id %>" size="50"> [copy]
     <p>Any tracks that people select will be played through this web browser</p>
     <p>If you close this browser, it will end the session for everyone</p>
+
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect('http://mikebook.local:3000');
+        socket.emit('host', { name: <%= id %> });
+      });
+    </script>
   </body>
 </html>
