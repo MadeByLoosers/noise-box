@@ -8,7 +8,7 @@ var ClientModel = function (clientID,host) {
     this.clientID = clientID;
     this.host = host;
 
-    host.on(HostModel.QUEUE_CHANGED,this.onHostQueueChanged);
+    //host.on(HostModel.QUEUE_CHANGED,this.onHostQueueChanged);
 
     events.EventEmitter.call(this);
 };
@@ -23,7 +23,7 @@ ClientModel.prototype = {
 
 ClientModel.prototype.onHostQueueChanged = function (queue) {
 
-    this.emit(ClientModel.QUEUE_CHANGED,queue);
+    //this.emit(ClientModel.QUEUE_CHANGED,queue);
 };
 
 util.inherits(ClientModel,events.EventEmitter);
