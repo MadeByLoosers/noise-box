@@ -1,3 +1,4 @@
+
 /*
  * Noise Box
  *
@@ -20,7 +21,7 @@ module.exports = function(app) {
 
   // get home page
   function index(req, res){
-    res.render('index');
+    res.render('index', {title:'NoiseBox'});
   }
 
 
