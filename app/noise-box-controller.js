@@ -75,13 +75,11 @@ module.exports = function(io) {
         if ( model.noiseBoxExists(name) ) {
 
             log("  noisebox exists");
-
             noiseBox = model.getNoiseBox(name);
         }
         else
         {
             log("  noisebox doesn't exist, creating");
-
             noiseBox = model.addNoiseBox(name);
         }
 
@@ -115,11 +113,9 @@ module.exports = function(io) {
             log("  noisebox exists");
 
             noiseBox = model.getNoiseBox(name);
-
             noiseBox.addUser(id,socket);
 
             log("  adding new user to noisebox");
-
             log("  "+getNoiseBoxStats(noiseBox.get("name")));
 
             notifyNoiseBoxStatsUpdated(noiseBox.get("name"));
@@ -161,7 +157,6 @@ module.exports = function(io) {
             }
 
             log("  removing client");
-
             log("  "+getNoiseBoxStats(noiseBox.get("name")));
 
             notifyNoiseBoxStatsUpdated(noiseBox.get("name"));
@@ -191,6 +186,7 @@ module.exports = function(io) {
         var noiseBox = model.getNoiseBox(name);
 
         if ( noiseBox ) {
+
             var numTracks = noiseBox.playlist.length;
             var numHosts = noiseBox.hosts.length;
             var numUsers = noiseBox.users.length;
@@ -215,8 +211,10 @@ module.exports = function(io) {
         level = typeof level !== "undefined" ? level : 0;
 
         if ( inspect ) {
+
             console.log(util.inspect(item,false,level,true));
         } else {
+            
             console.log(item);
         }
     }
