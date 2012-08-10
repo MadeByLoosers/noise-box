@@ -1,14 +1,27 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/css/style.css' />
-  </head>
-  <body id="<%= bodyid %>">
-    <%- body %>
+    <head>
+        <title><%= title %></title>
+        <link rel='stylesheet' href='/css/style.css' />
+    </head>
+    <body id="<%= bodyid %>">
+        <div id="wrapper">
+            <h1><%= title %></h1>
+            <%- body %>
+        </div>
+        <script src="/socket.io/socket.io.js"></script>
+        <script type="text/javascript" src="/js/lib/zepto.js"></script>
+        <script type="text/javascript" src="/js/lib/underscore-min.js"></script>
+        <script type="text/javascript" src="/js/noise-box-client.js"></script>
+        <script type="text/javascript">
+            $(function () {
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="/js/lib/zepto.js"></script>
-    <script type="text/javascript" src="/js/noise-box.js"></script>
-  </body>
+                try {
+                    NoiseBox.init();
+                } catch (error) {
+                    console.log(error.message);
+                }
+            });
+        </script>
+    </body>
 </html>

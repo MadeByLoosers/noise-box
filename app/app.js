@@ -4,12 +4,19 @@
  * App
  */
 var _ = require('underscore');
+var AppModel = require("./model/AppModel");
+
 var HostModel = require('./model/host-model');
 var ClientModel = require('./model/client-model');
 var HostModelsCollection = require('./model/host-models-collection');
 var ClientModelsCollection = require('./model/client-models-collection');
 
 module.exports = function(app, io) {
+
+    var appModel = new AppModel();
+
+
+
   // global host and client collections
   var hosts = new HostModelsCollection();
   var clients = new ClientModelsCollection();

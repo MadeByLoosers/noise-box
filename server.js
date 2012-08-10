@@ -1,24 +1,24 @@
-/*
- * Noise Box
+/**
+ * NoiseBox
+ * server.js
+ *
+ * Application entry point.
  */
 
-
-var express = require('express'),
-    http = require('http');
-
+var express = require("express");
+var http = require("http");
 var app = module.exports = express();
+var server = http.createServer(app);
 
-// io needs an http server instance: http://bit.ly/vxOxL5
-var server = http.createServer(app),
-    io = require('socket.io').listen(server);
-	io.set('log level', 1); // reduce logging
+var io = require("socket.io").listen(server);
+io.set("log level",1);
 
-// import app config
-require('./app/env/env')(app, express);
-require('./app/routes/routes')(app);
-require('./app/app')(app, io);
+require("./app/env/env")(app,express);
 
-// start the app
-server.listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+var controller = require("./app/noise-box-controller")(io);
+require("./app/routes/routes")(app,controller.getAppModel());
+
+server.listen(app.get("port"),function () {
+
+  console.log("Listening on port " + app.get("port"));
 });

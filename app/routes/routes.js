@@ -1,109 +1,114 @@
-/*
- * Noise Box
+/**
+ * NoiseBox
+ * routes.js
  *
- * Routes
+ * Handles the rendering of the various app states. Is able to query the model before view rendering
+ * when required.
  */
 
-/*
- * Imports
- */
-var _ = require('underscore');
+var _ = require("underscore");
+var fh = require("../../lib/file-helper");
 
+module.exports = function(app,model) {
 
-/*
- * Default page vars. Override these.
- */
-var pageOptions = {
-  title:'NoiseBox',
-  bodyid:''
-};
+    // Available views
 
+    var HOME_VIEW = "home";
+    var HOST_VIEW = "host";
+    var USER_VIEW = "user";
 
-/*
- * Module
- */
-module.exports = function(app) {
+    // Default template options
 
-  // routes - GET
-  app.get('/', index);
-  app.get('/host/:id', host);
-  app.get('/:id', room);
+    var defaultTemplateOptions = {
 
-  // routes - POST
-  app.post('/host/', createHost);
+        title : "NoiseBox",
+        bodyid : ""
+    };
 
+    // Map GET routes to views
 
-/*
- * GET methods
- */
+    app.get("/",homeView);
+    app.get("/host/:name",hostView);
+    app.get("/:name",userView);
 
-  // get home page
-  function index(req, res){
+    // Map POST actions to methods
 
-    var options = _.extend(pageOptions, {
-      bodyid : 'home'
-    });
+    app.post("/host/",createNoiseBox);
 
-    res.render('index', pageOptions);
-  }
+    /**
+     * Handle a request to view the app home page. This page allows a user to create a new
+     * NoiseBox.
+     */
+    function homeView (req,res) {
 
-
-  // get (create) a room host
-  function host(req, res){
-    var id = req.params.id,
-        url = req.headers.host;
-
-    // TODO: if host exists already, redirect
-    // TODO: if host doesn't exist, create
-    // TODO: connect to websockets
-
-    var options = _.extend(pageOptions, {
-      bodyid : 'host',
-      url : url,
-      id : id
-    });
-
-    res.render('host', options);
-  }
-
-
-  // get a room
-  function room(req, res){
-    var id = req.params.id;
-
-    // TODO: if host doesn't exist, redirect
-    // TODO: if host exists, connect to websockets
-    // TODO: list available files
-    // TODO:
-
-    var fileHelper = require('../../lib/file-helper');
-        fileHelper.listFiles("./public/sfx", function(err, files){
-
-          var options = _.extend(pageOptions, {
-            bodyid : 'room',
-            id : id,
-            files : files
-          });
-
-          res.render('room', options);
-    });
-  }
-
-
-
-/*
- * POST methods
- */
-
-  // create a new host (if one doesn't already exist)
-  function createHost(req, res){
-    var id = req.body.id;
-    if (id) {
-      res.redirect('/host/'+id);
-    } else {
-      res.redirect('/');
+        render(res,HOME_VIEW,{});
     }
-  }
 
-// expose routes
+    /**
+     * Handle a request to access a NoiseBox's host page. The host page plays audio based on the
+     * actions of the user's interacting with the NoiseBox's user page.
+     */
+    function hostView (req,res) {
+        
+        var name = req.params.name;
+        var url = req.headers.host;
+
+        var noiseBox = model.getNoiseBox(name);
+
+        render(res,HOST_VIEW,{
+            url : url,
+            name : name,
+            numHosts : typeof noiseBox !== undefined ? noiseBox.hosts.length : 0,
+            numUsers : typeof noiseBox !== undefined ? noiseBox.users.length : 0
+        });
+    }
+
+    /**
+     * Handle a request to access a NoiseBox's user page. The user page allows users to add tracks
+     * to a NoiseBox's playlist.
+     */
+    function userView (req,res) {
+
+        var name = req.params.name;
+
+        fh.listFiles("./public/sfx",function (err,files) {
+
+            render(res,USER_VIEW,{
+                files : files,
+                name : name
+            });
+        });
+    }
+
+    /**
+     * Handle a POST request from the "create new NoiseBox" form on the home page. Redirects to the
+     * /host/name page for the requested NoiseBox.
+     */
+    function createNoiseBox (req,res) {
+
+        var name = req.body.name;
+
+        if ( name ) {
+            res.redirect("/host/"+name);
+        } else {
+            res.redirect("/");
+        }
+    }
+
+    /**
+     * Template rendering helper function.
+     * Template name and <body> id are deemed to be synonymous.
+     *
+     * @param res Node resource.
+     * @param template EJS template name.
+     * @param options Template options.
+     */
+    function render (res,template,options) {
+
+        options = _.extend(defaultTemplateOptions,options);
+
+        options.bodyid = template;
+
+        res.render(template,options);
+    }
 };

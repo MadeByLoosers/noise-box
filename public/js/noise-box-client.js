@@ -1,3 +1,11 @@
+/**
+ * NoiseBox
+ * noise-box-client.js
+ *
+ * Clientside JavaScript module. Sets up page interactivity for all the difference application states
+ * and communicates with the socket server.
+ */
+
 var NoiseBox = (function($,_,io) {
 
     "use strict";
