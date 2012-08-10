@@ -166,6 +166,10 @@ module.exports = function(io) {
         }
     }
 
+    /**
+     * Notify all connected hosts of a particular NoiseBox that the number of connected hosts and.or
+     * users has changed.
+     */
     function notifyNoiseBoxStatsUpdated (name) {
 
         var noiseBox = model.getNoiseBox(name);
@@ -214,7 +218,7 @@ module.exports = function(io) {
 
             console.log(util.inspect(item,false,level,true));
         } else {
-            
+
             console.log(item);
         }
     }
