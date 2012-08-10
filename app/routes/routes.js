@@ -2,8 +2,8 @@
  * NoiseBox
  * routes.js
  *
- * Handles the rendering of the various app states. Is able to query the model before view rendering
- * when required.
+ * Handles the rendering of the various app states. Contains a reference to the model so that it
+ * can make simple queries before rendering.
  */
 
 var _ = require("underscore");
@@ -58,8 +58,8 @@ module.exports = function(app,model) {
         render(res,HOST_VIEW,{
             url : url,
             name : name,
-            numHosts : typeof noiseBox !== undefined ? noiseBox.hosts.length : 0,
-            numUsers : typeof noiseBox !== undefined ? noiseBox.users.length : 0
+            numHosts : typeof noiseBox !== "undefined" ? noiseBox.hosts.length : 0,
+            numUsers : typeof noiseBox !== "undefined" ? noiseBox.users.length : 0
         });
     }
 

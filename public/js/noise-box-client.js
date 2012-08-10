@@ -94,6 +94,8 @@ var NoiseBox = (function($,_,io) {
      */
     function playTrack (track) {
 
+        console.log("NoiseBox.playTrack",track);
+
         audioElement.src = track;
         audioElement.play();
     }

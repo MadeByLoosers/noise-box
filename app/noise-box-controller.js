@@ -54,6 +54,11 @@ module.exports = function(io) {
 
             onClientDisconnect(socket);
         });
+
+        socket.on(USER_TRACK_CLICKED,function (data) {
+
+            onUserTrackCliked(data,socket);
+        });
     });
 
     /**
@@ -69,7 +74,7 @@ module.exports = function(io) {
         var noiseBox;
         var id = socket.id;
 
-        log("  attemping to connect to noisebox named \""+data.name+"\"");
+        log("  attemping to connect to noisebox \""+data.name+"\"");
         log("  host has socket id "+id);
 
         if ( model.noiseBoxExists(name) ) {
@@ -167,7 +172,31 @@ module.exports = function(io) {
     }
 
     /**
-     * Notify all connected hosts of a particular NoiseBox that the number of connected hosts and.or
+     * Called when the USER_TRACK_CLICKED event is recieved from a user's socket.
+     */
+    function onUserTrackCliked (data,socket) {
+
+        log(USER_TRACK_CLICKED);
+
+        var noiseBox = model.getNoiseBoxBySocketID(socket.id);
+
+        if ( !noiseBox ) {
+
+            log("  client isn't connected to a noisebox");
+
+            return;
+        }
+
+        log("  track requested is "+data.track);
+
+        noiseBox.hosts.each(function (host) {
+
+            host.get("socket").emit(SERVER_PLAY_REQUEST,{track:data.track});
+        });
+    }
+
+    /**
+     * Notify all connected hosts of a particular NoiseBox that the number of connected hosts and/or
      * users has changed.
      */
     function notifyNoiseBoxStatsUpdated (name) {
@@ -195,7 +224,7 @@ module.exports = function(io) {
             var numHosts = noiseBox.hosts.length;
             var numUsers = noiseBox.users.length;
 
-            return "["+name+"] "+numTracks+" tracks, "+numHosts+" hosts, "+numUsers+" users";
+            return "noisebox \""+name+"\" now has "+numTracks+" tracks, "+numHosts+" hosts, "+numUsers+" users";
         } else {
 
             return "invalid noisebox name";
