@@ -26,7 +26,7 @@ define(["constants","zepto","underscore","socketio","sji"], function (Const) {
             this.env = $("body").data("env");
             this.socket = io.connect(this.host);
 
-            console.log("AbstractClient.init",this.clientType,this.host,this.noiseBoxName===undefined?"":this.noiseBoxName);
+            console.log("AbstractClient.init",this.host,this.noiseBoxName===undefined?"":this.noiseBoxName);
         },
 
         /**
@@ -37,7 +37,7 @@ define(["constants","zepto","underscore","socketio","sji"], function (Const) {
          */
         on : function (event,callback) {
 
-            console.log("AbstractClient.on",this.clientType,event);
+            console.log("AbstractClient.on",event);
 
             this.socket.on(event,callback);
         },
@@ -55,7 +55,7 @@ define(["constants","zepto","underscore","socketio","sji"], function (Const) {
                 clientType : this.clientType
             });
 
-            console.log("AbstractClient.emit",this.clientType,event,obj);
+            console.log("AbstractClient.emit",event,obj);
 
             this.socket.emit(event,obj);
         }
