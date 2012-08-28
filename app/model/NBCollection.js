@@ -1,3 +1,10 @@
+/**
+ * NoiseBox
+ * NBCollection.js
+ *
+ * NBModel Backbone Collection.
+ */
+
 var Backbone = require("backbone");
 var NBModel = require("./NBModel");
 

@@ -1,3 +1,5 @@
+// THIS FILE NO LONGER IN USE DELETE WHEN FUNCTIONALITY FULLY PORTED
+
 /**
  * NoiseBox
  * noise-box-controller.js
@@ -38,7 +40,14 @@ module.exports = function(io) {
 
     // Map socket events to module methods
 
-    io.sockets.on(CLIENT_CONNECTION,function (socket) {
+    io.sockets.on("connection",function (socket) {
+
+        console.log("connection");
+
+        socket.on("homeConnect",function () {
+
+            console.log("homeConnect");
+        });
 
         socket.on(HOST_CONNECT,function (data) {
 

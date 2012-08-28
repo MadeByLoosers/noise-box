@@ -11,6 +11,15 @@ var fh = require("../../lib/file-helper");
 
 module.exports = function(app,model) {
 
+    /*app.get("/",renderHomePage);
+
+    function renderHomePage (req,res) {
+
+        res.render("home",{title:"NoiseBox",bodyid:"home"});
+    }
+
+    return;*/
+
     // Available views
 
     var HOME_VIEW = "home";
@@ -49,7 +58,7 @@ module.exports = function(app,model) {
      * actions of the user's interacting with the NoiseBox's user page.
      */
     function hostView (req,res) {
-        
+
         var name = req.params.name;
         var url = req.headers.host;
 

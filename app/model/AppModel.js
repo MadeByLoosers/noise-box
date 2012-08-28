@@ -1,5 +1,13 @@
+/**
+ * NoiseBox
+ * AppModel.js
+ *
+ * Root Backbone Model for the whole app.
+ */
+
 var Backbone = require("backbone");
 var NBCollection = require("./NBCollection");
+var NBHomeClientCollection = require("./NBHomeClientCollection");
 
 var AppModel = module.exports = Backbone.Model.extend({
 
@@ -10,6 +18,22 @@ var AppModel = module.exports = Backbone.Model.extend({
     initialize : function () {
 
         this.noiseBoxes = new NBCollection();
+        this.homeClients = new NBHomeClientCollection();
+    },
+
+    addHomeClient : function (id,socket) {
+
+        this.homeClients.add({id:id,socket:socket});
+    },
+
+    removeHomeClient : function (id) {
+
+        this.homeClients.remove(this.getHomeClient(id));
+    },
+
+    getHomeClient : function (id) {
+
+        return this.homeClients.get(id);
     },
 
     addNoiseBox : function (name) {
@@ -33,16 +57,32 @@ var AppModel = module.exports = Backbone.Model.extend({
 
     getNoiseBoxBySocketID : function (id) {
 
-        var foundNoiseBox;
+        var found;
 
         this.noiseBoxes.each(function (noiseBox) {
 
             if ( noiseBox.clientExists(id) ) {
 
-                foundNoiseBox = noiseBox;
+                found = noiseBox;
             }
         });
 
-        return foundNoiseBox;
+        return found;
+    },
+
+    getNumConnectedClients : function () {
+
+        var numClients = this.homeClients.length;
+
+        var numHosts = 0;
+        var numUsers = 0;
+
+        this.noiseBoxes.each(function (noiseBox) {
+
+            numClients = numClients + noiseBox.hosts.length;
+            numClients = numClients + noiseBox.users.length;
+        });
+
+        return numClients;
     }
 });

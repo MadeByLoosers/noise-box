@@ -1,3 +1,5 @@
+// THIS FILE NO LONGER IN USE DELETE WHEN FUNCTIONALITY FULLY PORTED
+
 /**
  * NoiseBox
  * noise-box-client.js
@@ -6,70 +8,70 @@
  * and communicates with the socket server.
  */
 
-var NoiseBox = (function($,_,io) {
+var NoiseBox = (function($,_,io,constants) {
 
     "use strict";
 
-    var TYPE_HOME = "home";
-    var TYPE_HOST = "host";
-    var TYPE_USER = "user";
-
-    var SOCKET_CONNECT = "connect";
-    var SOCKET_DISCONNECT = "disconnect";
-
-    var SERVER_PLAYLIST_UPDATED = "serverPlaylistUpdated";
-    var SERVER_PLAY_REQUEST = "serverPlayRequest";
-    var SERVER_PAUSE_REQUEST = "serverPauseRequest";
-    var SERVER_SKIP_REQUEST = "serverSkipRequest";
-    var SERVER_STATS_UPDATED = "serverStatsUpdated";
-
-    var HOST_CONNECT = "hostConnect";
-    var HOST_DISCONNECT = "hostDisconnect";
-    var HOST_TRACK_COMPLETE = "hostTrackComplete";
-
-    var USER_CONNECT = "userConnect";
-    var USER_TRACK_CLICKED = "userTrackClicked";
-
-    var name;
+    var noiseBoxName;
     var socket;
-    var type;
-    var player;
+    var clientType;
     var audioElement;
+    var host;
 
     /**
      * Initialise the module.
      */
     function init () {
 
-        if ( !$ || !io || !_ ) {
+        if ( !$ || !io || !_ || !constants) {
 
-            throw new Error("NoiseBox.init: error required module parameters are missing");
+            throw new Error("Error: module depandancies are missing");
         }
 
-        socket = io.connect("http://"+window.location.hostname+":3000");
-        type = $("body").attr("id");
-        name = $("#room-name").data("room-name");
+        clientType = $("body").attr("id");
+        host = $("body").data("host");
+        noiseBoxName = $("body").data("noise-box-name");
 
-        console.log("NoiseBox.init",type,name===undefined?"":name);
+        socket = io.connect(host);
 
-        // Bind generic events:
-
-        bind(SOCKET_DISCONNECT,onSocketDisconnect);
+        console.log("NoiseBox.init",clientType,noiseBoxName===undefined?"":noiseBoxName);
 
         // Setup for different types of page:
 
-        switch ( type ) {
+        switch ( clientType ) {
 
-            case TYPE_HOME:
+            case constants.TYPE_HOME:
                 setupForHome();
                 break;
-            case TYPE_HOST:
+            case constants.TYPE_HOST:
                 setupForHost();
                 break;
-            case TYPE_USER:
+            case constants.TYPE_USER:
                 setupForUser();
                 break;
         }
+    }
+
+    /**
+     * Setup for home. This page allows a user to create a new NoiseBox.
+     */
+    function setupForHome () {
+
+        console.log("NoiseBox.setupForHome");
+
+        bind(constants.SERVER_SOCKET_CONNECT,onHomeSocketConnect);
+        bind(constants.SERVER_APP_STATS_UPDATED,onServerStatsUpdated);
+    }
+
+    /**
+     * Socket connection successfull callback for the home page. Notifies the server that a home
+     * page client has connected.
+     */
+    function onHomeSocketConnect () {
+
+        console.log("NoiseBox.onHomeSocketConnect");
+
+        emit(constants.HOME_CONNECT);
     }
 
     /**
@@ -82,9 +84,9 @@ var NoiseBox = (function($,_,io) {
         audioElement = document.getElementById("audio-player");
         audioElement.addEventListener("ended",onTrackComplete);
 
-        bind(SOCKET_CONNECT,onHostSocketConnect);
-        bind(SERVER_PLAY_REQUEST,onServerPlayRequest);
-        bind(SERVER_STATS_UPDATED,onServerStatsUpdated);
+        bind(constants.SERVER_SOCKET_CONNECT,onHostSocketConnect);
+        bind(constants.SERVER_PLAY_REQUEST,onServerPlayRequest);
+        bind(constants.SERVER_NOISE_BOX_STATS_UPDATED,onServerStatsUpdated);
     }
 
     /**
@@ -113,9 +115,7 @@ var NoiseBox = (function($,_,io) {
      */
     function onTrackComplete () {
 
-        var event = getDefaultEventObject();
-
-        emit(HOST_TRACK_COMPLETE,{track:audioElement.src});
+        emit(constants.HOST_TRACK_COMPLETE,{track:audioElement.src});
     }
 
     /**
@@ -127,7 +127,7 @@ var NoiseBox = (function($,_,io) {
 
         $("#file-list").on("click","a",onTrackClicked);
 
-        bind(SOCKET_CONNECT,onUserSocketConnect);
+        bind(constants.SERVER_SOCKET_CONNECT,onUserSocketConnect);
     }
 
     /**
@@ -139,15 +139,7 @@ var NoiseBox = (function($,_,io) {
 
         event.preventDefault();
 
-        emit(USER_TRACK_CLICKED,{track:$(this).attr("href")});
-    }
-
-    /**
-     * Setup for home. This page allows a user to create a new NoiseBox.
-     */
-    function setupForHome () {
-
-        console.log("NoiseBox.setupForHome");
+        emit(constants.USER_TRACK_CLICKED,{track:$(this).attr("href")});
     }
 
     /**
@@ -158,7 +150,7 @@ var NoiseBox = (function($,_,io) {
 
         console.log("NoiseBox.onUserSocketConnect");
 
-        emit(USER_CONNECT);
+        emit(constants.USER_CONNECT);
     }
 
     /**
@@ -169,15 +161,7 @@ var NoiseBox = (function($,_,io) {
 
         console.log("NoiseBox.onHostSocketConnect");
 
-        emit(HOST_CONNECT);
-    }
-
-    /**
-     * Generic socket disconnected callback.
-     */
-    function onSocketDisconnect () {
-
-        console.log("NoiseBox.onSocketDisconnect");
+        emit(constants.HOST_CONNECT);
     }
 
     /**
@@ -206,33 +190,25 @@ var NoiseBox = (function($,_,io) {
     /**
      * Helper function for binding callbacks to the socket.
      */
-    function bind (type,callback) {
+    function bind (event,listener) {
 
-        socket.on(type,callback);
+        socket.on(event,listener);
     }
 
     /**
      * Helper function for emitting socket events back to the server.
      */
-    function emit (type,event) {
+    function emit (event,obj) {
 
-        event = typeof event !== "undefined" ? event : {};
-        event = _.extend(event,{name:name,type:type});
+        obj = typeof obj !== "undefined" ? obj : {};
+        obj = _.extend(obj,{
+            noiseBoxName : noiseBoxName,
+            clientType : clientType
+        });
 
-        console.log("NoiseBox.emit",type,event);
+        console.log("NoiseBox.emit",event,obj);
 
-        socket.emit(type,event);
-    }
-
-    /**
-     * Generate a default client event object for sending to the server.
-     */
-    function getDefaultEventObject () {
-
-        return {
-            name : name,
-            type : type
-        };
+        socket.emit(event,obj);
     }
 
     // Expose the module API
@@ -240,4 +216,4 @@ var NoiseBox = (function($,_,io) {
     return {
         init : init
     };
-})($,_,io);
+})($,_,io,NoiseBoxConstants);

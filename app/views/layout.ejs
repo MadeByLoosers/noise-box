@@ -2,26 +2,13 @@
 <html>
     <head>
         <title><%= title %></title>
-        <link rel='stylesheet' href='/css/style.css' />
+        <link rel="stylesheet" href="/css/style.css" />
     </head>
-    <body id="<%= bodyid %>">
+    <body id="<%= clientType %>" data-host="<%= host %>" data-noise-box-name="<%= noiseBoxName %>" data-env="<%= env %>">
         <div id="wrapper">
             <h1><%= title %></h1>
             <%- body %>
         </div>
-        <script src="/socket.io/socket.io.js"></script>
-        <script type="text/javascript" src="/js/lib/zepto.js"></script>
-        <script type="text/javascript" src="/js/lib/underscore-min.js"></script>
-        <script type="text/javascript" src="/js/noise-box-client.js"></script>
-        <script type="text/javascript">
-            $(function () {
-
-                try {
-                    NoiseBox.init();
-                } catch (error) {
-                    console.log(error.message);
-                }
-            });
-        </script>
+        <script data-main="/js/main" src="/js/lib/require.js"></script>
     </body>
 </html>
