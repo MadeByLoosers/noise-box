@@ -12,10 +12,10 @@ define(["HomeClient","AbstractClient","constants","zepto","socketio"], function 
 
         $(function () {
 
-            console.log("nb.init",$("body").attr("id"));
-
             var client;
             var clientType = $("body").attr("id");
+
+            console.log("nb.init",clientType);
 
             switch ( clientType ) {
 
