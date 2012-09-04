@@ -1,3 +1,10 @@
+/**
+ * NoiseBox
+ * home.js
+ *
+ * Home route controller.
+ */
+
 var server = require("./../../server");
 var app = server.app;
 var io = server.io;
@@ -10,7 +17,7 @@ module.exports = function () {
 
     // Map route to middleware and rendering function:
 
-    app.get("/",templateOptions(),stats(),function(req,res){
+    app.get("/",templateOptions(),stats(),function (req,res) {
 
         res.extendTemplateOptions({
 
@@ -20,7 +27,7 @@ module.exports = function () {
         res.render(constants.TYPE_HOME,res.templateOptions);
     });
 
-    // Attach home page specific socket events:
+    // Attach socket events:
 
     io.sockets.on(constants.CLIENT_SOCKET_CONNECTION,function (socket) {
 
@@ -33,40 +40,37 @@ module.exports = function () {
         });
     });
 
-    // Start listening for updates in the model:
+    // Start listening for updates from the model:
 
-    model.homeClients.on("add remove",onNumClientsChanged);
-
-    model.noiseBoxes.each(function (noiseBox) {
-
-        noiseBox.hosts.each(function (host) {
-
-            host.on("add remove",onNumClientsChanged);
-        });
-
-        noiseBox.users.each(function (user) {
-
-            user.on("add remove",onNumClientsChanged);
-        });
-    });
+    model.on(constants.NOISEBOX_ADDED,updateServerStats);
+    model.on(constants.NOISEBOX_REMOVED,updateServerStats);
+    model.on(constants.HOME_ADDED,updateServerStats);
+    model.on(constants.HOME_REMOVED,updateServerStats);
+    model.on(constants.USER_ADDED,updateServerStats);
+    model.on(constants.USER_REMOVED,updateServerStats);
+    model.on(constants.HOST_ADDED,updateServerStats);
+    model.on(constants.HOST_REMOVED,updateServerStats);
 
     // Define module methods:
 
     function onConnect (data,socket) {
 
-        console.log("home client connected "+socket.id);
+        console.log("Created home client '%s'",socket.id);
 
         model.addHomeClient(socket.id,socket);
     }
 
     function onDisconnect (data,socket) {
 
-        console.log("home client disconnected "+socket.id);
+        if ( model.homeClientExists(socket.id) ) {
 
-        model.removeHomeClient(socket.id);
+            console.log("Removed home client '%s'",socket.id);
+
+            model.removeHomeClient(socket.id);
+        }
     }
 
-    function onNumClientsChanged (homeClient) {
+    function updateServerStats () {
 
         model.homeClients.each(function (homeClient) {
 

@@ -6,7 +6,10 @@
     </head>
     <body id="<%= clientType %>" data-host="<%= host %>" data-noise-box-name="<%= noiseBoxName %>" data-env="<%= env %>">
         <div id="wrapper">
-            <h1><%= title %></h1>
+            <div id="flashMessage" class="hidden">
+                <p><%= flashMessage %></p>
+            </div>
+            <h1><a href="/"><%= title %></a></h1>
             <%- body %>
         </div>
         <script data-main="/js/main" src="/js/lib/require.js"></script>
