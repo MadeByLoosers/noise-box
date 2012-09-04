@@ -2,10 +2,10 @@
  * NoiseBox
  * HomeClient.js
  *
- * Class definition for a home page client defined as a RequireJS module.
+ * Home page NoiseBox client.
  */
 
-define(["constants","AbstractClient","zepto"], function (Const,AbstractClient) {
+define(["const","AbstractClient","jquery"], function (Const,AbstractClient) {
 
     return AbstractClient.extend({
 
@@ -13,13 +13,12 @@ define(["constants","AbstractClient","zepto"], function (Const,AbstractClient) {
 
             this._super();
 
-            console.log("HomeClient.init");
-
-            this.on(Const.SERVER_SOCKET_CONNECT,this.onHomeSocketConnect);
             this.on(Const.SERVER_APP_STATS_UPDATED,this.onServerStatsUpdated);
         },
 
-        onHomeSocketConnect : function (data) {
+        onConnect : function () {
+
+            this._super();
 
             this.emit(Const.HOME_CONNECT);
         },

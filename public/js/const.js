@@ -27,15 +27,14 @@ var Const = {
 
     // Model events
 
-    HOME_CLIENT_ADDED : "homeClientAdded",
-    HOME_CLIENT_REMOVED : "homeClientRemoved",
     NOISEBOX_ADDED : "noiseBoxAdded",
     NOISEBOX_REMOVED : "noiseBoxRemoved",
-    HOST_CLIENT_ADDED : "hostClientAdded",
-    HOST_CLIENT_REMOVED : "hostClientRemoved",
-    USER_CLIENT_ADDED : "userClientAdded",
-    USER_CLIENT_REMOVED : "userClientRemoved",
-    NOISEBOX_PLAYLIST_UPDATED : "noiseBoxPlaylistUpdated",
+    HOME_ADDED : "homeAdded",
+    HOME_REMOVED : "homeRemoved",
+    HOST_ADDED : "hostAdded",
+    HOST_REMOVED : "hostRemoved",
+    USER_ADDED : "userAdded",
+    USER_REMOVED : "userRemoved",
 
     // Socket.io events
 
@@ -45,7 +44,6 @@ var Const = {
 
     // Custom server > client socket events
 
-    SERVER_PLAY_REQUEST : "serverPlayRequest",
     SERVER_APP_STATS_UPDATED : "serverAppStatsUpdated",
     SERVER_NOISE_BOX_STATS_UPDATED : "serverNoiseBoxStatsUpdated",
 
@@ -53,9 +51,7 @@ var Const = {
 
     HOME_CONNECT : "homeConnect",
     HOST_CONNECT : "hostConnect",
-    HOST_TRACK_COMPLETE : "hostTrackComplete",
-    USER_CONNECT : "userConnect",
-    USER_TRACK_CLICKED : "userTrackClicked"
+    USER_CONNECT : "userConnect"
 };
 
 if ( typeof module !== "undefined" && module.exports ) {

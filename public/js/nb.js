@@ -6,7 +6,7 @@
  * different types of client.
  */
 
-define(["HomeClient","AbstractClient","constants","zepto","socketio"], function (HomeClient,AbstractClient,Const) {
+define(["HomeClient","HostClient","UserClient","const","jquery","socketio"], function (HomeClient,HostClient,UserClient,Const) {
 
     var init = function () {
 
@@ -15,20 +15,19 @@ define(["HomeClient","AbstractClient","constants","zepto","socketio"], function 
             var client;
             var clientType = $("body").attr("id");
 
-            console.log("nb.init",clientType);
-
             switch ( clientType ) {
 
                 case Const.TYPE_HOME:
                     client = new HomeClient();
                     break;
                 case Const.TYPE_HOST:
+                    client = new HostClient();
                     break;
                 case Const.TYPE_USER:
+                    client = new UserClient();
                     break;
                 default:
-                    console.log("Error: client type \""+clientType+"\" not recognised");
-                    break;
+                    throw(new Error("Client type '"+clientType+"' not recognised"));
             }
         });
     };

@@ -2,7 +2,7 @@
  * NoiseBox
  * main.js
  *
- * RequireJS entry point.
+ * Clientside JS entry point.
  */
 
 (function () {
@@ -12,14 +12,14 @@
     require.config({
 
         paths : {
-            zepto : "lib/zepto",
+            jquery : "lib/jquery",
             underscore : "lib/underscore",
             sji : "lib/sji",
             socketio : "../socket.io/socket.io",
-            constants : "/js/const"
+            const : "/js/const"
         },
         shim : {
-            zepto : {
+            jquery : {
                 exports : "$"
             },
             socketio : {

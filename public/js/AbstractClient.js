@@ -2,10 +2,11 @@
  * NoiseBox
  * AbstractClient.js
  *
- * Class definition for an abstract NoiseBox client.
+ * Abstract NoiseBox client. Contains shared functionality used across all types of client, but no
+ * type specific implementations. All clients inherit from this object.
  */
 
-define(["constants","zepto","underscore","socketio","sji"], function (Const) {
+define(["const","jquery","underscore","socketio","sji"], function (Const) {
 
     return Class.extend({
 
@@ -26,7 +27,29 @@ define(["constants","zepto","underscore","socketio","sji"], function (Const) {
             this.env = $("body").data("env");
             this.socket = io.connect(this.host);
 
-            console.log("AbstractClient.init",this.host,this.noiseBoxName===undefined?"":this.noiseBoxName);
+            console.log("****************");
+            console.log("Client init",this.clientType,this.host,this.noiseBoxName===undefined?"":this.noiseBoxName);
+
+            $("#flashMessage p:parent").parent().slideDown(250).delay(5000).slideUp(250);
+
+            this.on(Const.SERVER_SOCKET_CONNECT,this.onConnect);
+            this.on(Const.SOCKET_DISCONNECT,this.onDisconnect);
+        },
+
+        /**
+         * Socket connection to server established.
+         */
+        onConnect : function () {
+
+            console.log("Socket connected");
+        },
+
+        /**
+         * Socket connection to server terminated.
+         */
+        onDisconnect : function () {
+
+            console.log("Socket disconnected");
         },
 
         /**
@@ -37,9 +60,16 @@ define(["constants","zepto","underscore","socketio","sji"], function (Const) {
          */
         on : function (event,callback) {
 
-            console.log("AbstractClient.on",event);
+            console.log("Listening for '"+event+"'");
 
-            this.socket.on(event,callback);
+            var self = this;
+
+            this.socket.on(event,function (data) {
+
+                console.log("Received '"+event+"'",typeof data === "undefined"?"":JSON.stringify(data));
+
+                callback.call(self,data);
+            });
         },
 
         /**
@@ -47,17 +77,18 @@ define(["constants","zepto","underscore","socketio","sji"], function (Const) {
          *
          * @param event Client event name string.
          */
-        emit : function (event,obj) {
+        emit : function (event,data) {
 
-            obj = typeof obj !== "undefined" ? obj : {};
-            obj = _.extend(obj,{
+            data = typeof data !== "undefined" ? data : {};
+
+            data = _.extend(data,{
                 noiseBoxName : this.noiseBoxName,
                 clientType : this.clientType
             });
 
-            console.log("AbstractClient.emit",event,obj);
+            console.log("Emitting '"+event+"'",typeof data === "undefined"?"":JSON.stringify(data));
 
-            this.socket.emit(event,obj);
+            this.socket.emit(event,data);
         }
     });
 });

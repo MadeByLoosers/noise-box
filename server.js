@@ -13,8 +13,8 @@ var expressPartials = require("express-partials");
 var socketIO = require("socket.io");
 
 var constants = require("./public/js/const");
-var AppModel = require("./app/model/AppModel");
 var error = require("./app/middleware/error");
+var AppModel = require("./app/model/AppModel");
 
 // Detect environment:
 
@@ -31,9 +31,12 @@ app.set("view engine","ejs");
 
 // Middleware:
 
+app.use(express.favicon());
 app.use(express.logger(env===constants.DEV?"dev":"default"));
 app.use(express.static(__dirname + "/public"));
 app.use(expressPartials());
+app.use(express.cookieParser("N01ZEBOXX"));
+app.use(express.cookieSession({key:"sid"}));
 app.use(express.bodyParser());
 app.use(app.router);
 app.use(error());
@@ -61,3 +64,5 @@ module.exports.model = new AppModel();
 // Init controllers:
 
 require("./app/controllers/home")();
+require("./app/controllers/host")();
+require("./app/controllers/user")();

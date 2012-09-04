@@ -1,6 +1,21 @@
 body {
     font-family: sans-serif;
 }
+
+#flashMessage {
+    background-color: deeppink;
+    color: white;
+    padding: 5px;
+}
+
+#flashMessage p {
+    margin: 0;
+}
+
+.hidden {
+    display: none;
+}
+
 /*body {*/
   /*padding: 50px;*/
   /*background:rgba(255, 128, 0, 0.2);*/
