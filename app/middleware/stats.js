@@ -20,9 +20,9 @@ module.exports = function () {
 
         model.noiseBoxes.each(function (noiseBox) {
 
-            if ( typeof req.params.name !== "undefined") {
+            if ( typeof req.params.noiseBoxName !== "undefined") {
 
-                if ( req.params.name === noiseBox.name ) {
+                if ( req.params.noiseBoxName === noiseBox.name ) {
 
                     numHosts = noiseBox.hosts.length;
                     numUsers = noiseBox.clients.length;
