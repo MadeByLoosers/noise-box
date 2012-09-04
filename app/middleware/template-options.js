@@ -17,10 +17,13 @@ module.exports = function () {
 
             clientType : "",
             title : constants.APP_TITLE,
-            host : server.env === constants.PROD ? "http://noisebox.wintermute.co.uk:"+server.port : "http://localhost:"+server.port,
+            host : "http://"+req.headers.host,
             env : server.env,
-            noiseBoxName : ""
+            noiseBoxName : "",
+            flashMessage : typeof req.session.flashMessage === "undefined"  ? "" : req.session.flashMessage
         };
+
+        req.session.flashMessage = undefined;
 
         res.extendTemplateOptions = function (o) {
 
