@@ -7,7 +7,9 @@
 
 var Backbone = require("backbone");
 var NBCollection = require("./NBCollection");
-var NBHomeClientCollection = require("./NBHomeClientCollection");
+var NBHomeCollection = require("./NBHomeCollection");
+var server = require("./../../server");
+var constants;
 
 var AppModel = module.exports = Backbone.Model.extend({
 
@@ -17,8 +19,26 @@ var AppModel = module.exports = Backbone.Model.extend({
 
     initialize : function () {
 
+        constants = server.constants;
+
         this.noiseBoxes = new NBCollection();
-        this.homeClients = new NBHomeClientCollection();
+        this.homeClients = new NBHomeCollection();
+
+        this.noiseBoxes.on("add",function (nbModel) {
+            this.trigger(constants.NOISEBOX_ADDED,nbModel);
+        },this);
+
+        this.noiseBoxes.on("remove",function (nbModel) {
+            this.trigger(constants.NOISEBOX_REMOVED,nbModel);
+        },this);
+
+        this.homeClients.on("add",function (homeClientModel) {
+            this.trigger(constants.HOME_ADDED,homeClientModel);
+        },this);
+
+        this.homeClients.on("remove",function (homeClientModel) {
+            this.trigger(constants.HOME_REMOVED,homeClientModel);
+        },this);
     },
 
     addHomeClient : function (id,socket) {
@@ -36,26 +56,57 @@ var AppModel = module.exports = Backbone.Model.extend({
         return this.homeClients.get(id);
     },
 
-    addNoiseBox : function (name) {
+    homeClientExists : function (id) {
 
-        this.noiseBoxes.add({name:name});
-
-        return this.getNoiseBox(name);
+        return this.getHomeClient(id) !== undefined;
     },
 
-    noiseBoxExists : function (name) {
+    addNoiseBox : function (id) {
 
-        return this.getNoiseBox(name) !== undefined;
+        this.noiseBoxes.add({id:id});
+
+        var noiseBox = this.getNoiseBox(id);
+
+        noiseBox.users.on("add",function (nbUserModel) {
+            this.trigger(constants.USER_ADDED,nbUserModel);
+        },this);
+
+        noiseBox.users.on("remove",function (nbUserModel) {
+            this.trigger(constants.USER_REMOVED,nbUserModel);
+        },this);
+
+        noiseBox.hosts.on("add",function (nbHostModel) {
+            this.trigger(constants.HOST_ADDED,nbHostModel);
+        },this);
+
+        noiseBox.hosts.on("remove",function (nbHostModel) {
+            this.trigger(constants.HOST_REMOVED,nbHostModel);
+        },this);
+
+        return noiseBox;
     },
 
-    getNoiseBox : function (name) {
+    removeNoiseBox : function (id) {
 
-        var results = this.noiseBoxes.where({name:name});
+        var noiseBox = this.getNoiseBox(id);
 
-        return results[0];
+        noiseBox.users.off();
+        noiseBox.hosts.off();
+
+        this.noiseBoxes.remove(noiseBox);
     },
 
-    getNoiseBoxBySocketID : function (id) {
+    noiseBoxExists : function (id) {
+
+        return this.getNoiseBox(id) !== undefined;
+    },
+
+    getNoiseBox : function (id) {
+
+        return this.noiseBoxes.get(id);
+    },
+
+    getNoiseBoxByClientSocketID : function (id) {
 
         var found;
 

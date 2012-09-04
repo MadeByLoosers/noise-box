@@ -1,11 +1,12 @@
 var Backbone = require("backbone");
 var NBUserCollection = require("./NBUserCollection");
 var NBHostCollection = require("./NBHostCollection");
+var server = require("./../../server");
+var constants = server.constants;
 
 var NBModel = module.exports = Backbone.Model.extend({
 
     defaults : {
-        name : "unnamed"
     },
 
     initialize : function () {
@@ -22,7 +23,9 @@ var NBModel = module.exports = Backbone.Model.extend({
 
     addHost : function (id,socket) {
 
-        this.hosts.add({id:id,socket:socket});
+        this.hosts.add({id:id,socket:socket,parentNoiseBoxID:this.id});
+
+        return this.hosts.get(id);
     },
 
     removeHost : function (id) {
@@ -57,7 +60,9 @@ var NBModel = module.exports = Backbone.Model.extend({
 
     addUser : function (id,socket) {
 
-        this.users.add({id:id,socket:socket});
+        this.users.add({id:id,socket:socket,parentNoiseBoxID:this.id});
+
+        return this.users.get(id);
     },
 
     removeUser : function (id) {

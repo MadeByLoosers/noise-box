@@ -1,6 +1,6 @@
 var Backbone = require("backbone");
 
-var NBHomeClientModel = module.exports = Backbone.Model.extend({
+var NBHomeModel = module.exports = Backbone.Model.extend({
 
     defaults : {
 

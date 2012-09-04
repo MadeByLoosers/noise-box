@@ -1,14 +1,14 @@
 /**
  * NoiseBox
- * NBCollection.js
+ * NBHomeCollection.js
  *
- * NBModel Backbone Collection.
+ * NBHomeModel Backbone Collection.
  */
 
 var Backbone = require("backbone");
-var NBHomeClientModel = require("./NBHomeClientModel");
+var NBHomeModel = require("./NBHomeModel");
 
-var NBHomeClientCollection = module.exports = Backbone.Collection.extend({
+var NBHomeCollection = module.exports = Backbone.Collection.extend({
 
-    model : NBHomeClientModel
+    model : NBHomeModel
 });
