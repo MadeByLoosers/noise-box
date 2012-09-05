@@ -35,6 +35,7 @@ var Const = {
     HOST_REMOVED : "hostRemoved",
     USER_ADDED : "userAdded",
     USER_REMOVED : "userRemoved",
+    TRACK_CHANGED : "trackChanged",
 
     // Socket.io events
 
@@ -44,14 +45,16 @@ var Const = {
 
     // Custom server > client socket events
 
-    SERVER_APP_STATS_UPDATED : "serverAppStatsUpdated",
-    SERVER_NOISE_BOX_STATS_UPDATED : "serverNoiseBoxStatsUpdated",
+    SERVER_APP_STATS_UPDATED : "appStatsUpdated",
+    SERVER_NOISE_BOX_STATS_UPDATED : "noiseBoxStatsUpdated",
+    SERVER_PLAY_TRACK_REQUEST : "playTrackRequest",
 
     // Custom client > server socket events
 
     HOME_CONNECT : "homeConnect",
     HOST_CONNECT : "hostConnect",
-    USER_CONNECT : "userConnect"
+    USER_CONNECT : "userConnect",
+    USER_CLICKED_TRACK : "userClickedTrack"
 };
 
 if ( typeof module !== "undefined" && module.exports ) {

@@ -89,6 +89,7 @@ module.exports = function () {
     model.on(constants.USER_REMOVED,updateNoiseBoxStats);
     model.on(constants.HOST_ADDED,updateNoiseBoxStats);
     model.on(constants.HOST_REMOVED,updateNoiseBoxStats);
+    model.on(constants.TRACK_CHANGED,trackChanged);
 
     // Define module methods:
 
@@ -115,6 +116,14 @@ module.exports = function () {
 
             noiseBox.removeHost(socket.id);
         }
+    }
+
+    function trackChanged (nbModel) {
+
+        nbModel.hosts.each(function (nbHostModel) {
+
+            nbHostModel.get("socket").emit(constants.SERVER_PLAY_TRACK_REQUEST,{track:nbModel.get("track")});
+        });
     }
 
     function updateNoiseBoxStats (nbClientModel) {

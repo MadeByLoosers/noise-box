@@ -11,7 +11,7 @@ var NBModel = module.exports = Backbone.Model.extend({
 
     initialize : function () {
 
-        this.playlist = [];
+        this.track = "";
         this.users = new NBUserCollection();
         this.hosts = new NBHostCollection();
     },

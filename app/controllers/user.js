@@ -53,11 +53,26 @@ module.exports = function () {
         socket.on(constants.SOCKET_DISCONNECT,function (data) {
             onDisconnect(data,socket);
         });
+
+        socket.on(constants.USER_CLICKED_TRACK,function (data) {
+            onUserClickedTrack(data,socket);
+        });
     });
 
     // Start listening for updates from the model:
 
     // Define module methods:
+
+    function onUserClickedTrack (data,socket) {
+
+        var noiseBox = model.getNoiseBox(data.noiseBoxName);
+
+        if ( !noiseBox ) { return; }
+
+        console.log("User '%s' clicked track '%s'",socket.id,data.track);
+
+        noiseBox.set("track",data.track);
+    }
 
     function onConnect (data,socket) {
 

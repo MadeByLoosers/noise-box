@@ -83,6 +83,10 @@ var AppModel = module.exports = Backbone.Model.extend({
             this.trigger(constants.HOST_REMOVED,nbHostModel);
         },this);
 
+        noiseBox.on("change:track",function (nbModel) {
+            this.trigger(constants.TRACK_CHANGED,nbModel);
+        },this);
+
         return noiseBox;
     },
 
@@ -90,6 +94,7 @@ var AppModel = module.exports = Backbone.Model.extend({
 
         var noiseBox = this.getNoiseBox(id);
 
+        noiseBox.off();
         noiseBox.users.off();
         noiseBox.hosts.off();
 
