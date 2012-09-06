@@ -55,14 +55,14 @@ module.exports = function () {
             }).join("");
         }
 
-        // Implement light-weight template rendering. The reason we can't use res.render here() is
+        // Implement light-weight template rendering. The reason we can't use res.render() here is
         // because we can't be sure where the error is bubbling up from (it could be in the template
         // code) so we have to have as few depandancies on app code as possible for robust error
         // rendering.
 
         fs.readFile(__dirname + "/../../public/html/error.html", "utf8", function(e,html) {
 
-            html = html.replace(/\{title\}/g,"NoiseBox Error");
+            html = html.replace(/\{title\}/g,constants.APP_TITLE);
             html = html.replace("{error}",htmlEscape(error));
             html = html.replace("{stack}",stack);
 

@@ -2,7 +2,7 @@
  * NoiseBox
  * stats.js
  *
- * Middleware for adding stats to the res object.
+ * Middleware for adding app stats to the res object.
  */
 
 var server = require("./../../server");
@@ -18,20 +18,20 @@ module.exports = function () {
         var numHosts = 0;
         var numUsers = 0;
 
-        model.noiseBoxes.each(function (noiseBox) {
+        if ( typeof req.params.id !== "undefined") {
 
-            if ( typeof req.params.noiseBoxName !== "undefined") {
+            model.noiseBoxes.each(function (nb) {
 
-                if ( req.params.noiseBoxName === noiseBox.name ) {
+                if ( req.params.id === nb.get("id") ) {
 
-                    numHosts = noiseBox.hosts.length;
-                    numUsers = noiseBox.clients.length;
+                    numHosts = nb.hosts.length;
+                    numUsers = nb.users.length;
                 }
-            }
-        });
-
+            });
+        }
 
         res.extendTemplateOptions({
+
             numNoiseBoxes : numNoiseBoxes,
             numClients : numClients,
             numHosts : numHosts,

@@ -10,7 +10,7 @@ define(["const","jquery","underscore","socketio","sji"], function (Const) {
 
     return Class.extend({
 
-        noiseBoxName : "",
+        id : "",
         socket : {},
         clientType : "",
         host : "",
@@ -23,12 +23,12 @@ define(["const","jquery","underscore","socketio","sji"], function (Const) {
 
             this.clientType = $("body").attr("id");
             this.host = $("body").data("host");
-            this.noiseBoxName = $("body").data("noise-box-name");
+            this.id = $("body").data("noise-box-id");
             this.env = $("body").data("env");
             this.socket = io.connect(this.host);
 
             console.log("****************");
-            console.log("Client init",this.clientType,this.host,this.noiseBoxName===undefined?"":this.noiseBoxName);
+            console.log("Client init",this.clientType,this.host,this.id===undefined?"":this.id);
 
             $("#flashMessage p:parent").parent().slideDown(250).delay(5000).slideUp(250);
 
@@ -82,7 +82,7 @@ define(["const","jquery","underscore","socketio","sji"], function (Const) {
             data = typeof data !== "undefined" ? data : {};
 
             data = _.extend(data,{
-                noiseBoxName : this.noiseBoxName,
+                id : this.id,
                 clientType : this.clientType
             });
 

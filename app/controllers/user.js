@@ -18,13 +18,13 @@ module.exports = function () {
 
     // Map route to middleware and rendering function:
 
-    app.get("/:noiseBoxName",templateOptions(),function (req,res) {
+    app.get("/:id",templateOptions(),function (req,res) {
 
-        var noiseBoxName = req.params.noiseBoxName;
+        var id = req.params.id;
 
-        if ( !model.noiseBoxExists(noiseBoxName) ) {
+        if ( !model.noiseBoxExists(id) ) {
 
-            req.session.flashMessage = "NoiseBox \""+noiseBoxName+"\" does not exist.";
+            req.session.flashMessage = "NoiseBox \""+id+"\" does not exist.";
             res.redirect("/");
             return;
         }
@@ -34,7 +34,7 @@ module.exports = function () {
             res.extendTemplateOptions({
 
                 clientType : constants.TYPE_USER,
-                noiseBoxName : noiseBoxName,
+                id : id,
                 files : files
             });
 
@@ -59,43 +59,59 @@ module.exports = function () {
         });
     });
 
-    // Start listening for updates from the model:
-
-    // Define module methods:
-
-    function onUserClickedTrack (data,socket) {
-
-        var noiseBox = model.getNoiseBox(data.noiseBoxName);
-
-        if ( !noiseBox ) { return; }
-
-        console.log("User '%s' clicked track '%s'",socket.id,data.track);
-
-        noiseBox.set("track",data.track);
-    }
-
+    /**
+     * Called when a user client socket has connected.
+     *
+     * @param data Data object sent from client.
+     * @param socket Socket instance for the client.
+     */
     function onConnect (data,socket) {
 
-        var noiseBox = model.getNoiseBox(data.noiseBoxName);
+        var nb = model.getNoiseBox(data.id);
 
-        if ( !noiseBox ) { return; }
+        if ( !nb ) { return; }
 
-        console.log("Created user '%s' for NoiseBox '%s'",socket.id,noiseBox.id);
+        console.log("Created user '%s' for NoiseBox '%s'",socket.id,nb.id);
 
-        noiseBox.addUser(socket.id,socket);
+        nb.addUser(socket.id,socket);
     }
 
+    /**
+     * Generic socket disconnect. This callback is called when *any* socket disconnects (not just
+     * user clients) so we need to check that the disconnecting client is a user, and if so remove
+     * it from the model.
+     *
+     * @param data Data object sent from the client.
+     * @param socket Socket instance that has disconnected.
+     */
     function onDisconnect (data,socket) {
 
-        var noiseBox = model.getNoiseBoxByClientSocketID(socket.id);
+        var nb = model.getNoiseBoxByClientSocketID(socket.id);
 
-        if ( !noiseBox ) { return; }
+        if ( !nb ) { return; }
 
-        if ( noiseBox.userExists(socket.id) ) {
+        if ( nb.userExists(socket.id) ) {
 
-            console.log("Removed user '%s' for NoiseBox '%s'",socket.id,noiseBox.id);
+            console.log("Removed user '%s' for NoiseBox '%s'",socket.id,nb.id);
 
-            noiseBox.removeUser(socket.id);
+            nb.removeUser(socket.id);
         }
+    }
+
+    /**
+     * A user has clicked on track, so update the relevant NoiseBox's track property in the model.
+     *
+     * @param data Data object sent from the client.
+     * @param socket Socket instance that has disconnected.
+     */
+    function onUserClickedTrack (data,socket) {
+
+        var nb = model.getNoiseBox(data.id);
+
+        if ( !nb ) { return; }
+
+        console.log("User '%s' clicked track '%s' in NoiseBox '%s'",socket.id,data.track,data.id);
+
+        nb.set("track",data.track);
     }
 };

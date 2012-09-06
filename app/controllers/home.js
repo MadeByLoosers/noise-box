@@ -51,8 +51,12 @@ module.exports = function () {
     model.on(constants.HOST_ADDED,updateServerStats);
     model.on(constants.HOST_REMOVED,updateServerStats);
 
-    // Define module methods:
-
+    /**
+     * Called when a home client socket has connected.
+     *
+     * @param data Data object sent from client.
+     * @param socket Socket instance for the client.
+     */
     function onConnect (data,socket) {
 
         console.log("Created home client '%s'",socket.id);
@@ -60,6 +64,14 @@ module.exports = function () {
         model.addHomeClient(socket.id,socket);
     }
 
+    /**
+     * Generic socket disconnect. This callback is called when *any* socket disconnects (not just
+     * home clients) so we need to check that the disconnecting client is a home client, and if so
+     * remove it from the model.
+     *
+     * @param data Data object sent from the client.
+     * @param socket Socket instance that has disconnected.
+     */
     function onDisconnect (data,socket) {
 
         if ( model.homeClientExists(socket.id) ) {
@@ -70,6 +82,10 @@ module.exports = function () {
         }
     }
 
+    /**
+     * A NoiseBox has been added or removed, or some sort of client has been added or removed (home,
+     * user or host) so we loop through all the home clients and update their stats.
+     */
     function updateServerStats () {
 
         model.homeClients.each(function (homeClient) {

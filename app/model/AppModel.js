@@ -65,40 +65,40 @@ var AppModel = module.exports = Backbone.Model.extend({
 
         this.noiseBoxes.add({id:id});
 
-        var noiseBox = this.getNoiseBox(id);
+        var nb = this.getNoiseBox(id);
 
-        noiseBox.users.on("add",function (nbUserModel) {
+        nb.users.on("add",function (nbUserModel) {
             this.trigger(constants.USER_ADDED,nbUserModel);
         },this);
 
-        noiseBox.users.on("remove",function (nbUserModel) {
+        nb.users.on("remove",function (nbUserModel) {
             this.trigger(constants.USER_REMOVED,nbUserModel);
         },this);
 
-        noiseBox.hosts.on("add",function (nbHostModel) {
+        nb.hosts.on("add",function (nbHostModel) {
             this.trigger(constants.HOST_ADDED,nbHostModel);
         },this);
 
-        noiseBox.hosts.on("remove",function (nbHostModel) {
+        nb.hosts.on("remove",function (nbHostModel) {
             this.trigger(constants.HOST_REMOVED,nbHostModel);
         },this);
 
-        noiseBox.on("change:track",function (nbModel) {
+        nb.on("change:track",function (nbModel) {
             this.trigger(constants.TRACK_CHANGED,nbModel);
         },this);
 
-        return noiseBox;
+        return nb;
     },
 
     removeNoiseBox : function (id) {
 
-        var noiseBox = this.getNoiseBox(id);
+        var nb = this.getNoiseBox(id);
 
-        noiseBox.off();
-        noiseBox.users.off();
-        noiseBox.hosts.off();
+        nb.off();
+        nb.users.off();
+        nb.hosts.off();
 
-        this.noiseBoxes.remove(noiseBox);
+        this.noiseBoxes.remove(nb);
     },
 
     noiseBoxExists : function (id) {
@@ -115,11 +115,11 @@ var AppModel = module.exports = Backbone.Model.extend({
 
         var found;
 
-        this.noiseBoxes.each(function (noiseBox) {
+        this.noiseBoxes.each(function (nb) {
 
-            if ( noiseBox.clientExists(id) ) {
+            if ( nb.clientExists(id) ) {
 
-                found = noiseBox;
+                found = nb;
             }
         });
 
@@ -133,10 +133,10 @@ var AppModel = module.exports = Backbone.Model.extend({
         var numHosts = 0;
         var numUsers = 0;
 
-        this.noiseBoxes.each(function (noiseBox) {
+        this.noiseBoxes.each(function (nb) {
 
-            numClients = numClients + noiseBox.hosts.length;
-            numClients = numClients + noiseBox.users.length;
+            numClients = numClients + nb.hosts.length;
+            numClients = numClients + nb.users.length;
         });
 
         return numClients;
