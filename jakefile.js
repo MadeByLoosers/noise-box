@@ -1,3 +1,5 @@
+/*global desc, task, jake, fail, complete */
+
 task("default", ["lint"], function(){
     console.log("default");
 });
@@ -5,16 +7,17 @@ task("default", ["lint"], function(){
 desc("lint everything");
 task("lint", [], function () {
     console.log("Linting files");
-
     var lint = require("./build/lint/lint_runner.js");
-    lint.validateFile("jakefile.js", {});
-});
 
-desc("Example!");
-task("example", ["dependency"], function(){
-    console.log("example task");
-});
+    var files = new jake.FileList();
+    files.include("**/*.js");
+    files.exclude("node_modules");
+    files.exclude("public/js/lib");
+    files.exclude("build");
 
-task("dependency", function(){
-    console.log("dependency");
+    var options = {
+        node: true
+    };
+
+    lint.validateFileList(files.toArray(), {}, {});
 });
