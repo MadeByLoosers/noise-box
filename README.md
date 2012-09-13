@@ -40,3 +40,12 @@ Articles
  * http://stackoverflow.com/questions/5778245/expressjs-how-to-structure-an-application
  * http://expressjs.com/api.html
  * http://calv.info/node-and-express-tips/
+
+
+
+To build
+--------
+ - Install Node.js
+ - Install Git
+ - Clone repository
+ - Run ./jake.sh

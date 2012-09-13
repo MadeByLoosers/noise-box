@@ -17,8 +17,22 @@
         files.exclude("public/js/lib");
         files.exclude("build");
         var options = nodeLintOptions();
-        lint.validateFileList(files.toArray(), nodeLintOptions(), {});
-//        lint.validateFile('jakefile.js', options, {});
+        var passed = lint.validateFileList(files.toArray(), nodeLintOptions(), {});
+        if (!passed) { fail('Lint failed'); }
+    });
+
+    desc("Integrate");
+    task("integrate", ["default"], function () {
+        // write a manual integration server
+        console.log("1. Make sure 'git status' is clean.");
+        console.log("2. Build on the integration box");
+        console.log("   a. Walk over to the integration box.");
+        console.log("   b. 'git pull'");
+        console.log("   c. 'jake'");
+        console.log("   d. If jake fails, stop! Try again after fixing the issue.");
+        console.log("3. 'git checkout integration'");
+        console.log("4. 'git merge master --no-ff --log'");
+        console.log("4. 'git checkout master'");
     });
 
     function nodeLintOptions() {
