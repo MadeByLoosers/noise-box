@@ -4,8 +4,10 @@
  *
  * Host page NoiseBox client.
  */
+/*global define $ _ */
 
 define(["constants","AbstractClient","jquery","underscore"], function (Const,AbstractClient) {
+    "use strict";
 
     return AbstractClient.extend({
 

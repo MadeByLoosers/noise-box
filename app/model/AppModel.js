@@ -18,6 +18,7 @@ var AppModel = module.exports = Backbone.Model.extend({
     },
 
     initialize : function () {
+        "use strict";
 
         constants = server.constants;
 
@@ -42,26 +43,31 @@ var AppModel = module.exports = Backbone.Model.extend({
     },
 
     addHomeClient : function (id,socket) {
+        "use strict";
 
         this.homeClients.add({id:id,socket:socket});
     },
 
     removeHomeClient : function (id) {
+        "use strict";
 
         this.homeClients.remove(this.getHomeClient(id));
     },
 
     getHomeClient : function (id) {
+        "use strict";
 
         return this.homeClients.get(id);
     },
 
     homeClientExists : function (id) {
+        "use strict";
 
         return this.getHomeClient(id) !== undefined;
     },
 
     addNoiseBox : function (id) {
+        "use strict";
 
         this.noiseBoxes.add({id:id});
 
@@ -91,6 +97,7 @@ var AppModel = module.exports = Backbone.Model.extend({
     },
 
     removeNoiseBox : function (id) {
+        "use strict";
 
         var nb = this.getNoiseBox(id);
 
@@ -102,16 +109,19 @@ var AppModel = module.exports = Backbone.Model.extend({
     },
 
     noiseBoxExists : function (id) {
+        "use strict";
 
         return this.getNoiseBox(id) !== undefined;
     },
 
     getNoiseBox : function (id) {
+        "use strict";
 
         return this.noiseBoxes.get(id);
     },
 
     getNoiseBoxByClientSocketID : function (id) {
+        "use strict";
 
         var found;
 
@@ -127,6 +137,7 @@ var AppModel = module.exports = Backbone.Model.extend({
     },
 
     getNumConnectedClients : function () {
+        "use strict";
 
         var numClients = this.homeClients.length;
 

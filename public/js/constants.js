@@ -5,63 +5,68 @@
  * App constants. This JS file is used both on the client and the server, so we conditionally
  * export for either RequireJS or Node/CommonJS after detecting the environment.
  */
+/*global define module */
 
-var Const = {
+(function(){
+    "use strict";
 
-    // Environments
+    var Const = {
 
-    PROD : "production",
-    DEV : "development",
-    TEST : "testing",
+        // Environments
 
-    // Default values
+        PROD : "production",
+        DEV : "development",
+        TEST : "testing",
 
-    DEFAULT_PORT : 1337,
-    APP_TITLE : "NoiseBox",
+        // Default values
 
-    // NoiseBox client types
+        DEFAULT_PORT : 1337,
+        APP_TITLE : "NoiseBox",
 
-    TYPE_HOME : "home",
-    TYPE_HOST : "host",
-    TYPE_USER : "user",
+        // NoiseBox client types
 
-    // Model events
+        TYPE_HOME : "home",
+        TYPE_HOST : "host",
+        TYPE_USER : "user",
 
-    NOISEBOX_ADDED : "noiseBoxAdded",
-    NOISEBOX_REMOVED : "noiseBoxRemoved",
-    HOME_ADDED : "homeAdded",
-    HOME_REMOVED : "homeRemoved",
-    HOST_ADDED : "hostAdded",
-    HOST_REMOVED : "hostRemoved",
-    USER_ADDED : "userAdded",
-    USER_REMOVED : "userRemoved",
-    TRACK_CHANGED : "trackChanged",
+        // Model events
 
-    // Socket.io events
+        NOISEBOX_ADDED : "noiseBoxAdded",
+        NOISEBOX_REMOVED : "noiseBoxRemoved",
+        HOME_ADDED : "homeAdded",
+        HOME_REMOVED : "homeRemoved",
+        HOST_ADDED : "hostAdded",
+        HOST_REMOVED : "hostRemoved",
+        USER_ADDED : "userAdded",
+        USER_REMOVED : "userRemoved",
+        TRACK_CHANGED : "trackChanged",
 
-    SERVER_SOCKET_CONNECT : "connect",
-    CLIENT_SOCKET_CONNECTION : "connection",
-    SOCKET_DISCONNECT : "disconnect",
+        // Socket.io events
 
-    // Custom server > client socket events
+        SERVER_SOCKET_CONNECT : "connect",
+        CLIENT_SOCKET_CONNECTION : "connection",
+        SOCKET_DISCONNECT : "disconnect",
 
-    SERVER_APP_STATS_UPDATED : "appStatsUpdated",
-    SERVER_NOISE_BOX_STATS_UPDATED : "noiseBoxStatsUpdated",
-    SERVER_PLAY_TRACK_REQUEST : "playTrackRequest",
+        // Custom server > client socket events
 
-    // Custom client > server socket events
+        SERVER_APP_STATS_UPDATED : "appStatsUpdated",
+        SERVER_NOISE_BOX_STATS_UPDATED : "noiseBoxStatsUpdated",
+        SERVER_PLAY_TRACK_REQUEST : "playTrackRequest",
 
-    HOME_CONNECT : "homeConnect",
-    HOST_CONNECT : "hostConnect",
-    USER_CONNECT : "userConnect",
-    USER_CLICKED_TRACK : "userClickedTrack"
-};
+        // Custom client > server socket events
 
-if ( typeof module !== "undefined" && module.exports ) {
+        HOME_CONNECT : "homeConnect",
+        HOST_CONNECT : "hostConnect",
+        USER_CONNECT : "userConnect",
+        USER_CLICKED_TRACK : "userClickedTrack"
+    };
 
-    module.exports = Const;
+    if ( typeof module !== "undefined" && module.exports ) {
 
-} else if ( typeof define === "function" ) {
+        module.exports = Const;
 
-    define(Const);
-}
+    } else if ( typeof define === "function" ) {
+
+        define(Const);
+    }
+}());

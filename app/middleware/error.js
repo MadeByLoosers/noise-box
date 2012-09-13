@@ -9,6 +9,16 @@ var fs = require("fs");
 var constants = require("./../../public/js/constants");
 
 module.exports = function () {
+    "use strict";
+
+    function htmlEscape (text) {
+
+        return text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
 
     return function (err,req,res,next) {
 
@@ -72,13 +82,4 @@ module.exports = function () {
 
         console.error("(%d) %s",err.statusCode,err.stack);
     };
-
-    function htmlEscape (text) {
-
-        return text
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#039;');
-    }
 };

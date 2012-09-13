@@ -44,6 +44,7 @@ app.use(error());
 // Start the Express server:
 
 var server = app.listen(port,function () {
+    "use strict";
 
     console.log("NoiseBox (%s) started on port %d at %s",env,port,new Date().toString());
 });

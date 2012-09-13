@@ -5,8 +5,10 @@
  * Main NoiseBox client module. Creates an appropriate client class instance to handle the
  * different types of client.
  */
+/*global define $ */
 
 define(["HomeClient","HostClient","UserClient","constants","jquery","socketio"], function (HomeClient,HostClient,UserClient,Const) {
+    "use strict";
 
     var init = function () {
 

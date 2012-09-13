@@ -15,6 +15,7 @@ var templateOptions = require("./../middleware/template-options");
 var stats = require("./../middleware/stats");
 
 module.exports = function () {
+    "use strict";
 
     // Map route to middleware and rendering function:
 

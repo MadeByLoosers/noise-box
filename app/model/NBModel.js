@@ -10,6 +10,7 @@ var NBModel = module.exports = Backbone.Model.extend({
     },
 
     initialize : function () {
+        "use strict";
 
         this.track = "";
         this.users = new NBUserCollection();
@@ -17,11 +18,13 @@ var NBModel = module.exports = Backbone.Model.extend({
     },
 
     clientExists : function (id) {
+        "use strict";
 
         return this.hostExists(id) || this.userExists(id);
     },
 
     addHost : function (id,socket) {
+        "use strict";
 
         this.hosts.add({id:id,socket:socket,parentNoiseBoxID:this.id});
 
@@ -29,16 +32,19 @@ var NBModel = module.exports = Backbone.Model.extend({
     },
 
     removeHost : function (id) {
+        "use strict";
 
         this.hosts.remove(this.getHost(id));
     },
 
     getHost : function (id) {
+        "use strict";
 
         return this.hosts.get(id);
     },
 
     getHostBySocket : function (socket) {
+        "use strict";
 
         var foundHost;
 
@@ -54,11 +60,13 @@ var NBModel = module.exports = Backbone.Model.extend({
     },
 
     hostExists : function (id) {
+        "use strict";
 
         return this.getHost(id) !== undefined;
     },
 
     addUser : function (id,socket) {
+        "use strict";
 
         this.users.add({id:id,socket:socket,parentNoiseBoxID:this.id});
 
@@ -66,16 +74,19 @@ var NBModel = module.exports = Backbone.Model.extend({
     },
 
     removeUser : function (id) {
+        "use strict";
 
         this.users.remove(this.getUser(id));
     },
 
     getUser : function (id) {
+        "use strict";
 
         return this.users.get(id);
     },
 
     getUserBySocket : function (socket) {
+        "use strict";
 
         var foundUser;
 
@@ -91,6 +102,7 @@ var NBModel = module.exports = Backbone.Model.extend({
     },
 
     userExists : function (id) {
+        "use strict";
 
         return this.getUser(id) !== undefined;
     }

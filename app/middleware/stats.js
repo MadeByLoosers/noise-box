@@ -9,6 +9,7 @@ var server = require("./../../server");
 var model = server.model;
 
 module.exports = function () {
+    "use strict";
 
     return function (req,res,next) {
 

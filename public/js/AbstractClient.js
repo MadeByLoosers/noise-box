@@ -5,8 +5,10 @@
  * Abstract NoiseBox client. Contains shared functionality used across all types of client, but no
  * type specific implementations. All clients inherit from this object.
  */
+/*global define $ _ io Class */
 
 define(["constants","jquery","underscore","socketio","sji"], function (Const) {
+    "use strict";
 
     return Class.extend({
 
