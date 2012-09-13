@@ -4,6 +4,7 @@
  *
  * Clientside JS entry point.
  */
+/*globals require */
 
 (function () {
 
@@ -16,7 +17,7 @@
             underscore : "lib/underscore",
             sji : "lib/sji",
             socketio : "../socket.io/socket.io",
-            const : "/js/const"
+            constants : "/js/constants"
         },
         shim : {
             jquery : {

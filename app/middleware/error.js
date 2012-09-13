@@ -6,7 +6,7 @@
  */
 
 var fs = require("fs");
-var constants = require("./../../public/js/const");
+var constants = require("./../../public/js/constants");
 
 module.exports = function () {
 
