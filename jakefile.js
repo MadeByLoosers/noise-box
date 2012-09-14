@@ -2,23 +2,26 @@
 (function(){
     "use strict";
 
-    task("default", ["lint"], function(){
-        console.log("running default tasks");
-    });
+    desc("Build and test");
+    task("default", ["lint", "test"]);
 
     desc("lint everything");
     task("lint", [], function () {
-        console.log("Linting files");
         var lint = require("./build/lint/lint_runner.js");
 
         var files = new jake.FileList();
         files.include("**/*.js");
         files.exclude("node_modules");
         files.exclude("public/js/lib");
-        files.exclude("build");
         var options = nodeLintOptions();
         var passed = lint.validateFileList(files.toArray(), nodeLintOptions(), {});
+//        var passed = lint.validateFile('app/controllers/home.js');
         if (!passed) { fail('Lint failed'); }
+    });
+
+    desc("Test everything");
+    task("test", [], function(){
+        console.log("test goes here");
     });
 
     desc("Integrate");
