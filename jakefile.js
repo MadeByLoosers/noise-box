@@ -23,7 +23,7 @@
     task("test", [], function(){
         var reporter = require("nodeunit").reporters["default"];
         reporter.run(["_server-test.js"], null, function(failures){
-          console.log("tests done");
+          if (failures) { fail("tests failed"); }
           complete();
         });
     }, {async: true});
