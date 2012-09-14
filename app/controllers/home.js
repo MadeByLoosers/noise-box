@@ -42,16 +42,16 @@ module.exports = function () {
     });
 
     // Start listening for updates from the model:
-
-    model.on(constants.NOISEBOX_ADDED,updateServerStats);
-    model.on(constants.NOISEBOX_REMOVED,updateServerStats);
-    model.on(constants.HOME_ADDED,updateServerStats);
-    model.on(constants.HOME_REMOVED,updateServerStats);
-    model.on(constants.USER_ADDED,updateServerStats);
-    model.on(constants.USER_REMOVED,updateServerStats);
-    model.on(constants.HOST_ADDED,updateServerStats);
-    model.on(constants.HOST_REMOVED,updateServerStats);
-
+    (function(){
+        model.on(constants.NOISEBOX_ADDED,updateServerStats);
+        model.on(constants.NOISEBOX_REMOVED,updateServerStats);
+        model.on(constants.HOME_ADDED,updateServerStats);
+        model.on(constants.HOME_REMOVED,updateServerStats);
+        model.on(constants.USER_ADDED,updateServerStats);
+        model.on(constants.USER_REMOVED,updateServerStats);
+        model.on(constants.HOST_ADDED,updateServerStats);
+        model.on(constants.HOST_REMOVED,updateServerStats);
+    }());
     /**
      * Called when a home client socket has connected.
      *

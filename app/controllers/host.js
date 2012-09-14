@@ -85,12 +85,13 @@ module.exports = function () {
     });
 
     // Start listening for updates from the model:
-
-    model.on(constants.USER_ADDED,updateNoiseBoxStats);
-    model.on(constants.USER_REMOVED,updateNoiseBoxStats);
-    model.on(constants.HOST_ADDED,updateNoiseBoxStats);
-    model.on(constants.HOST_REMOVED,updateNoiseBoxStats);
-    model.on(constants.TRACK_CHANGED,trackChanged);
+    (function(){
+        model.on(constants.USER_ADDED,updateNoiseBoxStats);
+        model.on(constants.USER_REMOVED,updateNoiseBoxStats);
+        model.on(constants.HOST_ADDED,updateNoiseBoxStats);
+        model.on(constants.HOST_REMOVED,updateNoiseBoxStats);
+        model.on(constants.TRACK_CHANGED,trackChanged);
+    }());
 
     /**
      * Called when a host client socket has connected.
