@@ -21,10 +21,12 @@
 
     desc("Test everything");
     task("test", [], function(){
-        console.log("test goes here");
         var reporter = require("nodeunit").reporters["default"];
-        reporter.run(["_server-test.js"]);
-    });
+        reporter.run(["_server-test.js"], null, function(failures){
+          console.log("tests done");
+          complete();
+        });
+    }, {async: true});
 
     desc("Integrate");
     task("integrate", ["default"], function () {
