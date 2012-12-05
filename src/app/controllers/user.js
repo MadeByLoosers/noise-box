@@ -112,6 +112,6 @@ module.exports = function () {
 
         console.log("User '%s' clicked track '%s' in NoiseBox '%s'",socket.id,data.track,data.id);
 
-        nb.set("track",data.track);
+        nb.addTrack(data.track);
     }
 };

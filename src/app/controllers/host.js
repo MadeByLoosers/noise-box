@@ -89,7 +89,8 @@ module.exports = function () {
     model.on(constants.USER_REMOVED,updateNoiseBoxStats);
     model.on(constants.HOST_ADDED,updateNoiseBoxStats);
     model.on(constants.HOST_REMOVED,updateNoiseBoxStats);
-    model.on(constants.TRACK_CHANGED,trackChanged);
+    model.on(constants.TRACK_ADDED,trackAdded);
+    model.on(constants.TRACK_REMOVED,trackRemoved);
 
     /**
      * Called when a host client socket has connected.
@@ -130,19 +131,41 @@ module.exports = function () {
         }
     }
 
+
     /**
-     * A NoiseBox's track property has changed, so loop through the box's hosts and tell them to
-     * each play the track.
+     * A NoiseBox track has been added, so loop through the box's hosts and tell them to
+     * each add the track.
      *
-     * @param nb The NBModel instance which has its track property changed.
+     * @param nbTrackModel The NBTrackModel instance which has its track property
+     * @param nb The NBModel instance
      */
-    function trackChanged (nb) {
+    function trackAdded (nbTrackModel, nb) {
+
+        console.log(nbTrackModel.toJSON(), nbTrackModel.cid);
 
         nb.hosts.each(function (host) {
 
-            host.get("socket").emit(constants.SERVER_PLAY_TRACK_REQUEST,{track:nb.get("track")});
+            host.get("socket").emit(constants.SERVER_ADD_TRACK,{ track: nbTrackModel.get("track"), cid: nbTrackModel.cid });
         });
     }
+
+
+
+    /**
+     * A NoiseBox track has been removed, so loop through the box's hosts and tell them to
+     * each remove the track.
+     *
+     * @param nbTrackModel The NBTrackModel instance which has its track property
+     * @param nb The NBModel instance
+     */
+    function trackRemoved (nbTrackModel, nb) {
+
+        nb.hosts.each(function (host) {
+
+            host.get("socket").emit(constants.SERVER_REMOVE_TRACK,{track:nbTrackModel.get("track")});
+        });
+    }
+
 
     /**
      * A NoiseBox client (user or host) has been added or removed so we need to loop through all the

@@ -35,7 +35,8 @@ var Const = {
     HOST_REMOVED : "hostRemoved",
     USER_ADDED : "userAdded",
     USER_REMOVED : "userRemoved",
-    TRACK_CHANGED : "trackChanged",
+    TRACK_ADDED : "trackAdded",
+    TRACK_REMOVED : "trackRemoved",
 
     // Socket.io events
 
@@ -47,7 +48,8 @@ var Const = {
 
     SERVER_APP_STATS_UPDATED : "appStatsUpdated",
     SERVER_NOISE_BOX_STATS_UPDATED : "noiseBoxStatsUpdated",
-    SERVER_PLAY_TRACK_REQUEST : "playTrackRequest",
+    SERVER_ADD_TRACK : "addTrack",
+    SERVER_REMOVE_TRACK : "removeTrack",
 
     // Custom client > server socket events
 

@@ -1,4 +1,5 @@
 <h2>Hosting "<%= id %>"</h2>
 <p>Send your users to: <a href="<%= userURL %>"><%= userURL %></a></p>
 <% include partials/noise-box-stats %>
-<audio id="audio-player" src="" preload="auto"></audio>
+<% include partials/currently-playing %>
+<% include partials/play-queue %>

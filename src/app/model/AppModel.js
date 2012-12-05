@@ -83,8 +83,12 @@ var AppModel = module.exports = Backbone.Model.extend({
             this.trigger(constants.HOST_REMOVED,nbHostModel);
         },this);
 
-        nb.on("change:track",function (nbModel) {
-            this.trigger(constants.TRACK_CHANGED,nbModel);
+        nb.tracks.on("add",function (nbTrackModel) {
+            this.trigger(constants.TRACK_ADDED,nbTrackModel, nb);
+        },this);
+
+        nb.tracks.on("remove",function (nbTrackModel) {
+            this.trigger(constants.TRACK_REMOVED,nbTrackModel, nb);
         },this);
 
         return nb;

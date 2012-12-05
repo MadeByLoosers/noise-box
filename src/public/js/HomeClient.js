@@ -14,6 +14,8 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
             this._super();
 
             this.on(Const.SERVER_APP_STATS_UPDATED,this.onServerStatsUpdated);
+
+            $("#id").focus();
         },
 
         onConnect : function () {
