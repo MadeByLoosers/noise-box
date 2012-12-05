@@ -6,7 +6,7 @@
  * different types of client.
  */
 
-define(["HomeClient","HostClient","UserClient","constants","jquery","socketio"], function (HomeClient,HostClient,UserClient,Const) {
+define(["HomeClient","HostClient","UserClient","constants","jquery"], function (HomeClient,HostClient,UserClient,Const) {
 
     var init = function () {
 

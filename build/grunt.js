@@ -50,10 +50,10 @@ module.exports = function(grunt) {
         options: {
           baseUrl: "<%= distDir %>/public/js",
           mainConfigFile: "<%= distDir %>/public/js/main.js",
-          out: "<%= distDir %>/public/js/output.js",
+          out: "<%= distDir %>/public/js/main.js",
           name: "main",
-          optimize: "none",
-          removeCombined: true
+          optimize: "uglify",
+          removeCombined: false
         }
       }
     },
@@ -61,6 +61,13 @@ module.exports = function(grunt) {
     qunit: {
       files: ['test/**/*.html']
     },
+
+    shell: {
+      npmInstall: {
+          command: "cd <%= distDir %>; npm install;",
+          stdout: true
+      }
+  },
 
     // concat: {
     //   dist: {
@@ -111,6 +118,7 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks("grunt-contrib");
   grunt.loadNpmTasks("grunt-rsync");
+  grunt.loadNpmTasks("grunt-shell");
 
   // Default task.
   grunt.registerTask('default', 'lint:site qunit');
@@ -119,5 +127,5 @@ module.exports = function(grunt) {
   grunt.registerTask('build', 'default clean rsync:dist requirejs:frontend');
 
   // Deploy task.
-  grunt.registerTask('deploy', 'build');
+  grunt.registerTask('deploy', 'build shell:npmInstall');
 };
