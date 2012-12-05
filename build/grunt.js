@@ -20,7 +20,7 @@ module.exports = function(grunt) {
         "./tasks/*.js"
       ],
       site: [
-        "<%= srcDir %>/jpublic/js/*.js",
+        "<%= srcDir %>/public/js/*.js",
         "<%= srcDir %>/app/**/*.js"
       ]
     },
@@ -39,8 +39,7 @@ module.exports = function(grunt) {
             ".DS_Store",
             ".idea",
             ".git",
-            ".gitignore", 
-            "node_modules"
+            ".gitignore"
         ]
       }
     },
@@ -53,7 +52,15 @@ module.exports = function(grunt) {
           out: "<%= distDir %>/public/js/main.js",
           name: "main",
           optimize: "uglify",
-          removeCombined: false
+          removeCombined: false,
+        }
+      }
+    },
+
+    mincss: {
+      frontend: {
+        files: {
+          "<%= distDir %>/public/css/style.css": ["<%= distDir %>/public/css/style.css"]
         }
       }
     },
@@ -124,7 +131,7 @@ module.exports = function(grunt) {
   grunt.registerTask('default', 'lint:site qunit');
 
   // Build task.
-  grunt.registerTask('build', 'default clean rsync:dist requirejs:frontend');
+  grunt.registerTask('build', 'default clean rsync:dist requirejs:frontend mincss:frontend');
 
   // Deploy task.
   grunt.registerTask('deploy', 'build shell:npmInstall');
