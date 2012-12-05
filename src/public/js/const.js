@@ -16,7 +16,7 @@ var Const = {
 
     // Default values
 
-    DEFAULT_PORT : 1337,
+    DEFAULT_PORT : 7001,
     APP_TITLE : "NoiseBox",
 
     // NoiseBox client types

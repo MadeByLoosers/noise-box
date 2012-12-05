@@ -15,15 +15,11 @@
             jquery : "lib/jquery",
             underscore : "lib/underscore",
             sji : "lib/sji",
-            socketio : "../socket.io/socket.io",
             constants : "const"
         },
         shim : {
             jquery : {
                 exports : "$"
-            },
-            socketio : {
-                exports : "io"
             },
             sji : {
                 exports : "Class"
