@@ -1,3 +1,4 @@
+/*global process __dirname */
 /**
  * NoiseBox
  * error.js
