@@ -31,18 +31,32 @@ module.exports = function(grunt) {
 
     rsync : {
       dist: {
-          src: "<%= srcDir %>/",
-          dest: "<%= distDir %>",
-          recursive: true,
-          exclude: [
-              "scss",
-              ".DS_Store",
-              ".idea",
-              ".git",
-              ".gitignore"
-          ]
+        src: "<%= srcDir %>/",
+        dest: "<%= distDir %>",
+        recursive: true,
+        exclude: [
+            "scss",
+            ".DS_Store",
+            ".idea",
+            ".git",
+            ".gitignore", 
+            "node_modules"
+        ]
+      }
+    },
+
+    requirejs: {
+      frontend: {
+        options: {
+          baseUrl: "<%= distDir %>/public/js",
+          mainConfigFile: "<%= distDir %>/public/js/main.js",
+          out: "<%= distDir %>/public/js/output.js",
+          name: "main",
+          optimize: "none",
+          removeCombined: true
         }
-      },
+      }
+    },
 
     qunit: {
       files: ['test/**/*.html']
@@ -95,13 +109,14 @@ module.exports = function(grunt) {
     uglify: {}
   });
 
-  grunt.loadNpmTasks('grunt-clean');
+  grunt.loadNpmTasks("grunt-contrib");
+  grunt.loadNpmTasks("grunt-rsync");
 
   // Default task.
   grunt.registerTask('default', 'lint:site qunit');
 
   // Build task.
-  grunt.registerTask('build', 'default clean rsync:dist');
+  grunt.registerTask('build', 'default clean rsync:dist requirejs:frontend');
 
   // Deploy task.
   grunt.registerTask('deploy', 'build');
