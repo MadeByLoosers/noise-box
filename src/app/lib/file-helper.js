@@ -97,7 +97,9 @@
                 filename: filename
               });
 
-              if (!--pending) done(null, results);
+              if (!--pending) {
+                done(null, results);
+              }
             }
           }); // end fs.stat
         } // end hidden files if

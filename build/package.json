@@ -1,0 +1,9 @@
+{
+  "name": "noise-box-build",
+  "author": "",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "grunt": "0.3.17"
+  }
+}
