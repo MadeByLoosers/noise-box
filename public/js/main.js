@@ -16,7 +16,7 @@
             underscore : "lib/underscore",
             sji : "lib/sji",
             socketio : "../socket.io/socket.io",
-            const : "/js/const"
+            constants : "/js/const"
         },
         shim : {
             jquery : {

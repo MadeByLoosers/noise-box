@@ -5,7 +5,7 @@
  * Host page NoiseBox client.
  */
 
-define(["const","AbstractClient","jquery","underscore"], function (Const,AbstractClient) {
+define(["constants","AbstractClient","jquery","underscore"], function (Const,AbstractClient) {
 
     return AbstractClient.extend({
 

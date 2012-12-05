@@ -6,7 +6,7 @@
  * type specific implementations. All clients inherit from this object.
  */
 
-define(["const","jquery","underscore","socketio","sji"], function (Const) {
+define(["constants","jquery","underscore","socketio","sji"], function (Const) {
 
     return Class.extend({
 

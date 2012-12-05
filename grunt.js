@@ -13,7 +13,7 @@ module.exports = function(grunt) {
     },
     lint: {
       // files: ['grunt.js', 'lib/**/*.js', 'test/**/*.js']
-      files: ['grunt.js']
+      files: ['grunt.js', 'public/js/*.js', 'app/**/*.js']
     },
     qunit: {
       files: ['test/**/*.html']
@@ -40,7 +40,7 @@ module.exports = function(grunt) {
         curly: true,
         eqeqeq: true,
         immed: true,
-        latedef: true,
+        latedef: false,
         newcap: true,
         noarg: true,
         sub: true,
@@ -50,7 +50,15 @@ module.exports = function(grunt) {
         browser: true
       },
       globals: {
-        jQuery: true
+        jQuery: true,
+        $: true,
+        _: true,
+        define: true,
+        require: true,
+        module: true,
+        console: true,
+        io: true,
+        Class: true
       }
     },
     uglify: {}
