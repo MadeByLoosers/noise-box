@@ -20,9 +20,13 @@ module.exports = function(grunt) {
         "./tasks/*.js"
       ],
       site: [
-        "<%= srcDir %>/jpublic/js/*.js",
+        "<%= srcDir %>/public/js/*.js",
         "<%= srcDir %>/app/**/*.js"
       ]
+    },
+
+    qunit: {
+      files: ['test/**/*.html']
     },
 
     clean : {
@@ -39,8 +43,19 @@ module.exports = function(grunt) {
             ".DS_Store",
             ".idea",
             ".git",
-            ".gitignore", 
-            "node_modules"
+            ".gitignore"
+        ]
+      },
+      deploy: {
+        src: "<%= distDir %>/",
+        dest: "/var/node/noise-box/app",
+        recursive: true,
+        syncDest: true,
+        host: "wintermute",
+        compareMode: "sizeOnly",
+        args: ["--links"],
+        exclude: [
+          "node_modules"
         ]
       }
     },
@@ -50,31 +65,32 @@ module.exports = function(grunt) {
         options: {
           baseUrl: "<%= distDir %>/public/js",
           mainConfigFile: "<%= distDir %>/public/js/main.js",
-          out: "<%= distDir %>/public/js/output.js",
+          out: "<%= distDir %>/public/js/main.js",
           name: "main",
-          optimize: "none",
-          removeCombined: true
+          optimize: "uglify",
+          removeCombined: false
         }
       }
     },
 
-    qunit: {
-      files: ['test/**/*.html']
+    mincss: {
+      frontend: {
+        files: {
+          "<%= distDir %>/public/css/style.css": ["<%= distDir %>/public/css/style.css"]
+        }
+      }
     },
 
-    // concat: {
-    //   dist: {
-    //     src: ['<%= srcDir %>public/js/**/*.js'],
-    //     dest: '<%= distDir %>/<%= pkg.name %>.js'
-    //   }
-    // },
-
-    // min: {
-    //   dist: {
-    //     src: ['<banner:meta.banner>', '<config:concat.dist.dest>'],
-    //     dest: 'dist/<%= pkg.name %>.min.js'
-    //   }
-    // },
+    shell: {
+      npmInstall: {
+          command: "ssh wintermute 'cd /var/node/noise-box/app; npm install --production;'",
+          stdout: true
+      },
+      monitRestart: {
+          command: "ssh wintermute 'sudo monit restart noise-box'",
+          stdout: true
+      }
+  },
 
     watch: {
       files: '<config:lint.files>',
@@ -111,13 +127,14 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks("grunt-contrib");
   grunt.loadNpmTasks("grunt-rsync");
+  grunt.loadNpmTasks("grunt-shell");
 
   // Default task.
-  grunt.registerTask('default', 'lint:site qunit');
+  grunt.registerTask('default', 'lint:site lint:build qunit');
 
   // Build task.
-  grunt.registerTask('build', 'default clean rsync:dist requirejs:frontend');
+  grunt.registerTask('dist', 'default clean rsync:dist requirejs:frontend mincss:frontend');
 
   // Deploy task.
-  grunt.registerTask('deploy', 'build');
+  grunt.registerTask('deploy', 'dist rsync:deploy shell:npmInstall shell:monitRestart');
 };
