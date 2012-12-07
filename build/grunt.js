@@ -29,6 +29,10 @@ module.exports = function(grunt) {
       files: ['test/**/*.html']
     },
 
+    casperjs: {
+      files: ['test/casperjs/**/*.js']
+    },
+
     clean : {
       src: ["<%= distDir %>"]
     },
@@ -128,13 +132,18 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib");
   grunt.loadNpmTasks("grunt-rsync");
   grunt.loadNpmTasks("grunt-shell");
+  grunt.loadNpmTasks('grunt-casperjs');
 
   // Default task.
   grunt.registerTask('default', 'lint:site lint:build qunit');
 
+  // Test task.
+  grunt.registerTask('test', 'lint:site lint:build qunit casperjs');
+
   // Build task.
-  grunt.registerTask('dist', 'default clean rsync:dist requirejs:frontend mincss:frontend');
+  grunt.registerTask('dist', 'test clean rsync:dist requirejs:frontend mincss:frontend');
 
   // Deploy task.
   grunt.registerTask('deploy', 'dist rsync:deploy shell:npmInstall shell:monitRestart');
+
 };

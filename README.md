@@ -22,4 +22,3 @@ Fire up the noise box server by switching to the ```src``` directory and running
 Browse to http://localhost:7001
 
 Enjoy!
-
