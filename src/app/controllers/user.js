@@ -32,7 +32,7 @@ module.exports = function () {
         fh.listFiles("./public/sfx",function (err,files) {
 
             res.extendTemplateOptions({
-
+                title: id + " | " + res.templateOptions.title,
                 clientType : constants.TYPE_USER,
                 id : id,
                 files : files

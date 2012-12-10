@@ -29,7 +29,7 @@ module.exports = function () {
         }
 
         res.extendTemplateOptions({
-
+            title: "Hosting " + id + " | " + res.templateOptions.title,
             clientType:constants.TYPE_HOST,
             userURL : res.templateOptions.host+"/"+id,
             id : id
