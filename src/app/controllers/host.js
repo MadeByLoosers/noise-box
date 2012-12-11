@@ -145,11 +145,13 @@ module.exports = function () {
      */
     function trackAdded (nbTrackModel, nb) {
 
-        console.log(nbTrackModel.toJSON(), nbTrackModel.cid);
-
         nb.hosts.each(function (host) {
-
-            host.get("socket").emit(constants.SERVER_ADD_TRACK,{ track: nbTrackModel.get("track"), cid: nbTrackModel.cid });
+            host.get("socket").emit(constants.SERVER_ADD_TRACK,{
+                track: nbTrackModel.get("track"),
+                user: nbTrackModel.get("user"),
+                datetime: nbTrackModel.get("datetime"),
+                cid: nbTrackModel.cid
+            });
         });
     }
 

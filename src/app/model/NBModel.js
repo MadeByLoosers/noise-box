@@ -98,7 +98,7 @@ var NBModel = module.exports = Backbone.Model.extend({
 
     addTrack : function(track) {
 
-        this.tracks.add({track:track});
+        this.tracks.add(track);
     },
 
     removeTrack : function(track) {

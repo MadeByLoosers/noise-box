@@ -11,6 +11,7 @@ var io = server.io;
 var model = server.model;
 var constants = server.constants;
 var fh = require("./../lib/file-helper");
+var moment = require("./../lib/moment");
 var templateOptions = require("./../middleware/template-options");
 var stats = require("./../middleware/stats");
 
@@ -120,13 +121,19 @@ module.exports = function () {
      */
     function onUserClickedTrack (data,socket) {
 
-        var nb = model.getNoiseBox(data.id);
+        var nb = model.getNoiseBox(data.id),
+            user,
+            track = {};
 
         if ( !nb ) { return; }
 
+        track.user = nb.getUser(socket.id).get("username");
+        track.datetime = moment().format("YYYY-MM-DD hh:mm:ss");
+        track.track = data.track;
+
         console.log("User '%s' clicked track '%s' in NoiseBox '%s'",socket.id,data.track,data.id);
 
-        nb.addTrack(data.track);
+        nb.addTrack(track);
     }
 
 

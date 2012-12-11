@@ -47,12 +47,14 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
 
         onServerAddTrack : function (data) {
 
+            console.log(data);
+
             this.playQueue.push(data);
             this.play();
 
             $("<li />")
                 .attr("id", data.cid)
-                .text(data.track)
+                .text(data.user + " added the track " + data.track + " on " + data.datetime)
                 .hide()
                 .slideDown()
                 .appendTo(this.playQueueEl);

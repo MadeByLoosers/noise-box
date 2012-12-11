@@ -10,6 +10,12 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
     return AbstractClient.extend({
 
         usernameField : null,
+        user : {
+            id : "",
+            username : "",
+            cid : "",
+            userid : ""
+        },
 
         init : function () {
 
@@ -34,18 +40,28 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
 
         updateUsernameField : function(data) {
 
-            var username = data.username || "new user",
+            this.user.username = data.username || "new user",
                 changed = false;
 
             if (!!window.localStorage && !!window.localStorage.username) {
-                username = window.localStorage.username;
+                this.user.username = window.localStorage.username;
                 changed = true;
             }
 
-            this.usernameField.val(username);
+            this.usernameField.val(this.user.username);
 
-            if (!!data.cid) { $("#cid").val(data.cid); } //TEMP
-            if (!!data.userid) { $("#userid").val(data.userid); } //TEMP
+
+            if (!!data.id) {
+                this.user.id = data.id;
+            }
+            if (!!data.cid) {
+                $("#cid").val(data.cid); //TEMP
+                this.user.cid = data.cid;
+            }
+            if (!!data.userid) {
+                $("#userid").val(data.userid); //TEMP
+                this.user.userid = data.userid;
+            }
 
             if (changed) {
                 $("#username-form").submit();
@@ -56,16 +72,12 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
 
             if (!!event) { event.preventDefault(); }
 
-            this.emit(Const.USER_NAME_UPDATE,{
-                username : this.usernameField.val(),
-                id : id,
-                cid : $("#cid").val(),
-                userid: $("#userid").val()
-            });
+            this.user.username = this.usernameField.val();
+
+            this.emit(Const.USER_NAME_UPDATE,this.user);
 
             if (!!window.localStorage) {
-                window.localStorage.username = this.usernameField.val();
-                console.log("onUsernameUpdate", this.usernameField.val());
+                window.localStorage.username = this.user.username;
             }
         },
 

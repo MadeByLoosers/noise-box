@@ -8,6 +8,6 @@ var NBTrackModel = module.exports = Backbone.Model.extend({
       datetime: ""
     },
 
-    initialize : function (x) {
+    initialize : function (data) {
     }
 });
