@@ -40,8 +40,8 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
 
         updateUsernameField : function(data) {
 
-            this.user.username = data.username || "new user",
-                changed = false;
+            this.user.username = data.username || "new user";
+            var changed = false;
 
             if (!!window.localStorage && !!window.localStorage.username) {
                 this.user.username = window.localStorage.username;
