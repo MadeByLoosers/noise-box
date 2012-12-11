@@ -13,10 +13,13 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
 
         playQueue : [],
 
+        users : [],
+
         currentTrack : null,
 
         playQueueEl : null,
         currentlyPlayingEl : null,
+        userListEl : null,
 
         init : function () {
 
@@ -26,8 +29,13 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
             this.on(Const.SERVER_ADD_TRACK,this.onServerAddTrack);
             this.on(Const.SERVER_REMOVE_TRACK,this.onServerRemoveTrack);
 
+            this.on(Const.USER_ADDED,this.onUserAdded);
+            this.on(Const.USER_UPDATED,this.onUserUpdated);
+            this.on(Const.USER_REMOVED,this.onUserRemoved);
+
             this.playQueueEl = $("#play-queue ol");
             this.currentlyPlayingEl = $("#currently-playing p");
+            this.userListEl = $("#users");
         },
 
         onConnect : function () {
@@ -70,6 +78,21 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
 
             $(".hosts-stats-value").text(data.numHosts);
             $(".users-stats-value").text(data.numUsers);
+        },
+
+        onUserAdded : function(data) {
+            $("<li />")
+                .attr("id", data.id)
+                .text(data.username)
+                .appendTo(this.userListEl);
+        },
+
+        onUserUpdated : function(data) {
+            $("li#"+data.id).text(data.username);
+        },
+
+        onUserRemoved : function(data) {
+            $("li#"+data.id).slideUp().remove();
         },
 
         play : function() {

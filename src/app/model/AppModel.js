@@ -68,11 +68,15 @@ var AppModel = module.exports = Backbone.Model.extend({
         var nb = this.getNoiseBox(id);
 
         nb.users.on("add",function (nbUserModel) {
-            this.trigger(constants.USER_ADDED,nbUserModel);
+            this.trigger(constants.USER_ADDED,nbUserModel, constants.USER_ADDED);
+        },this);
+
+        nb.users.on("change",function (nbUserModel) {
+            this.trigger(constants.USER_UPDATED,nbUserModel, constants.USER_UPDATED);
         },this);
 
         nb.users.on("remove",function (nbUserModel) {
-            this.trigger(constants.USER_REMOVED,nbUserModel);
+            this.trigger(constants.USER_REMOVED,nbUserModel, constants.USER_REMOVED);
         },this);
 
         nb.hosts.on("add",function (nbHostModel) {

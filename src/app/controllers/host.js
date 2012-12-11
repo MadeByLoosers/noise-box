@@ -87,7 +87,11 @@ module.exports = function () {
 
     model.on(constants.USER_ADDED,updateNoiseBoxStats);
     model.on(constants.USER_REMOVED,updateNoiseBoxStats);
+    model.on(constants.USER_ADDED,userChanged);
+    model.on(constants.USER_UPDATED,userChanged);
+    model.on(constants.USER_REMOVED,userChanged);
     model.on(constants.HOST_ADDED,updateNoiseBoxStats);
+    model.on(constants.HOST_ADDED,listUsers);
     model.on(constants.HOST_REMOVED,updateNoiseBoxStats);
     model.on(constants.TRACK_ADDED,trackAdded);
     model.on(constants.TRACK_REMOVED,trackRemoved);
@@ -184,6 +188,41 @@ module.exports = function () {
             host.get("socket").emit(constants.SERVER_NOISE_BOX_STATS_UPDATED,{numHosts:nb.hosts.length,numUsers:nb.users.length});
         });
     }
+
+
+    /**
+     * When a NoiseBox host is added, list any users who are already connected
+     *
+     * @param nbClient NBHost instance that has been added
+     */
+    function listUsers (nbHost) {
+
+        var nb = model.getNoiseBox(nbHost.get("parentNoiseBoxID"));
+
+        if ( !nb ) { return; }
+
+        nb.users.each(function (user) {
+            nbHost.get("socket").emit(constants.USER_ADDED, {username: user.get("username"), id: user.get("id")});
+        });
+    }
+
+
+    /**
+     * A NoiseBox user has been added/updated/removed so we need to update the username list
+     *
+     * @param nbClient NBUser instance that has been added/updated/removed
+     */
+    function userChanged (nbUser, eventType) {
+
+        var nb = model.getNoiseBox(nbUser.get("parentNoiseBoxID"));
+
+        if ( !nb ) { return; }
+
+        nb.hosts.each(function (host) {
+            host.get("socket").emit(eventType, {username: nbUser.get("username"), id: nbUser.get("id")});
+        });
+    }
+
 
     /**
      * Validate a NoiseBox id.

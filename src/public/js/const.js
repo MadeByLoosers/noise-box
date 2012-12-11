@@ -34,6 +34,7 @@ var Const = {
     HOST_ADDED : "hostAdded",
     HOST_REMOVED : "hostRemoved",
     USER_ADDED : "userAdded",
+    USER_UPDATED : "userUpdated",
     USER_REMOVED : "userRemoved",
     TRACK_ADDED : "trackAdded",
     TRACK_REMOVED : "trackRemoved",
