@@ -32,9 +32,29 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
             this.emit(Const.USER_CLICKED_TRACK,{track:event.target.href});
         },
 
+        updateUsernameField : function(data) {
+
+            var username = data.username || "new user",
+                changed = false;
+
+            if (!!window.localStorage && !!window.localStorage.username) {
+                username = window.localStorage.username;
+                changed = true;
+            }
+
+            this.usernameField.val(username);
+
+            if (!!data.cid) { $("#cid").val(data.cid); } //TEMP
+            if (!!data.userid) { $("#userid").val(data.userid); } //TEMP
+
+            if (changed) {
+                $("#username-form").submit();
+            }
+        },
+
         onUsernameUpdate : function (event) {
 
-            event.preventDefault();
+            if (!!event) { event.preventDefault(); }
 
             this.emit(Const.USER_NAME_UPDATE,{
                 username : this.usernameField.val(),
@@ -42,14 +62,11 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
                 cid : $("#cid").val(),
                 userid: $("#userid").val()
             });
-        },
 
-        updateUsernameField : function(data) {
-
-            this.usernameField.val(data.username);
-
-            $("#cid").val(data.cid); //TEMP
-            $("#userid").val(data.userid); //TEMP
+            if (!!window.localStorage) {
+                window.localStorage.username = this.usernameField.val();
+                console.log("onUsernameUpdate", this.usernameField.val());
+            }
         },
 
         onConnect : function () {
