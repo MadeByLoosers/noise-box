@@ -35,7 +35,10 @@ module.exports = function () {
                 title: id + " | " + res.templateOptions.title,
                 clientType : constants.TYPE_USER,
                 id : id,
-                files : files
+                files : files,
+                username : "",
+                cid : "",
+                userid: ""
             });
 
             res.render(constants.TYPE_USER,res.templateOptions);
@@ -57,7 +60,13 @@ module.exports = function () {
         socket.on(constants.USER_CLICKED_TRACK,function (data) {
             onUserClickedTrack(data,socket);
         });
+
+        socket.on(constants.USER_NAME_UPDATE,function (data) {
+            onUserNameUpdate(data,socket);
+        });
     });
+
+
 
     /**
      * Called when a user client socket has connected.
@@ -67,13 +76,18 @@ module.exports = function () {
      */
     function onConnect (data,socket) {
 
-        var nb = model.getNoiseBox(data.id);
+        var nb = model.getNoiseBox(data.id),
+            newUser;
 
         if ( !nb ) { return; }
 
         console.log("Created user '%s' for NoiseBox '%s'",socket.id,nb.id);
 
-        nb.addUser(socket.id,socket);
+        newUser = nb.addUser(socket.id,socket);
+
+        socket.emit(constants.USER_ADDED,{
+                username: newUser.get("username"), cid:newUser.cid, userid:newUser.get("id")
+        });
     }
 
     /**
@@ -113,5 +127,23 @@ module.exports = function () {
         console.log("User '%s' clicked track '%s' in NoiseBox '%s'",socket.id,data.track,data.id);
 
         nb.addTrack(data.track);
+    }
+
+
+    /**
+     * A user has updated their username, so update the relevant NoiseBox user's property in the model.
+     *
+     * @param data Data object sent from the client.
+     * @param socket Socket instance that has disconnected.
+     */
+    function onUserNameUpdate (data, socket) {
+
+        var nb = model.getNoiseBox(data.id),
+            user;
+
+        if ( !nb ) { return; }
+
+        user = nb.getUser(data.userid);
+        user.updateUsername(data.username);
     }
 };

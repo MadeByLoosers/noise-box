@@ -57,7 +57,8 @@ var Const = {
     HOME_CONNECT : "homeConnect",
     HOST_CONNECT : "hostConnect",
     USER_CONNECT : "userConnect",
-    USER_CLICKED_TRACK : "userClickedTrack"
+    USER_CLICKED_TRACK : "userClickedTrack",
+    USER_NAME_UPDATE : "userNameUpdate"
 };
 
 if ( typeof module !== "undefined" && module.exports ) {

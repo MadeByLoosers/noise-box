@@ -9,3 +9,20 @@
         </ul>
     <% }); %>
 </section>
+<form id="username-form">
+  <fieldset>
+    <legend>Update your username</legend>
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" value="<%= username %>" />
+
+    <label for="userid">userid</label>
+    <input type="text" readonly id="userid" name="userid" value="<%= userid %>" />
+
+    <label for="cid">cid</label>
+    <input type="text" readonly id="cid" name="cid" value="<%= cid %>" />
+
+    <label for="id">id (room)</label>
+    <input type="text" readonly id="id" name="id" value="<%= id %>" />
+    <input type="submit" />
+  </fieldset>
+</form>
