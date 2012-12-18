@@ -17,11 +17,7 @@ var NBModel = module.exports = Backbone.Model.extend({
         this.users  = new NBUserCollection();
         this.hosts  = new NBHostCollection();
 
-        this.log = new NBLogModel();
-
-        this.log.add({
-            eventType:"noisebox-created"
-        });
+        this.log = new NBLogModel(this);
     },
 
     clientExists : function (id) {
@@ -33,10 +29,6 @@ var NBModel = module.exports = Backbone.Model.extend({
 
         this.hosts.add({id:id,socket:socket,parentNoiseBoxID:this.id});
 
-        this.log.add({
-            eventType:"host-added"
-        });
-
         return this.hosts.get(id);
     },
 
@@ -44,9 +36,6 @@ var NBModel = module.exports = Backbone.Model.extend({
 
         this.hosts.remove(this.getHost(id));
 
-        this.log.add({
-            eventType:"host-removed"
-        });
     },
 
     getHost : function (id) {
@@ -78,11 +67,6 @@ var NBModel = module.exports = Backbone.Model.extend({
 
         this.users.add({id:id,socket:socket,parentNoiseBoxID:this.id});
 
-        this.log.add({
-            eventType:"user-added",
-            user: "[user]"
-        });
-
         return this.users.get(id);
     },
 
@@ -90,10 +74,6 @@ var NBModel = module.exports = Backbone.Model.extend({
 
         this.users.remove(this.getUser(id));
 
-        this.log.add({
-            eventType:"user-removed",
-            user: "[user]"
-        });
     },
 
     getUser : function (id) {
@@ -122,32 +102,17 @@ var NBModel = module.exports = Backbone.Model.extend({
     },
 
     updateUsername : function (userModel, newUsername) {
-        userModel.updateUsername(newUsername);
 
-        this.log.add({
-            user: userModel.get("user"),
-            detail: newUsername,
-            eventType: "username-updated"
-        });
+        userModel.updateUsername(newUsername);
     },
 
     addTrack : function(track) {
-        this.tracks.add(track);
 
-        this.log.add({
-            user: track.user,
-            detail: track.track,
-            eventType: "track-added",
-            datetime: track.datetime
-        });
+        this.tracks.add(track);
     },
 
     removeTrack : function(track) {
 
         this.tracks.remove(track);
-
-        this.log.add({
-            eventType:"track-removed"
-        });
     }
 });
