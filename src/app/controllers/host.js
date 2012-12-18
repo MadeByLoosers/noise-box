@@ -95,6 +95,7 @@ module.exports = function () {
     model.on(constants.HOST_REMOVED,updateNoiseBoxStats);
     model.on(constants.TRACK_ADDED,trackAdded);
     model.on(constants.TRACK_REMOVED,trackRemoved);
+    model.on(constants.LOG_UPDATED,logUpdated);
 
     /**
      * Called when a host client socket has connected.
@@ -222,6 +223,21 @@ module.exports = function () {
 
         nb.hosts.each(function (host) {
             host.get("socket").emit(eventType, {username: nbUser.get("username"), id: nbUser.get("id")});
+        });
+    }
+
+
+    /**
+     * A NoiseBox log has been updated, so emit the latest log changes
+     *
+     * @param item the log item
+     * @param nbLog NBLog instance that has been updated
+     * @param nb NB instance
+     */
+    function logUpdated (item, nbLog, nb) {
+
+        nb.hosts.each(function (host) {
+            host.get("socket").emit(constants.LOG_UPDATED, item);
         });
     }
 

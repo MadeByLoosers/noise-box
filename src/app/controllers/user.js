@@ -151,6 +151,6 @@ module.exports = function () {
         if ( !nb ) { return; }
 
         user = nb.getUser(data.userid);
-        user.updateUsername(data.username);
+        nb.updateUsername(user, data.username);
     }
 };

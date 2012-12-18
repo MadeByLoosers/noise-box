@@ -95,6 +95,10 @@ var AppModel = module.exports = Backbone.Model.extend({
             this.trigger(constants.TRACK_REMOVED,nbTrackModel, nb);
         },this);
 
+        nb.log.on("change",function (item, nbLog) {
+            this.trigger(constants.LOG_UPDATED, item, nbLog, nb);
+        }, this);
+
         return nb;
     },
 

@@ -38,6 +38,7 @@ var Const = {
     USER_REMOVED : "userRemoved",
     TRACK_ADDED : "trackAdded",
     TRACK_REMOVED : "trackRemoved",
+    LOG_UPDATED : "logUpdated",
 
     // Socket.io events
 

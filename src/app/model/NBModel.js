@@ -2,6 +2,7 @@ var Backbone = require("backbone");
 var NBTrackCollection = require("./NBTrackCollection");
 var NBUserCollection = require("./NBUserCollection");
 var NBHostCollection = require("./NBHostCollection");
+var NBLogModel = require("./NBLogModel");
 var server = require("./../../server");
 var constants = server.constants;
 
@@ -15,6 +16,12 @@ var NBModel = module.exports = Backbone.Model.extend({
         this.tracks = new NBTrackCollection();
         this.users  = new NBUserCollection();
         this.hosts  = new NBHostCollection();
+
+        this.log = new NBLogModel();
+
+        this.log.add({
+            eventType:"noisebox-created"
+        });
     },
 
     clientExists : function (id) {
@@ -26,12 +33,20 @@ var NBModel = module.exports = Backbone.Model.extend({
 
         this.hosts.add({id:id,socket:socket,parentNoiseBoxID:this.id});
 
+        this.log.add({
+            eventType:"host-added"
+        });
+
         return this.hosts.get(id);
     },
 
     removeHost : function (id) {
 
         this.hosts.remove(this.getHost(id));
+
+        this.log.add({
+            eventType:"host-removed"
+        });
     },
 
     getHost : function (id) {
@@ -63,12 +78,22 @@ var NBModel = module.exports = Backbone.Model.extend({
 
         this.users.add({id:id,socket:socket,parentNoiseBoxID:this.id});
 
+        this.log.add({
+            eventType:"user-added",
+            user: "[user]"
+        });
+
         return this.users.get(id);
     },
 
     removeUser : function (id) {
 
         this.users.remove(this.getUser(id));
+
+        this.log.add({
+            eventType:"user-removed",
+            user: "[user]"
+        });
     },
 
     getUser : function (id) {
@@ -96,13 +121,33 @@ var NBModel = module.exports = Backbone.Model.extend({
         return this.getUser(id) !== undefined;
     },
 
-    addTrack : function(track) {
+    updateUsername : function (userModel, newUsername) {
+        userModel.updateUsername(newUsername);
 
+        this.log.add({
+            user: userModel.get("user"),
+            detail: newUsername,
+            eventType: "username-updated"
+        });
+    },
+
+    addTrack : function(track) {
         this.tracks.add(track);
+
+        this.log.add({
+            user: track.user,
+            detail: track.track,
+            eventType: "track-added",
+            datetime: track.datetime
+        });
     },
 
     removeTrack : function(track) {
 
         this.tracks.remove(track);
+
+        this.log.add({
+            eventType:"track-removed"
+        });
     }
 });

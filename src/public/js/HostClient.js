@@ -20,6 +20,7 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
         playQueueEl : null,
         currentlyPlayingEl : null,
         userListEl : null,
+        logEl : null,
 
         init : function () {
 
@@ -33,9 +34,12 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
             this.on(Const.USER_UPDATED,this.onUserUpdated);
             this.on(Const.USER_REMOVED,this.onUserRemoved);
 
+            this.on(Const.LOG_UPDATED,this.onLogUpdated);
+
             this.playQueueEl = $("#play-queue ol");
             this.currentlyPlayingEl = $("#currently-playing p");
             this.userListEl = $("#users");
+            this.logEl = $("#log ul");
         },
 
         onConnect : function () {
@@ -95,6 +99,25 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
 
         onUserRemoved : function(data) {
             $("li#"+data.id).slideUp().remove();
+        },
+
+        onLogUpdated : function (item) {
+
+            var log = "["+item.eventType+"] ";
+
+            if (item && item.detail) {
+                log += "["+item.detail+"] ";
+            }
+
+            if (item && item.user) {
+                log += "["+item.user+"] ";
+            }
+
+            log += " ("+item.datetime+")";
+
+            $("<li />")
+                .text(log)
+                .appendTo(this.logEl);
         },
 
         play : function() {
