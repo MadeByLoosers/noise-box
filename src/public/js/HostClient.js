@@ -11,35 +11,10 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
 
         audioElement : null,
 
-        playQueue : [],
-
-        users : [],
-
-        currentTrack : null,
-
-        playQueueEl : null,
-        currentlyPlayingEl : null,
-        userListEl : null,
-        logEl : null,
-
         init : function () {
 
             this._super();
 
-            this.on(Const.SERVER_NOISE_BOX_STATS_UPDATED,this.onNoiseBoxStatsUpdated);
-            this.on(Const.SERVER_ADD_TRACK,this.onServerAddTrack);
-            this.on(Const.SERVER_REMOVE_TRACK,this.onServerRemoveTrack);
-
-            this.on(Const.USER_ADDED,this.onUserAdded);
-            this.on(Const.USER_UPDATED,this.onUserUpdated);
-            this.on(Const.USER_REMOVED,this.onUserRemoved);
-
-            this.on(Const.LOG_UPDATED,this.onLogUpdated);
-
-            this.playQueueEl = $("#play-queue ol");
-            this.currentlyPlayingEl = $("#currently-playing p");
-            this.userListEl = $("#users");
-            this.logEl = $("#log ul");
         },
 
         onConnect : function () {
@@ -49,6 +24,7 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
             this.emit(Const.HOST_CONNECT);
         },
 
+
         onServerAddTrack : function (data) {
 
             console.log(data);
@@ -56,17 +32,9 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
             this.playQueue.push(data);
             this.play();
 
-            $("<li />")
-                .attr("id", data.cid)
-                .text(data.user + " added the track " + data.track + " on " + data.datetime)
-                .hide()
-                .slideDown()
-                .appendTo(this.playQueueEl);
+            this._super(data);
         },
 
-        onServerRemoveTrack : function (data) {
-            console.log("* remove track *");
-        },
 
         onTrackComplete : function () {
 
@@ -80,45 +48,6 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
             }
         },
 
-        onNoiseBoxStatsUpdated : function (data) {
-
-            $(".hosts-stats-value").text(data.numHosts);
-            $(".users-stats-value").text(data.numUsers);
-        },
-
-        onUserAdded : function(data) {
-            $("<li />")
-                .attr("id", data.id)
-                .text(data.username)
-                .appendTo(this.userListEl);
-        },
-
-        onUserUpdated : function(data) {
-            $("li#"+data.id).text(data.username);
-        },
-
-        onUserRemoved : function(data) {
-            $("li#"+data.id).slideUp().remove();
-        },
-
-        onLogUpdated : function (item) {
-
-            var log = "["+item.eventType+"] ";
-
-            if (item && item.detail) {
-                log += "["+item.detail+"] ";
-            }
-
-            if (item && item.user) {
-                log += "["+item.user+"] ";
-            }
-
-            log += " ("+item.datetime+")";
-
-            $("<li />")
-                .text(log)
-                .appendTo(this.logEl);
-        },
 
         play : function() {
 
