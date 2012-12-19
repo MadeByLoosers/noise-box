@@ -16,7 +16,6 @@ define(["constants","jquery","underscore","sji"], function (Const) {
         host : "",
         env : "",
 
-        currentTrack : null,
         playQueue : [],
         users : [],
 
@@ -55,6 +54,9 @@ define(["constants","jquery","underscore","sji"], function (Const) {
 
             this.on(Const.LOG_UPDATED,this.onLogUpdated);
 
+            this.on(Const.HOST_TRACK_PLAYING,this.onHostTrackPlaying);
+            this.on(Const.HOST_TRACK_COMPLETE,this.onHostTrackComplete);
+
             this.playQueueEl = $("#play-queue ol");
             this.currentlyPlayingEl = $("#currently-playing p");
             this.userListEl = $("#users");
@@ -90,6 +92,16 @@ define(["constants","jquery","underscore","sji"], function (Const) {
                 .hide()
                 .slideDown()
                 .appendTo(this.playQueueEl);
+        },
+
+        onHostTrackPlaying : function (track) {
+            this.currentlyPlayingEl.text(track.track);
+        },
+
+        onHostTrackComplete : function (track) {
+            console.log("complete",track);
+            this.playQueueEl.find("li#"+track.cid).slideUp().remove();
+            this.currentlyPlayingEl.text("");
         },
 
         onServerRemoveTrack : function (data) {

@@ -44,7 +44,6 @@ var AbstractController = {
     },
 
 
-
     /**
      * A NoiseBox track has been removed, so loop through the box's hosts and tell them to
      * each remove the track.
@@ -64,6 +63,55 @@ var AbstractController = {
             user.get("socket").emit(constants.SERVER_REMOVE_TRACK,{track:nbTrackModel.get("track")});
         });
     },
+
+
+    /**
+     * A NoiseBox track is playing, so loop through the box's hosts and tell them
+     *
+     * @param nbTrackModel The NBTrackModel instance which has its track property
+     * @param nb The NBModel instance
+     */
+    trackPlaying : function (data) {
+
+        var nb = model.getNoiseBox(data.id);
+
+        if ( !nb ) { return; }
+
+        nb.hosts.each(function (host) {
+
+            host.get("socket").emit(constants.HOST_TRACK_PLAYING,data);
+        });
+
+        nb.users.each(function (user) {
+
+            user.get("socket").emit(constants.HOST_TRACK_PLAYING,data);
+        });
+    },
+
+
+    /**
+     * A NoiseBox track is playing, so loop through the box's hosts and tell them
+     *
+     * @param nbTrackModel The NBTrackModel instance which has its track property
+     * @param nb The NBModel instance
+     */
+    trackComplete : function (data) {
+
+        var nb = model.getNoiseBox(data.id);
+
+        if ( !nb ) { return; }
+
+        nb.hosts.each(function (host) {
+
+            host.get("socket").emit(constants.HOST_TRACK_COMPLETE, data);
+        });
+
+        nb.users.each(function (user) {
+
+            user.get("socket").emit(constants.HOST_TRACK_COMPLETE, data);
+        });
+    },
+
 
 
     /**

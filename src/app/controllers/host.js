@@ -94,6 +94,14 @@ var HostController = {
 
         io.sockets.on(constants.CLIENT_SOCKET_CONNECTION,function (socket) {
 
+            socket.on(constants.HOST_TRACK_PLAYING,function(data) {
+                AbstractController.trackPlaying(data);
+            });
+
+            socket.on(constants.HOST_TRACK_COMPLETE,function(data) {
+                AbstractController.trackComplete(data);
+            });
+
             socket.on(constants.HOST_CONNECT,function (data) {
                 HostController.onConnect(data,socket);
             });

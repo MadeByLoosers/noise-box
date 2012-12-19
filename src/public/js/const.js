@@ -59,7 +59,10 @@ var Const = {
     HOST_CONNECT : "hostConnect",
     USER_CONNECT : "userConnect",
     USER_CLICKED_TRACK : "userClickedTrack",
-    USER_NAME_UPDATE : "userNameUpdate"
+    USER_NAME_UPDATE : "userNameUpdate",
+    HOST_TRACK_PLAYING : "trackPlaying",
+    HOST_TRACK_COMPLETE : "trackComplete"
+
 };
 
 if ( typeof module !== "undefined" && module.exports ) {

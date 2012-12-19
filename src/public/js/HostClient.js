@@ -9,6 +9,7 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
 
     return AbstractClient.extend({
 
+        currentTrack : null,
         audioElement : null,
 
         init : function () {
@@ -38,8 +39,7 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
 
         onTrackComplete : function () {
 
-            this.playQueueEl.find("li#"+this.currentTrack.cid).slideUp().remove();
-            this.currentlyPlayingEl.text("");
+            this.emit(Const.HOST_TRACK_COMPLETE,this.currentTrack);
 
             this.currentTrack = null;
 
@@ -54,6 +54,8 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
             if (!this.currentTrack) {
 
                 this.currentTrack = this.playQueue.shift();
+
+                this.emit(Const.HOST_TRACK_PLAYING,this.currentTrack);
 
                 // need to create a new audio element each time
                 // can't just change the src of an existing element
@@ -72,7 +74,6 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
 
                 this.audioElement.on('ended', $.proxy(this.onTrackComplete, this) );
 
-                this.currentlyPlayingEl.text(this.currentTrack.track);
             }
         }
     });
