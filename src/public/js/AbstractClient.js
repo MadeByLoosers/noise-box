@@ -99,7 +99,6 @@ define(["constants","jquery","underscore","sji"], function (Const) {
         },
 
         onHostTrackComplete : function (track) {
-            console.log("complete",track);
             this.playQueueEl.find("li#"+track.cid).slideUp().remove();
             this.currentlyPlayingEl.text("");
         },
