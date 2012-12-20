@@ -58,6 +58,7 @@ var Const = {
     HOME_CONNECT : "homeConnect",
     HOST_CONNECT : "hostConnect",
     USER_CONNECT : "userConnect",
+    USER_CHANGED : "userChanged",
     USER_CLICKED_TRACK : "userClickedTrack",
     USER_NAME_UPDATE : "userNameUpdate",
     HOST_TRACK_PLAYING : "trackPlaying",

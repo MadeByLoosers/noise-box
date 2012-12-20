@@ -48,9 +48,7 @@ define(["constants","jquery","underscore","sji"], function (Const) {
             this.on(Const.SERVER_ADD_TRACK,this.onServerAddTrack);
             this.on(Const.SERVER_REMOVE_TRACK,this.onServerRemoveTrack);
 
-            this.on(Const.USER_ADDED,this.onUserAdded);
-            this.on(Const.USER_UPDATED,this.onUserUpdated);
-            this.on(Const.USER_REMOVED,this.onUserRemoved);
+            this.on(Const.USER_CHANGED,this.onUserChanged);
 
             this.on(Const.LOG_UPDATED,this.onLogUpdated);
 
@@ -113,7 +111,22 @@ define(["constants","jquery","underscore","sji"], function (Const) {
             $(".users-stats-value").text(data.numUsers);
         },
 
+        onUserChanged : function(data) {
+            switch(data.eventType) {
+                case Const.USER_ADDED:
+                    this.onUserAdded(data);
+                break;
+                case Const.USER_UPDATED:
+                    this.onUserUpdated(data);
+                break;
+                case Const.USER_REMOVED:
+                    this.onUserRemoved(data);
+                break;
+            }
+        },
+
         onUserAdded : function(data) {
+            if ($("li#"+data.id).length > 0) { return; }
             $("<li />")
                 .attr("id", data.id)
                 .text(data.username)

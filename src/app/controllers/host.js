@@ -29,6 +29,7 @@ var HostController = {
         model.on(constants.USER_REMOVED,this.userChanged);
         model.on(constants.HOST_ADDED,this.updateNoiseBoxStats);
         model.on(constants.HOST_ADDED,this.listUsers);
+        model.on(constants.USER_ADDED,this.listUsers);
         model.on(constants.HOST_REMOVED,this.updateNoiseBoxStats);
         model.on(constants.TRACK_ADDED,this.trackAdded);
         model.on(constants.TRACK_REMOVED,this.trackRemoved);

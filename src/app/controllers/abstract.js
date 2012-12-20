@@ -150,7 +150,11 @@ var AbstractController = {
         if ( !nb ) { return; }
 
         nb.users.each(function (user) {
-            nbHost.get("socket").emit(constants.USER_ADDED, {username: user.get("username"), id: user.get("id")});
+            nbHost.get("socket").emit(constants.USER_CHANGED, {
+                username: user.get("username"),
+                id: user.get("id"),
+                eventType:constants.USER_ADDED
+            });
         });
     },
 
@@ -167,7 +171,19 @@ var AbstractController = {
         if ( !nb ) { return; }
 
         nb.hosts.each(function (host) {
-            host.get("socket").emit(eventType, {username: nbUser.get("username"), id: nbUser.get("id")});
+            host.get("socket").emit(constants.USER_CHANGED, {
+                username: nbUser.get("username"),
+                id: nbUser.get("id"),
+                eventType: eventType
+            });
+        });
+
+        nb.users.each(function (user) {
+            user.get("socket").emit(constants.USER_CHANGED, {
+                username: nbUser.get("username"),
+                id: nbUser.get("id"),
+                eventType: eventType
+            });
         });
     },
 
