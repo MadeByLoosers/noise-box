@@ -62,7 +62,8 @@ var Const = {
     USER_CLICKED_TRACK : "userClickedTrack",
     USER_NAME_UPDATE : "userNameUpdate",
     HOST_TRACK_PLAYING : "trackPlaying",
-    HOST_TRACK_COMPLETE : "trackComplete"
+    HOST_TRACK_COMPLETE : "trackComplete",
+    CHAT_MESSAGE_SENT : "chatMessageSent"
 
 };
 

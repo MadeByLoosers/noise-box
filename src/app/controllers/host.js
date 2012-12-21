@@ -95,6 +95,10 @@ var HostController = {
 
         io.sockets.on(constants.CLIENT_SOCKET_CONNECTION,function (socket) {
 
+            socket.on(constants.CHAT_MESSAGE_SENT,function(data) {
+                AbstractController.chatMessageSent(data);
+            });
+
             socket.on(constants.HOST_TRACK_PLAYING,function(data) {
                 AbstractController.trackPlaying(data);
             });

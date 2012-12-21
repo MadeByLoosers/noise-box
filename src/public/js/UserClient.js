@@ -10,6 +10,7 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
     return AbstractClient.extend({
 
         usernameField : null,
+        chatField : null,
         user : {
             id : "",
             username : "",
@@ -25,7 +26,10 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
 
             $("#username-form").on("submit", _.bind(this.onUsernameUpdate,this));
 
+            $("#chat-form").on("submit", _.bind(this.onChatMessage,this));
+
             this.usernameField = $("#username");
+            this.chatField = $("#chat-text");
 
             this.on(Const.USER_ADDED,this.updateUsernameField);
             this.on(Const.USER_UPDATED,this.updateUsernameField);
@@ -80,6 +84,20 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
                 window.localStorage.username = this.user.username;
             }
         },
+
+
+        onChatMessage : function (event) {
+
+            if (!!event) { event.preventDefault(); }
+
+            if (this.chatField.val().length > 0) {
+
+                this.emit(Const.CHAT_MESSAGE_SENT, { message: this.chatField.val(), user: this.user});
+                this.chatField.val("");
+            }
+
+        },
+
 
         onConnect : function () {
 

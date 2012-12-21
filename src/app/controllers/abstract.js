@@ -12,6 +12,7 @@ var model = server.model;
 var constants = server.constants;
 var templateOptions = require("./../middleware/template-options");
 var stats = require("./../middleware/stats");
+var moment = require("./../lib/moment");
 
 var AbstractController = {
 
@@ -196,6 +197,34 @@ var AbstractController = {
      * @param nb NB instance
      */
     logUpdated : function (item, nbLog, nb) {
+
+        nb.hosts.each(function (host) {
+            host.get("socket").emit(constants.LOG_UPDATED, item);
+        });
+
+        nb.users.each(function (user) {
+            user.get("socket").emit(constants.LOG_UPDATED, item);
+        });
+    },
+
+
+    /**
+     * A Chat message has been added, add it to the log
+     *
+     */
+    chatMessageSent : function (data) {
+
+        var nb = model.getNoiseBox(data.user.id),
+            item;
+
+        if ( !nb ) { return; }
+
+        item = {
+            user : data.user.username,
+            detail: data.message,
+            eventType: "chat",
+            datetime: moment().format("YYYY-MM-DD hh:mm:ss")
+        };
 
         nb.hosts.each(function (host) {
             host.get("socket").emit(constants.LOG_UPDATED, item);
