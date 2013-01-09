@@ -20,6 +20,7 @@ module.exports = function () {
 
             clientType : "",
             title : constants.APP_TITLE,
+            heading : constants.APP_TITLE,
             host : "http://"+req.headers.host,
             env : server.env,
             id : "",

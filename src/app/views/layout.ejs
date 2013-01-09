@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8" />
         <title><%= title %></title>
         <link rel="stylesheet" href="/css/style.css" />
     </head>
@@ -9,7 +10,7 @@
             <div id="flashMessage" class="hidden">
                 <p><%= flashMessage %></p>
             </div>
-            <h1><a href="/"><%= title %></a></h1>
+            <h1><a href="/"><%= heading %></a></h1>
             <%- body %>
         </div>
         <script src="/socket.io/socket.io.js"></script>

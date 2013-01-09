@@ -9,25 +9,13 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
 
     return AbstractClient.extend({
 
-        audioElement : null,
-
-        playQueue : [],
-
         currentTrack : null,
-
-        playQueueEl : null,
-        currentlyPlayingEl : null,
+        audioElement : null,
 
         init : function () {
 
             this._super();
 
-            this.on(Const.SERVER_NOISE_BOX_STATS_UPDATED,this.onNoiseBoxStatsUpdated);
-            this.on(Const.SERVER_ADD_TRACK,this.onServerAddTrack);
-            this.on(Const.SERVER_REMOVE_TRACK,this.onServerRemoveTrack);
-
-            this.playQueueEl = $("#play-queue ol");
-            this.currentlyPlayingEl = $("#currently-playing p");
         },
 
         onConnect : function () {
@@ -37,27 +25,21 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
             this.emit(Const.HOST_CONNECT);
         },
 
+
         onServerAddTrack : function (data) {
+
+            console.log(data);
 
             this.playQueue.push(data);
             this.play();
 
-            $("<li />")
-                .attr("id", data.cid)
-                .text(data.track)
-                .hide()
-                .slideDown()
-                .appendTo(this.playQueueEl);
+            this._super(data);
         },
 
-        onServerRemoveTrack : function (data) {
-            console.log("* remove track *");
-        },
 
         onTrackComplete : function () {
 
-            this.playQueueEl.find("li#"+this.currentTrack.cid).slideUp().remove();
-            this.currentlyPlayingEl.text("");
+            this.emit(Const.HOST_TRACK_COMPLETE,this.currentTrack);
 
             this.currentTrack = null;
 
@@ -66,17 +48,14 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
             }
         },
 
-        onNoiseBoxStatsUpdated : function (data) {
-
-            $(".hosts-stats-value").text(data.numHosts);
-            $(".users-stats-value").text(data.numUsers);
-        },
 
         play : function() {
 
             if (!this.currentTrack) {
 
                 this.currentTrack = this.playQueue.shift();
+
+                this.emit(Const.HOST_TRACK_PLAYING,this.currentTrack);
 
                 // need to create a new audio element each time
                 // can't just change the src of an existing element
@@ -95,7 +74,6 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
 
                 this.audioElement.on('ended', $.proxy(this.onTrackComplete, this) );
 
-                this.currentlyPlayingEl.text(this.currentTrack.track);
             }
         }
     });

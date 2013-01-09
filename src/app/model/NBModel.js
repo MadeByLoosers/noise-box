@@ -2,6 +2,7 @@ var Backbone = require("backbone");
 var NBTrackCollection = require("./NBTrackCollection");
 var NBUserCollection = require("./NBUserCollection");
 var NBHostCollection = require("./NBHostCollection");
+var NBLogModel = require("./NBLogModel");
 var server = require("./../../server");
 var constants = server.constants;
 
@@ -15,6 +16,8 @@ var NBModel = module.exports = Backbone.Model.extend({
         this.tracks = new NBTrackCollection();
         this.users  = new NBUserCollection();
         this.hosts  = new NBHostCollection();
+
+        this.log = new NBLogModel(this);
     },
 
     clientExists : function (id) {
@@ -32,6 +35,7 @@ var NBModel = module.exports = Backbone.Model.extend({
     removeHost : function (id) {
 
         this.hosts.remove(this.getHost(id));
+
     },
 
     getHost : function (id) {
@@ -69,6 +73,7 @@ var NBModel = module.exports = Backbone.Model.extend({
     removeUser : function (id) {
 
         this.users.remove(this.getUser(id));
+
     },
 
     getUser : function (id) {
@@ -96,9 +101,14 @@ var NBModel = module.exports = Backbone.Model.extend({
         return this.getUser(id) !== undefined;
     },
 
+    updateUsername : function (userModel, newUsername) {
+
+        userModel.updateUsername(newUsername);
+    },
+
     addTrack : function(track) {
 
-        this.tracks.add({track:track});
+        this.tracks.add(track);
     },
 
     removeTrack : function(track) {

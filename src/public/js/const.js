@@ -34,9 +34,11 @@ var Const = {
     HOST_ADDED : "hostAdded",
     HOST_REMOVED : "hostRemoved",
     USER_ADDED : "userAdded",
+    USER_UPDATED : "userUpdated",
     USER_REMOVED : "userRemoved",
     TRACK_ADDED : "trackAdded",
     TRACK_REMOVED : "trackRemoved",
+    LOG_UPDATED : "logUpdated",
 
     // Socket.io events
 
@@ -56,7 +58,13 @@ var Const = {
     HOME_CONNECT : "homeConnect",
     HOST_CONNECT : "hostConnect",
     USER_CONNECT : "userConnect",
-    USER_CLICKED_TRACK : "userClickedTrack"
+    USER_CHANGED : "userChanged",
+    USER_CLICKED_TRACK : "userClickedTrack",
+    USER_NAME_UPDATE : "userNameUpdate",
+    HOST_TRACK_PLAYING : "trackPlaying",
+    HOST_TRACK_COMPLETE : "trackComplete",
+    CHAT_MESSAGE_SENT : "chatMessageSent"
+
 };
 
 if ( typeof module !== "undefined" && module.exports ) {

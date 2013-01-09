@@ -63,6 +63,9 @@ module.exports.model = new AppModel();
 
 // Init controllers:
 
-require("./app/controllers/home")();
-require("./app/controllers/host")();
-require("./app/controllers/user")();
+var HomeController = require("./app/controllers/home");
+var HostController = require("./app/controllers/host");
+var UserController = require("./app/controllers/user");
+HomeController();
+HostController.init();
+UserController.init();

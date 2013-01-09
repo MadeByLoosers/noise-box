@@ -12,93 +12,118 @@ var model = server.model;
 var constants = server.constants;
 var templateOptions = require("./../middleware/template-options");
 var stats = require("./../middleware/stats");
+var AbstractController = require("./abstract.js");
+var _ = require("underscore");
 
-module.exports = function () {
 
-    // Map route to middleware and rendering function:
+var HostController = {
 
-    app.get("/host/:id",templateOptions(),stats(),function (req,res) {
+    init : function() {
 
-        var id = req.params.id;
+        // listen for model changes
 
-        if ( !model.noiseBoxExists(id) ) {
+        model.on(constants.USER_ADDED,this.updateNoiseBoxStats);
+        model.on(constants.USER_REMOVED,this.updateNoiseBoxStats);
+        model.on(constants.USER_ADDED,this.userChanged);
+        model.on(constants.USER_UPDATED,this.userChanged);
+        model.on(constants.USER_REMOVED,this.userChanged);
+        model.on(constants.HOST_ADDED,this.updateNoiseBoxStats);
+        model.on(constants.HOST_ADDED,this.listUsers);
+        model.on(constants.USER_ADDED,this.listUsers);
+        model.on(constants.HOST_REMOVED,this.updateNoiseBoxStats);
+        model.on(constants.TRACK_ADDED,this.trackAdded);
+        model.on(constants.TRACK_REMOVED,this.trackRemoved);
+        model.on(constants.LOG_UPDATED,this.logUpdated);
 
-            req.session.flashMessage = "NoiseBox '"+id+"' does not exist.";
-            res.redirect("/");
-            return;
-        }
 
-        res.extendTemplateOptions({
+        // Map route to middleware and rendering function:
 
-            clientType:constants.TYPE_HOST,
-            userURL : res.templateOptions.host+"/"+id,
-            id : id
+        app.get("/host/:id",templateOptions(),stats(),function (req,res) {
+
+            var id = req.params.id;
+
+            if ( !model.noiseBoxExists(id) ) {
+
+                req.session.flashMessage = "NoiseBox '"+id+"' does not exist.";
+                res.redirect("/");
+                return;
+            }
+
+            res.extendTemplateOptions({
+                title: "Hosting " + id + " | " + res.templateOptions.title,
+                clientType:constants.TYPE_HOST,
+                userURL : res.templateOptions.host+"/"+id,
+                id : id
+            });
+
+            res.render(constants.TYPE_HOST,res.templateOptions);
         });
 
-        res.render(constants.TYPE_HOST,res.templateOptions);
-    });
+        app.post("/host",function (req,res) {
 
-    app.post("/host",function (req,res) {
+            var id = req.body.id;
 
-        var id = req.body.id;
+            var msg;
+            var error = false;
 
-        var msg;
-        var error = false;
+            if ( typeof id === "undefined" ) {
+                error = true;
+                msg = "Uh oh, something's wrong. Try again later ...";
+            }
 
-        if ( typeof id === "undefined" ) {
-            error = true;
-            msg = "Uh oh, something's wrong. Try again later ...";
-        }
+            if ( !HostController.isValidNoiseBoxID(id) ) {
+                error = true;
+                msg = "That isn't a valid NoiseBox name. The name must be 20 characters or less and consist only of letters and numbers with no spaces.";
+            }
 
-        if ( !isValidNoiseBoxID(id) ) {
-            error = true;
-            msg = "That isn't a valid NoiseBox name. The name must be 20 characters or less and consist only of letters and numbers with no spaces.";
-        }
+            if ( model.noiseBoxExists(id) ) {
+                error = true;
+                msg = "Unable to create that NoiseBox, try a different name ...";
+            }
 
-        if ( model.noiseBoxExists(id) ) {
-            error = true;
-            msg = "Unable to create that NoiseBox, try a different name ...";
-        }
-
-        if ( error ) {
-            req.session.flashMessage = msg;
-            res.redirect("/");
-        } else {
-            console.log("Created NoiseBox '%s'",id);
-            model.addNoiseBox(id);
-            res.redirect("/host/"+id);
-        }
-    });
-
-    // Attach socket events:
-
-    io.sockets.on(constants.CLIENT_SOCKET_CONNECTION,function (socket) {
-
-        socket.on(constants.HOST_CONNECT,function (data) {
-            onConnect(data,socket);
+            if ( error ) {
+                req.session.flashMessage = msg;
+                res.redirect("/");
+            } else {
+                console.log("Created NoiseBox '%s'",id);
+                model.addNoiseBox(id);
+                res.redirect("/host/"+id);
+            }
         });
 
-        socket.on(constants.SOCKET_DISCONNECT,function (data) {
-            onDisconnect(data,socket);
+        // Attach socket events:
+
+        io.sockets.on(constants.CLIENT_SOCKET_CONNECTION,function (socket) {
+
+            socket.on(constants.CHAT_MESSAGE_SENT,function(data) {
+                AbstractController.chatMessageSent(data);
+            });
+
+            socket.on(constants.HOST_TRACK_PLAYING,function(data) {
+                AbstractController.trackPlaying(data);
+            });
+
+            socket.on(constants.HOST_TRACK_COMPLETE,function(data) {
+                AbstractController.trackComplete(data);
+            });
+
+            socket.on(constants.HOST_CONNECT,function (data) {
+                HostController.onConnect(data,socket);
+            });
+
+            socket.on(constants.SOCKET_DISCONNECT,function (data) {
+                HostController.onDisconnect(data,socket);
+            });
         });
-    });
+    },
 
-    // Start listening for updates from the model:
-
-    model.on(constants.USER_ADDED,updateNoiseBoxStats);
-    model.on(constants.USER_REMOVED,updateNoiseBoxStats);
-    model.on(constants.HOST_ADDED,updateNoiseBoxStats);
-    model.on(constants.HOST_REMOVED,updateNoiseBoxStats);
-    model.on(constants.TRACK_ADDED,trackAdded);
-    model.on(constants.TRACK_REMOVED,trackRemoved);
-
-    /**
+        /**
      * Called when a host client socket has connected.
      *
      * @param data Data object sent from client.
      * @param socket Socket instance for the client.
      */
-    function onConnect (data,socket) {
+    onConnect : function (data,socket) {
 
         var nb = model.getNoiseBox(data.id);
 
@@ -107,7 +132,8 @@ module.exports = function () {
         console.log("Created host '%s' for NoiseBox '%s'",socket.id,data.id);
 
         nb.addHost(socket.id,socket);
-    }
+    },
+
 
     /**
      * Generic socket disconnect. This callback is called when *any* socket disconnects (not just
@@ -117,7 +143,7 @@ module.exports = function () {
      * @param data Data object sent from the client.
      * @param socket Socket instance that has disconnected.
      */
-    function onDisconnect (data,socket) {
+    onDisconnect : function (data,socket) {
 
         var nb = model.getNoiseBoxByClientSocketID(socket.id);
 
@@ -130,84 +156,8 @@ module.exports = function () {
             nb.removeHost(socket.id);
         }
     }
-
-
-    /**
-     * A NoiseBox track has been added, so loop through the box's hosts and tell them to
-     * each add the track.
-     *
-     * @param nbTrackModel The NBTrackModel instance which has its track property
-     * @param nb The NBModel instance
-     */
-    function trackAdded (nbTrackModel, nb) {
-
-        console.log(nbTrackModel.toJSON(), nbTrackModel.cid);
-
-        nb.hosts.each(function (host) {
-
-            host.get("socket").emit(constants.SERVER_ADD_TRACK,{ track: nbTrackModel.get("track"), cid: nbTrackModel.cid });
-        });
-    }
-
-
-
-    /**
-     * A NoiseBox track has been removed, so loop through the box's hosts and tell them to
-     * each remove the track.
-     *
-     * @param nbTrackModel The NBTrackModel instance which has its track property
-     * @param nb The NBModel instance
-     */
-    function trackRemoved (nbTrackModel, nb) {
-
-        nb.hosts.each(function (host) {
-
-            host.get("socket").emit(constants.SERVER_REMOVE_TRACK,{track:nbTrackModel.get("track")});
-        });
-    }
-
-
-    /**
-     * A NoiseBox client (user or host) has been added or removed so we need to loop through all the
-     * hosts for the client's NoiseBox and tell them to update their stats.
-     *
-     * @param nbClient NBHost or NBUser instance that has been added or removed.
-     */
-    function updateNoiseBoxStats (nbClient) {
-
-        var nb = model.getNoiseBox(nbClient.get("parentNoiseBoxID"));
-
-        if ( !nb ) { return; }
-
-        nb.hosts.each(function (host) {
-
-            host.get("socket").emit(constants.SERVER_NOISE_BOX_STATS_UPDATED,{numHosts:nb.hosts.length,numUsers:nb.users.length});
-        });
-    }
-
-    /**
-     * Validate a NoiseBox id.
-     */
-    function isValidNoiseBoxID (id) {
-
-        var valid = true;
-
-        if ( typeof id !== "string" ) {
-            valid = false;
-        }
-
-        if ( id === "" ) {
-            valid = false;
-        }
-
-        if ( id.length > 20 ) {
-            valid = false;
-        }
-
-        if ( !id.match(/^[a-zA-Z0-9]+$/) ) {
-            valid = false;
-        }
-
-        return valid;
-    }
 };
+
+_.extend(HostController, AbstractController);
+
+module.exports = HostController;
