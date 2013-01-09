@@ -2,33 +2,17 @@
  * NoiseBox
  * HomeClient.js
  *
- * Home page NoiseBox client.
+ * Home page.
  */
 
-define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) {
+define(function (require) {
 
-    return AbstractClient.extend({
+    var $ = require("jquery");
 
+    return Class.extend({
         init : function () {
-
-            this._super();
-
-            this.on(Const.SERVER_APP_STATS_UPDATED,this.onServerStatsUpdated);
-
+            $("#flashMessage p:parent").parent().slideDown(250).delay(5000).slideUp(250);
             $("#id").focus();
-        },
-
-        onConnect : function () {
-
-            this._super();
-
-            this.emit(Const.HOME_CONNECT);
-        },
-
-        onServerStatsUpdated : function (data) {
-
-            $(".noise-boxes-stats-value").text(data.numNoiseBoxes);
-            $(".clients-stats-value").text(data.numClients);
         }
     });
 });

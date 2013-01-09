@@ -2,8 +2,9 @@
  * NoiseBox
  * const.js
  *
- * App constants. This JS file is used both on the client and the server, so we conditionally
- * export for either RequireJS or Node/CommonJS after detecting the environment.
+ * App constants. This JS file is used both on the client and the server, so we
+ * conditionally export for either RequireJS or Node/CommonJS after detecting
+ * the environment.
  */
 
 var Const = {
@@ -68,10 +69,7 @@ var Const = {
 };
 
 if ( typeof module !== "undefined" && module.exports ) {
-
     module.exports = Const;
-
 } else if ( typeof define === "function" ) {
-
     define(Const);
 }

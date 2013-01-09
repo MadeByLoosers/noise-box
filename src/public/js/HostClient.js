@@ -2,7 +2,7 @@
  * NoiseBox
  * HomeClient.js
  *
- * Host page NoiseBox client.
+ * Host page.
  */
 
 define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) {
@@ -13,9 +13,7 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
         audioElement : null,
 
         init : function () {
-
             this._super();
-
         },
 
         onConnect : function () {
