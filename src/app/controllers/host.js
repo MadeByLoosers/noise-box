@@ -44,11 +44,6 @@ var HostController = {
 
             if ( !model.noiseBoxExists(id) ) {
                 createNoiseBox(req,res,id);
-                // model.addNoiseBox(id);
-                // console.log("Created NoiseBox '%s'",id);
-                // res.redirect("/host/"+id);
-                // req.session.flashMessage = "NoiseBox '"+id+"' does not exist.";
-                // res.redirect("/");
                 return;
             }
 
@@ -96,7 +91,6 @@ var HostController = {
                 console.log("Created NoiseBox '%s'",id);
                 res.redirect("/host/"+id);
             }
-            //return {'msg': msg, 'error': error};
         }
 
         // Attach socket events:
