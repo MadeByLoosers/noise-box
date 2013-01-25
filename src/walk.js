@@ -1,5 +1,6 @@
 // Load the http module to create an http server.
 var http = require('http');
+var path = require('path')
 
 // Configure our HTTP server to respond with Hello World to all requests.
 var server = http.createServer(function (request, response) {
@@ -12,22 +13,22 @@ server.listen(8000);
 
 // Put a friendly message on the terminal
 //console.log("Server running at http://127.0.0.1:8000/");
-fileList = [
-{
-  name : "misc",
-  files : [
-    { path: "/misc/a.mp3", filename: "a" },
-    { path: "/misc/b.mp3", filename: "b" }
-  ]
-},
-{
-  name : "tv",
-  files : [
-    { path: "/tv/a.mp3", filename: "a" },
-    { path: "/tv/b.mp3", filename: "b" }
-  ]
-}
-];
+// fileList = [
+// {
+//   name : "misc",
+//   files : [
+//     { path: "/misc/a.mp3", filename: "a" },
+//     { path: "/misc/b.mp3", filename: "b" }
+//   ]
+// },
+// {
+//   name : "tv",
+//   files : [
+//     { path: "/tv/a.mp3", filename: "a" },
+//     { path: "/tv/b.mp3", filename: "b" }
+//   ]
+// }
+// ];
 var fileList = [];
 var files = [];
 var dirs = [];
@@ -49,15 +50,17 @@ walker.on('directory', function(root, stat, next) {
 
 
 walker.on('end', function() {
-    //console.log(dirs);
     // loop over dirs
     console.log(dirs.length);
     for (var i=0; i<dirs.length; i++){
-        // for each dir get it's list of files
+        //TODO: for each dir get it's list of files
+
         // add to filelist to object with name of dir and files
         console.log('in loop ' + i + dirs.length);
+        name = path.basename(dirs[i]);
+
         fileList.push({
-            'name' : "misc",
+            'name' : name,
             'files' : []
         });
     }
