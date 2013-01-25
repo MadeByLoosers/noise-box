@@ -10,6 +10,7 @@ var NBCollection = require("./NBCollection");
 var NBHomeCollection = require("./NBHomeCollection");
 var server = require("./../../server");
 var constants;
+var fh = require("./../lib/file-helper");
 
 var AppModel = module.exports = Backbone.Model.extend({
 
@@ -23,22 +24,7 @@ var AppModel = module.exports = Backbone.Model.extend({
 
         this.noiseBoxes = new NBCollection();
         this.homeClients = new NBHomeCollection();
-        this.files = [
-        {
-          name : "misc",
-          files : [
-            { path: "/misc/a.mp3", filename: "a" },
-            { path: "/misc/b.mp3", filename: "b" }
-          ]
-        },
-        {
-          name : "tv",
-          files : [
-            { path: "/tv/a.mp3", filename: "a" },
-            { path: "/tv/b.mp3", filename: "b" }
-          ]
-        }
-      ];
+        this.files = null;
 
         this.noiseBoxes.on("add",function (nbModel) {
             this.trigger(constants.NOISEBOX_ADDED,nbModel);
@@ -73,9 +59,25 @@ var AppModel = module.exports = Backbone.Model.extend({
     },
 
     getFiles : function () {
-        // TODO: check if files is null
-        // if not return
-        // if it is call the file helper
+        if(this.files === null){
+            // to get files with helper class
+            this.files = [
+                {
+                  name : "misc",
+                  files : [
+                    { path: "/misc/a.mp3", filename: "aaa" },
+                    { path: "/misc/b.mp3", filename: "b" }
+                  ]
+                },
+                {
+                  name : "tv",
+                  files : [
+                    { path: "/tv/a.mp3", filename: "a" },
+                    { path: "/tv/b.mp3", filename: "b" }
+                  ]
+                }
+              ];
+        }
         return this.files;
     },
 
