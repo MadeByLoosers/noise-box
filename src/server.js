@@ -32,7 +32,6 @@ app.set("view engine","ejs");
 // Middleware:
 
 app.use(express.favicon());
-app.use(express.logger(env===constants.DEV?"dev":"default"));
 app.use(express.static(__dirname + "/public"));
 app.use(expressPartials());
 app.use(express.cookieParser("N01ZEBOXX"));
@@ -44,7 +43,6 @@ app.use(error());
 // Start the Express server:
 
 var server = app.listen(port,function () {
-
     console.log("NoiseBox (%s) started on port %d at %s",env,port,new Date().toString());
 });
 
@@ -66,6 +64,13 @@ module.exports.model = new AppModel();
 var HomeController = require("./app/controllers/home");
 var HostController = require("./app/controllers/host");
 var UserController = require("./app/controllers/user");
+
 HomeController();
 HostController.init();
 UserController.init();
+
+var log = require("./app/lib/log");
+
+log.info("Informational log message!",{foo:"bar",person:{name:"Jed"}});
+log.warn("Warning!");
+log.error("Warning!");
