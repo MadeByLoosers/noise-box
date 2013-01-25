@@ -56,7 +56,7 @@ var walk = function(rootDir) {
     };
 
     baseName = rootDir;
-    walker = walk.walkSync(baseName, options);
+    walker = walk.walk(baseName, options);
 
     walker.on("file", function (root, fileStats, next) {
         filePath = path.join(root, fileStats.name);
@@ -77,10 +77,10 @@ var walk = function(rootDir) {
     });
 
     walker.on("end", function () {
-        //console.log(fileList);
         console.log('############returning filelist###################');
-        //return fileList;
+        return fileList;
     });
+
     return fileList;
 };
 

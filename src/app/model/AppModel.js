@@ -24,7 +24,7 @@ var AppModel = module.exports = Backbone.Model.extend({
 
         this.noiseBoxes = new NBCollection();
         this.homeClients = new NBHomeCollection();
-        this.files = this.getFiles();
+        this.files = null;
 
         this.noiseBoxes.on("add",function (nbModel) {
             this.trigger(constants.NOISEBOX_ADDED,nbModel);
