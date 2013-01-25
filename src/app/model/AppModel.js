@@ -62,22 +62,6 @@ var AppModel = module.exports = Backbone.Model.extend({
         if(this.files === null){
             // get files with helper class
             this.files = fh.listFiles('./public/sfx');
-            // this.files = [
-            //     {
-            //       name : "misc",
-            //       files : [
-            //         { path: "/misc/a.mp3", filename: "aaa" },
-            //         { path: "/misc/b.mp3", filename: "b" }
-            //       ]
-            //     },
-            //     {
-            //       name : "tv",
-            //       files : [
-            //         { path: "/tv/a.mp3", filename: "a" },
-            //         { path: "/tv/b.mp3", filename: "b" }
-            //       ]
-            //     }
-            //   ];
         }
         return this.files;
     },
