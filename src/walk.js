@@ -30,8 +30,6 @@ server.listen(8000);
 // }
 // ];
 var fileList = [];
-var files = [];
-var dirs = [];
 
 // start walk code
 var walk = require('walk'),
@@ -44,20 +42,33 @@ options = {
 baseName = "public/sfx";
 walker = walk.walk(baseName, options);
 
-walker.on("directories", function (root, dirStatsArray, next) {
-    // console.log('got here once');
-    // console.log(dirStatsArray);
+function dirExists(fileList, dir){
+    // loop fileList
+    for (var i=0; i<fileList.length; i++){
+        if(fileList[i]['name'] == dir){
+            return i;
+        }
+    }
+    return false;
+}
+
+walker.on("file", function (root, fileStats, next) {
+    filePath = path.join(root, fileStats.name);
+    dir = path.basename(root);
+
+    file = {path: filePath, filename: fileStats.name};
+    i = dirExists(fileList, dir);
+    if(i === false){
+        fileList.push({
+            name: dir,
+            files: [file]
+        });
+    }else{
+        fileList[i]['files'].push(file);
+    }
     next();
 });
 
-
-walker.on("file", function (root, fileStats, next) {
-    //console.log('got here');
-    filePath = path.join(root, fileStats.name);
-    dir = path.basename(root);
-    console.log(filePath);
-    console.log(dir);
-    // if dir not in fileList add it
-    // add file to the files for that dir
-    next();
+walker.on("end", function () {
+    console.log(fileList);
 });
