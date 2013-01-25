@@ -88,6 +88,9 @@ var walk = function(rootDir) {
         }
         next();
     });
+    walker.on("end", function(){
+        fileList.reverse();
+    });
     return fileList;
 };
 
