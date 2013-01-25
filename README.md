@@ -16,6 +16,11 @@ cd noise-box/src
 npm install
 ```
 
+
+###sfx
+Create (or symlink) a directory in /src/public and call it 'sfx' - place mp3 files in here to have them listed
+
+
 ###Usage
 Fire up the noise box server by switching to the ```src``` directory and running ```node server.js```
 
