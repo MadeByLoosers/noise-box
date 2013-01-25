@@ -33,8 +33,7 @@
         }
     });
 
-    require(["nb"],function (nb) {
-
+    require(["nb","sji"],function (nb) {
         nb.init();
     });
 }());

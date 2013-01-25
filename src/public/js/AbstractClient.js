@@ -2,42 +2,29 @@
  * NoiseBox
  * AbstractClient.js
  *
- * Abstract NoiseBox client. Contains shared functionality used across all types of client, but no
- * type specific implementations. All clients inherit from this object.
+ * Abstract parent class for HostClient and HomeClient. Contains shared
+ * functionality for these two NoiseBox client types.
  */
 
-define(["constants","jquery","underscore","sji"], function (Const) {
+define(function (require) {
+
+    var Const = require("constants");
+    var $ = require("jquery");
+    var _ = require("underscore");
 
     return Class.extend({
 
-        id : "",
-        socket : {},
-        clientType : "",
-        host : "",
-        env : "",
-
-        playQueue : [],
-        users : [],
-
-        playQueueEl : null,
-        currentlyPlayingEl : null,
-        userListEl : null,
-        logEl : null,
-
-
-        /**
-         * Constructor.
-         */
         init : function () {
 
+            this.users = [];
+            this.playQueue = [];
             this.clientType = $("body").attr("id");
-            this.host = $("body").data("host");
-            this.id = $("body").data("noise-box-id");
-            this.env = $("body").data("env");
-            this.socket = io.connect(this.host);
+            this.hostURL = $("body").data("host");
+            this.noiseBoxID = $("body").data("noise-box-id");
+            this.socket = io.connect(this.hostURL);
 
             console.log("****************");
-            console.log("Client init",this.clientType,this.host,this.id===undefined?"":this.id);
+            console.log("Client init",this.clientType,this.hostURL,this.noiseBoxID===undefined?"":this.noiseBoxID);
 
             $("#flashMessage p:parent").parent().slideDown(250).delay(5000).slideUp(250);
 
@@ -62,31 +49,21 @@ define(["constants","jquery","underscore","sji"], function (Const) {
 
         },
 
-        /**
-         * Socket connection to server established.
-         */
         onConnect : function () {
-
             console.log("Socket connected");
         },
 
-        /**
-         * Socket connection to server terminated.
-         */
         onDisconnect : function () {
-
             console.log("Socket disconnected");
         },
 
-
-        /*
-         * stats logging methods
+        /**
+         * A track has been added to the NoiseBox.
          */
         onServerAddTrack : function (data) {
-
             $("<li />")
-                .attr("id", data.cid)
-                .text(data.user + " added the track " + data.track + " on " + data.datetime)
+                .attr("id",data.cid)
+                .text(data.user+" added the track "+data.track+" on "+data.datetime)
                 .hide()
                 .slideDown()
                 .appendTo(this.playQueueEl);
@@ -102,11 +79,9 @@ define(["constants","jquery","underscore","sji"], function (Const) {
         },
 
         onServerRemoveTrack : function (data) {
-            console.log("* remove track *");
         },
 
         onNoiseBoxStatsUpdated : function (data) {
-
             $(".hosts-stats-value").text(data.numHosts);
             $(".users-stats-value").text(data.numUsers);
         },
@@ -142,7 +117,6 @@ define(["constants","jquery","underscore","sji"], function (Const) {
         },
 
         onLogUpdated : function (item) {
-
             var log = "["+item.eventType+"] ";
 
             if (item && item.detail) {
@@ -159,9 +133,6 @@ define(["constants","jquery","underscore","sji"], function (Const) {
                 .text(log)
                 .appendTo(this.logEl);
         },
-
-
-
 
         /**
          * Helper function for binding callbacks to socket events from the server.
@@ -193,7 +164,7 @@ define(["constants","jquery","underscore","sji"], function (Const) {
             data = typeof data !== "undefined" ? data : {};
 
             data = _.extend(data,{
-                id : this.id,
+                id : this.noiseBoxID,
                 clientType : this.clientType
             });
 

@@ -14,7 +14,7 @@ var templateOptions = require("./../middleware/template-options");
 var stats = require("./../middleware/stats");
 var AbstractController = require("./abstract.js");
 var _ = require("underscore");
-
+var log = require("../lib/log");
 
 var HostController = {
 
@@ -43,9 +43,7 @@ var HostController = {
             var id = req.params.id;
 
             if ( !model.noiseBoxExists(id) ) {
-
-                req.session.flashMessage = "NoiseBox '"+id+"' does not exist.";
-                res.redirect("/");
+                createNoiseBox(req,res,id);
                 return;
             }
 
@@ -62,7 +60,11 @@ var HostController = {
         app.post("/host",function (req,res) {
 
             var id = req.body.id;
+            createNoiseBox(req,res,id);
+        });
 
+
+        function createNoiseBox(req,res,id){
             var msg;
             var error = false;
 
@@ -85,11 +87,11 @@ var HostController = {
                 req.session.flashMessage = msg;
                 res.redirect("/");
             } else {
-                console.log("Created NoiseBox '%s'",id);
+                log.info("created noise-box model",{id:id});
                 model.addNoiseBox(id);
                 res.redirect("/host/"+id);
             }
-        });
+        }
 
         // Attach socket events:
 
@@ -117,7 +119,7 @@ var HostController = {
         });
     },
 
-        /**
+    /**
      * Called when a host client socket has connected.
      *
      * @param data Data object sent from client.
@@ -129,7 +131,7 @@ var HostController = {
 
         if ( !nb ) { return; }
 
-        console.log("Created host '%s' for NoiseBox '%s'",socket.id,data.id);
+        log.info("created host",{socketid:socket.id,noiseboxid:data.id});
 
         nb.addHost(socket.id,socket);
     },
@@ -151,7 +153,7 @@ var HostController = {
 
         if ( nb.hostExists(socket.id) ) {
 
-            console.log("Removed host '%s' for NoiseBox '%s'",socket.id,nb.id);
+            log.info("removed host",{socketid:socket.id,noiseboxid:nb.id});
 
             nb.removeHost(socket.id);
         }

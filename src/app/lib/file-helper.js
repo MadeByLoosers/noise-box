@@ -1,113 +1,100 @@
 /*
- * File helper
- */
+* File helper
+*/
 
-  /*
-   * module imports
-   */
-  var fs = require('fs');
+/*
+* module imports
+*/
+//var fs = require('fs');
+var http = require('http');
+var path = require('path');
 
+/*
 
-  /*
+example file list
 
-  example file list
+    files = [
+        {
+            name : "misc",
+            files : [
+                { path: "/misc/a.mp3", filename: "aaasdfafa" },
+                { path: "/misc/b.mp3", filename: "b" }
+            ]
+        },
+        {
+            name : "tv",
+            files : [
+                { path: "/tv/a.mp3", filename: "a" },
+                { path: "/tv/b.mp3", filename: "b" }
+            ]
+        }
+    ];
+*/
 
-  fileList = [
-    {
-      name : "misc",
-      files : [
-        { path: "/misc/a.mp3", filename: "a" },
-        { path: "/misc/b.mp3", filename: "b" }
-      ]
-    },
-    {
-      name : "tv",
-      files : [
-        { path: "/tv/a.mp3", filename: "a" },
-        { path: "/tv/b.mp3", filename: "b" }
-      ]
+function dirExists(fileList, dir){
+    // loop fileList
+    for (var i=0; i<fileList.length; i++){
+        if(fileList[i]['name'] === dir){
+            return i;
+        }
     }
-  ];
-   */
+    return false;
+}
 
+/*
+* List available files...
+*/
+var walk = function(rootDir) {
+    var fileList = [];
 
-  /*
-   * List available files...
-   * adapted from http://stackoverflow.com/a/5827895
-   */
-  var walk = function(dir, done, isRoot) {
+    // start walk code
+    var walk = require('walk'),
+        fs = require('fs');
 
-    // cache results...
-    var results = [];
+    var options = {
+        followLinks: false
+    };
 
-    // loop through dir
-    fs.readdir(dir, function(err, list) {
+    var baseName = rootDir;
+    var walker = walk.walk(baseName, options);
 
-      // stop on errors
-      if (err) {
-        return done(err);
-      }
+    walker.on("file", function (root, fileStats, next) {
 
-      // loop through all directories and files
-      var pending = list.length;
-      if (!pending) {
-        return done(null, results);
-      }
-      list.forEach(function(file) {
+        // ignore .files
+        if (fileStats.name.indexOf(".") === 0) {
+            next();
+        }
 
-        // ignore . files
-        if (file.charAt(0) === ".") {
-          if (!--pending) {
-            done(null, results);
-          }
+        // prep file name and path
+        var filePath = path.join(root, fileStats.name),
+        dir = path.basename(root),
+        filename = fileStats.name
+            .replace(/_/g, ' ')                     // replace underscores with spaces
+            .replace(/\.[^.]*$/, '');               // remove file extention
 
-        // not a hidden file
-        } else {
+        filePath = filePath.replace("public/", ""); // remove public from dir
 
-          file = dir + '/' + file;
+        var file = {path: filePath, filename: filename};
 
-          // do stuff with file...
-          fs.stat(file, function(err, stat) {
-
-            // dir, recurse
-            if (stat && stat.isDirectory()) {
-              walk(file, function(err, res) {
-                var dirName = file.split('/').pop();
-                results.push({
-                  name: dirName,
-                  files: res
-                });
-                if (!--pending) {
-                  done(null, results);
-                }
-              });
-
-            // file, add to list
-            } else {
-
-              // create clean file name for public consumption
-              var filename = file
-                .split('/').pop()               // remove path
-                .replace(/(_|-)/g, ' ')         // replace hyphens and underscores with spaces
-                .replace(/(.*)\.[^.]+$/, "$1"); // remove file extension
-
-              // create file details
-              results.push({
-                path: file.replace('./public', ''), // remove 'public' from URLs
-                filename: filename
-              });
-
-              if (!--pending) {
-                done(null, results);
-              }
-            }
-          }); // end fs.stat
-        } // end hidden files if
-      }); // end list.forEach
-    }); // end fs.readdir
-  };
+        // if dir is not in the filelist add it
+        var i = dirExists(fileList, dir);
+        if(i === false){
+            fileList.push({
+                name: dir,
+                files: [file]
+            });
+        }else{
+            fileList[i]['files'].push(file);
+        }
+        next();
+    });
+    walker.on("end", function(){
+        fileList.reverse();
+    });
+    return fileList;
+};
 
 
 module.exports = {
-  listFiles: walk
+    listFiles: walk
 };

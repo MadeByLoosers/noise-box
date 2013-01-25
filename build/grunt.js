@@ -50,6 +50,7 @@ module.exports = function(grunt) {
         src: "<%= srcDir %>/",
         dest: "<%= distDir %>",
         recursive: true,
+        args: ['--copy-links'],
         exclude: [
             "scss",
             ".DS_Store",
@@ -64,8 +65,6 @@ module.exports = function(grunt) {
         recursive: true,
         syncDest: true,
         host: "wintermute",
-        compareMode: "sizeOnly",
-        args: ["--links"],
         exclude: [
           "node_modules"
         ]
