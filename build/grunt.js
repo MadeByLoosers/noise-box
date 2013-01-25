@@ -7,7 +7,7 @@ grunt.loadNpmTasks('grunt-ghost');
   grunt.initConfig({
     distDir: "../dist",
     srcDir: "../src",
-    testPort: "7107",
+    testPort: "7002",
     pkg: '<json:../src/package.json>',
     meta: {
       banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
@@ -39,7 +39,7 @@ grunt.loadNpmTasks('grunt-ghost');
           direct: true,
           printCommand: true,
           args: {
-            port: '7071'
+            port: '7002'
           }
         }
       }
@@ -159,7 +159,7 @@ grunt.registerTask('forktest', 'Start the app in the background', function () {
      out = fs.openSync('./out.log', 'a'),
      err = fs.openSync('./out.log', 'a');
 
-  var child = spawn('node', ['../src/index.js'], {
+  var child = spawn('node', ['../src/index.js', '7002'], {
    detached: true,
    stdio: [ 'ignore', out, err ]
   });

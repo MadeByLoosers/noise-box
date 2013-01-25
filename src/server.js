@@ -47,7 +47,6 @@ var startApp = function (port, env) {
     var server = app.listen(port,function () {
 
         console.log("NoiseBox (%s) started on port %d at %s",env,port,new Date().toString());
-        console.log("NoiseBox (%s) started on port %d at %s",env,port,new Date().toString());
     });
 
     // Start socket.io:
