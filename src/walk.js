@@ -41,29 +41,23 @@ options = {
     followLinks: false
 };
 
-// get the dirs
-walker = walk.walk("./public/sfx", options);
-walker.on('directory', function(root, stat, next) {
-    dirs.push(root + '/' + stat.name);
+baseName = "public/sfx";
+walker = walk.walk(baseName, options);
+
+walker.on("directories", function (root, dirStatsArray, next) {
+    // console.log('got here once');
+    // console.log(dirStatsArray);
     next();
 });
 
 
-walker.on('end', function() {
-    // loop over dirs
-    console.log(dirs.length);
-    for (var i=0; i<dirs.length; i++){
-        //TODO: for each dir get it's list of files
-
-        // add to filelist to object with name of dir and files
-        console.log('in loop ' + i + dirs.length);
-        name = path.basename(dirs[i]);
-
-        fileList.push({
-            'name' : name,
-            'files' : []
-        });
-    }
-    console.log(fileList);
-    console.log('after loop ' + dirs.length);
+walker.on("file", function (root, fileStats, next) {
+    //console.log('got here');
+    filePath = path.join(root, fileStats.name);
+    dir = path.basename(root);
+    console.log(filePath);
+    console.log(dir);
+    // if dir not in fileList add it
+    // add file to the files for that dir
+    next();
 });
