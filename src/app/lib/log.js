@@ -26,14 +26,16 @@ var consoleTransport = new (winston.transports.Console)({
     timestamp: true
 });
 
+var logglyTransport = new winston.transports.Loggly({
+    level: "info",
+    subdomain: "seisaku",
+    inputToken: config.logglyInputToken
+});
+
 var transports = [consoleTransport];
 
 if ( server.env === "production" ) {
-    transports.push(new winston.transports.Loggly({
-        level: "info",
-        subdomain: "seisaku",
-        inputToken: config.logglyInputToken
-    }));
+    transports.push(logglyTransport);
 }
 
 module.exports = new (winston.Logger)({transports:transports});

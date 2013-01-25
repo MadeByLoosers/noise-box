@@ -8,6 +8,7 @@
 
 var fs = require("fs");
 var constants = require("./../../public/js/const");
+var log = require("../lib/log");
 
 module.exports = function () {
 
@@ -71,7 +72,7 @@ module.exports = function () {
             res.end(html);
         });
 
-        console.error("(%d) %s",err.statusCode,err.stack);
+        log.error("express error",{statusCode:err.statusCode,stack:err.stack});
     };
 
     function htmlEscape (text) {

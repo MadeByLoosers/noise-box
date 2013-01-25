@@ -85,7 +85,5 @@ var NBLogModel = module.exports = Backbone.Model.extend({
         // TODO: manually firing a change event
         this.trigger("change", item, this);
         this.trigger("change:log", item, this);
-
-        console.log("LOG:", item);
     }
 });

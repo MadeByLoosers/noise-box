@@ -6,15 +6,13 @@
  * Main application entry point.
  */
 
-// Pull in dependancies:
-
 var express = require("express");
 var expressPartials = require("express-partials");
 var socketIO = require("socket.io");
-
 var constants = require("./public/js/const");
 var error = require("./app/middleware/error");
 var AppModel = require("./app/model/AppModel");
+var log = require("./app/lib/log");
 
 // Detect environment:
 
@@ -26,7 +24,7 @@ var env = process.env.NODE_ENV || constants.DEV;
 var app = express();
 
 app.set("port",port);
-app.set("views",__dirname + "/app/views");
+app.set("views",__dirname+"/app/views");
 app.set("view engine","ejs");
 
 // Middleware:
@@ -43,7 +41,7 @@ app.use(error());
 // Start the Express server:
 
 var server = app.listen(port,function () {
-    console.log("NoiseBox (%s) started on port %d at %s",env,port,new Date().toString());
+    log.info("noise-box server started",{port:port,env:env});
 });
 
 // Start socket.io:
@@ -68,9 +66,3 @@ var UserController = require("./app/controllers/user");
 HomeController();
 HostController.init();
 UserController.init();
-
-var log = require("./app/lib/log");
-
-log.info("Informational log message!",{foo:"bar",person:{name:"Jed"}});
-log.warn("Warning!");
-log.error("Warning!");

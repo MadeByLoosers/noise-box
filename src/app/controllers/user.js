@@ -16,6 +16,7 @@ var templateOptions = require("./../middleware/template-options");
 var stats = require("./../middleware/stats");
 var AbstractController = require("./abstract.js");
 var _ = require("underscore");
+var log = require("../lib/log");
 
 var UserController = {
 
@@ -86,7 +87,7 @@ var UserController = {
 
         if ( !nb ) { return; }
 
-        console.log("Created user '%s' for NoiseBox '%s'",socket.id,nb.id);
+        log.info("created user",{socketid:socket.id,noiseboxid:nb.id});
 
         newUser = nb.addUser(socket.id,socket);
 
@@ -114,7 +115,7 @@ var UserController = {
 
         if ( nb.userExists(socket.id) ) {
 
-            console.log("Removed user '%s' for NoiseBox '%s'",socket.id,nb.id);
+            log.info("removed user",{socketid:socket.id,noiseboxid:nb.id});
 
             nb.removeUser(socket.id);
         }
@@ -139,7 +140,7 @@ var UserController = {
         track.datetime = moment().format("YYYY-MM-DD hh:mm:ss");
         track.track = data.track;
 
-        console.log("User '%s' clicked track '%s' in NoiseBox '%s'",socket.id,data.track,data.id);
+        log.info("track clicked",{socketid:socket.id,track:data.track,noiseboxid:data.id});
 
         nb.addTrack(track);
     },
