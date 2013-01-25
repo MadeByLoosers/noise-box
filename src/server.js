@@ -61,9 +61,6 @@ module.exports.env = env;
 module.exports.port = port;
 module.exports.model = new AppModel();
 
-// Get files from directory
-module.exports.model.getFiles();
-
 // Init controllers:
 
 var HomeController = require("./app/controllers/home");

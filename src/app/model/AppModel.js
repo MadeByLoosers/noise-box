@@ -24,7 +24,8 @@ var AppModel = module.exports = Backbone.Model.extend({
 
         this.noiseBoxes = new NBCollection();
         this.homeClients = new NBHomeCollection();
-        this.files = null;
+        // TODO: get this dir for a settings file
+        this.files = this.files = fh.listFiles('./public/sfx');
 
         this.noiseBoxes.on("add",function (nbModel) {
             this.trigger(constants.NOISEBOX_ADDED,nbModel);
@@ -59,9 +60,6 @@ var AppModel = module.exports = Backbone.Model.extend({
     },
 
     getFiles : function () {
-        if(this.files === null){
-            this.files = fh.listFiles('./public/sfx');
-        }
         return this.files;
     },
 
