@@ -18,6 +18,7 @@ module.exports = function(grunt) {
     lint: {
       build: [
         "./grunt.js",
+        "./casperjs/*.js",
         "./tasks/*.js"
       ],
       site: [
@@ -31,11 +32,11 @@ module.exports = function(grunt) {
     },
 
     ghost: {
-      dist: {
+      test: {
         src: ['test/casperjs/**/*.js'],
         options: {
           direct: true,
-          printCommand: true,
+          printCommand: false,
           args: ['--port=7002']
         }
       }
@@ -94,26 +95,20 @@ module.exports = function(grunt) {
 
     shell: {
       npmInstall: {
-          command: "ssh wintermute 'cd /var/node/noise-box/app; npm install --production;'",
-          stdout: true
+        command: "ssh wintermute 'cd /var/node/noise-box/app; npm install --production;'",
+        stdout: true
       },
       monitRestart: {
-          command: "ssh wintermute 'sudo monit restart noise-box'",
-          stdout: true
-      },
-      startTestServer: {
-          // command: 'node <%= srcDir %>/index.js',
-          command: 'node ../src/index.js',
-          stdout: false,
-          stderr: false
+        command: "ssh wintermute 'sudo monit restart noise-box'",
+        stdout: true
       }
-  },
-
+    },
 
     watch: {
       files: '<config:lint.files>',
       tasks: 'lint qunit'
     },
+
     jshint: {
       options: {
         curly: true,
@@ -140,7 +135,9 @@ module.exports = function(grunt) {
         Class: true
       }
     },
+    
     uglify: {}
+    
   });
 
   grunt.loadNpmTasks("grunt-contrib");
@@ -149,39 +146,37 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-casperjs');
   grunt.loadNpmTasks('grunt-ghost');
 
-grunt.registerTask('forktest', 'Start the app in the background', function () {
+  grunt.registerTask('spawn', 'Start app in the background', function () {
+    var fs = require('fs'),
+       spawn = require('child_process').spawn,
+       out = fs.openSync('./out.log', 'a'),
+       err = fs.openSync('./out.log', 'a'),
+       env = process.env;
 
-  var fs = require('fs'),
-     spawn = require('child_process').spawn,
-     out = fs.openSync('./out.log', 'a'),
-     err = fs.openSync('./out.log', 'a'),
-     env = process.env;
+    env.NODE_ENV = 'testing';
+    env.PORT = 7002;
 
-  env.NODE_ENV = 'testing';
+    grunt.log.writeln('Starting app in the background');
+    grunt.log.writeln('stdout and stderr will be logged to out.log');
 
-  var child = spawn('node', ['../src/index.js', '7002'], {
-   detached: true,
-   stdio: [ 'ignore', out, err ],
-   env: env
+    var child = spawn('node', ['../src/server.js'], {
+     detached: true,
+     stdio: [ 'ignore', out, err ],
+     env: env
+    });
+
+    child.unref();
   });
-
-  child.unref();
-  
-});
-
-  // Default task.
-  grunt.registerTask('working', 'forktest');
 
   // Default task.
   grunt.registerTask('default', 'lint:site lint:build qunit');
 
   // Test task.
-  grunt.registerTask('test', 'lint:site lint:build qunit forktest ghost');
+  grunt.registerTask('test', 'lint:site lint:build qunit spawn ghost');
 
   // Build task.
   grunt.registerTask('dist', 'test clean rsync:dist requirejs:frontend mincss:frontend');
 
   // Deploy task.
   grunt.registerTask('deploy', 'dist rsync:deploy shell:npmInstall shell:monitRestart');
-
 };
