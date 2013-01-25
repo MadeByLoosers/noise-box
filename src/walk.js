@@ -11,24 +11,8 @@ var server = http.createServer(function (request, response) {
 // Listen on port 8000, IP defaults to 127.0.0.1
 server.listen(8000);
 
-// Put a friendly message on the terminal
-//console.log("Server running at http://127.0.0.1:8000/");
-// fileList = [
-// {
-//   name : "misc",
-//   files : [
-//     { path: "/misc/a.mp3", filename: "a" },
-//     { path: "/misc/b.mp3", filename: "b" }
-//   ]
-// },
-// {
-//   name : "tv",
-//   files : [
-//     { path: "/tv/a.mp3", filename: "a" },
-//     { path: "/tv/b.mp3", filename: "b" }
-//   ]
-// }
-// ];
+
+
 var fileList = [];
 
 // start walk code
