@@ -8,6 +8,6 @@
 var NBApp = require("./server");
 
 var port = process.env.PORT || process.argv[2];
-var env = process.env.NODE_ENV;
+var env = process.env.NODE_ENV || 'DEV';
 
 NBApp.startApp(port, env);

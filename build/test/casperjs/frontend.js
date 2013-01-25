@@ -34,6 +34,10 @@ casper.thenOpen('http://localhost:'+ port +'/host/caspersroom', function() {
     this.test.assertExists('audio[src$=".mp3"]', 'The host has an audio element pointing to an mp3');
 });
 
+
+casper.thenOpen('http://localhost:'+ port +'/testing/kill', function() {
+});
+
 casper.run(function() {
     this.test.done(9); // checks that all assertions have been executed
     this.test.renderResults(true);

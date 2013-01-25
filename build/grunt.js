@@ -1,7 +1,5 @@
-/*global module:false*/
+/*global module:false process*/
 module.exports = function(grunt) {
-
-grunt.loadNpmTasks('grunt-ghost');
 
   // Project configuration.
   grunt.initConfig({
@@ -112,6 +110,7 @@ grunt.loadNpmTasks('grunt-ghost');
       }
   },
 
+
     watch: {
       files: '<config:lint.files>',
       tasks: 'lint qunit'
@@ -149,21 +148,30 @@ grunt.loadNpmTasks('grunt-ghost');
   grunt.loadNpmTasks("grunt-rsync");
   grunt.loadNpmTasks("grunt-shell");
   grunt.loadNpmTasks('grunt-casperjs');
+  grunt.loadNpmTasks('grunt-ghost');
 
 grunt.registerTask('forktest', 'Start the app in the background', function () {
 
   var fs = require('fs'),
      spawn = require('child_process').spawn,
      out = fs.openSync('./out.log', 'a'),
-     err = fs.openSync('./out.log', 'a');
+     err = fs.openSync('./out.log', 'a'),
+     env = process.env;
+
+  env.NODE_ENV = 'testing';
 
   var child = spawn('node', ['../src/index.js', '7002'], {
    detached: true,
-   stdio: [ 'ignore', out, err ]
+   stdio: [ 'ignore', out, err ],
+   env: env
   });
 
   child.unref();
+  
 });
+
+  // Default task.
+  grunt.registerTask('working', 'forktest');
 
   // Default task.
   grunt.registerTask('default', 'lint:site lint:build qunit');
