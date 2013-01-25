@@ -2,6 +2,9 @@ var casper = require('casper').create();
 var roomName = 'caspersroom';
 var audiofile = '';
 
+casper.echo("Casper CLI passed args:");
+require("utils").dump(casper.cli.get('port'));
+
 casper.start('http://localhost:7001/', function() {
     this.test.assertTitle('NoiseBox', 'NoiseBox title is ok');
     this.test.assertExists('form[action="/host/"]', 'The form to create a new host exists');

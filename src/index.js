@@ -7,4 +7,7 @@
 
 var NBApp = require("./server");
 
-NBApp.startApp();
+var port = process.env.PORT || process.argv[2];
+var env = process.env.NODE_ENV;
+
+NBApp.startApp(port, env);

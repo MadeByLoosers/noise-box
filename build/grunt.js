@@ -1,10 +1,13 @@
 /*global module:false*/
 module.exports = function(grunt) {
 
+grunt.loadNpmTasks('grunt-ghost');
+
   // Project configuration.
   grunt.initConfig({
     distDir: "../dist",
     srcDir: "../src",
+    testPort: "7107",
     pkg: '<json:../src/package.json>',
     meta: {
       banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
@@ -29,8 +32,17 @@ module.exports = function(grunt) {
       files: ['test/**/*.html']
     },
 
-    casperjs: {
-      files: ['test/casperjs/**/*.js']
+    ghost: {
+      dist: {
+        src: ['test/casperjs/**/*.js'],
+        options: {
+          direct: true,
+          printCommand: true,
+          args: {
+            port: '7071'
+          }
+        }
+      }
     },
 
     clean : {
@@ -93,6 +105,12 @@ module.exports = function(grunt) {
       monitRestart: {
           command: "ssh wintermute 'sudo monit restart noise-box'",
           stdout: true
+      },
+      startTestServer: {
+          // command: 'node <%= srcDir %>/index.js',
+          command: 'node ../src/index.js',
+          stdout: false,
+          stderr: false
       }
   },
 
@@ -134,11 +152,26 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-shell");
   grunt.loadNpmTasks('grunt-casperjs');
 
+grunt.registerTask('forktest', 'Start the app in the background', function () {
+
+  var fs = require('fs'),
+     spawn = require('child_process').spawn,
+     out = fs.openSync('./out.log', 'a'),
+     err = fs.openSync('./out.log', 'a');
+
+  var child = spawn('node', ['../src/index.js'], {
+   detached: true,
+   stdio: [ 'ignore', out, err ]
+  });
+
+  child.unref();
+});
+
   // Default task.
   grunt.registerTask('default', 'lint:site lint:build qunit');
 
   // Test task.
-  grunt.registerTask('test', 'lint:site lint:build qunit casperjs');
+  grunt.registerTask('test', 'lint:site lint:build qunit forktest ghost');
 
   // Build task.
   grunt.registerTask('dist', 'test clean rsync:dist requirejs:frontend mincss:frontend');
