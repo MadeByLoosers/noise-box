@@ -34,7 +34,8 @@ var UserController = {
                 return;
             }
 
-            fh.listFiles("./public/sfx",function (err,files) {
+            files = model.getFiles();
+            fh.listFiles("./public/sfx",function (err,filesOld) {
 
                 res.extendTemplateOptions({
                     title: id + " | " + res.templateOptions.title,
