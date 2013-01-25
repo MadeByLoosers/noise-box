@@ -29,6 +29,8 @@ fileList = [
 }
 ];
 var fileList = [];
+var files = [];
+var dirs = [];
 
 // start walk code
 var walk = require('walk'),
@@ -38,31 +40,27 @@ options = {
     followLinks: false
 };
 
+// get the dirs
 walker = walk.walk("./public/sfx", options);
-// walker.on("names", function (root, nodeNamesArray) {
-//     console.log(nodeNamesArray)
-// });
+walker.on('directory', function(root, stat, next) {
+    dirs.push(root + '/' + stat.name);
+    next();
+});
 
-// var next = function(){
-//     console.log(fileList);
-// };
 
-walker.on("directories", function (root, dirStatsArray) {
-    console.log('####################printing dirs');
-
-    for (var i = 0; i < dirStatsArray.length; i++) {
-        console.log(i);
-        // Add object to fileList
-        fileList.push(dirStatsArray[i]["name"]);
-        fileList.push(
-        {
-          name : dirStatsArray[i]["name"],
-          files : [
-            { path: "/misc/a.mp3", filename: "a" },
-            { path: "/misc/b.mp3", filename: "b" }
-          ]
+walker.on('end', function() {
+    //console.log(dirs);
+    // loop over dirs
+    console.log(dirs.length);
+    for (var i=0; i<dirs.length; i++){
+        // for each dir get it's list of files
+        // add to filelist to object with name of dir and files
+        console.log('in loop ' + i + dirs.length);
+        fileList.push({
+            'name' : "misc",
+            'files' : []
         });
     }
     console.log(fileList);
+    console.log('after loop ' + dirs.length);
 });
-
