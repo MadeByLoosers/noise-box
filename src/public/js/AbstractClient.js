@@ -62,7 +62,7 @@ define(function (require) {
          */
         onServerAddTrack : function (data) {
             $("<li />")
-                .attr("id",data.cid);
+                .attr("id",data.cid)
                 .text(data.user+" added the track "+data.track+" on "+data.datetime)
                 .hide()
                 .slideDown()
