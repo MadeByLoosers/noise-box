@@ -34,7 +34,7 @@ example file list
 function dirExists(fileList, dir){
     // loop fileList
     for (var i=0; i<fileList.length; i++){
-        if(fileList[i]['name'] == dir){
+        if(fileList[i]['name'] === dir){
             return i;
         }
     }
@@ -51,12 +51,12 @@ var walk = function(rootDir) {
     var walk = require('walk'),
         fs = require('fs');
 
-    options = {
+    var options = {
         followLinks: false
     };
 
-    baseName = rootDir;
-    walker = walk.walk(baseName, options);
+    var baseName = rootDir;
+    var walker = walk.walk(baseName, options);
 
     walker.on("file", function (root, fileStats, next) {
 
@@ -74,10 +74,10 @@ var walk = function(rootDir) {
 
         filePath = filePath.replace("public/", ""); // remove public from dir
 
-        file = {path: filePath, filename: filename};
+        var file = {path: filePath, filename: filename};
 
         // if dir is not in the filelist add it
-        i = dirExists(fileList, dir);
+        var i = dirExists(fileList, dir);
         if(i === false){
             fileList.push({
                 name: dir,

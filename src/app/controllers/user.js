@@ -35,7 +35,7 @@ var UserController = {
                 return;
             }
 
-            files = model.getFiles();
+            var files = model.getFiles();
             res.extendTemplateOptions({
                 title: id + " | " + res.templateOptions.title,
                 clientType : constants.TYPE_USER,
