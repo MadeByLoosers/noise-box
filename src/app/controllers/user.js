@@ -39,7 +39,7 @@ var UserController = {
                 title: id + " | " + res.templateOptions.title,
                 clientType : constants.TYPE_USER,
                 id : id,
-                files : files,
+                files : files.reverse(),
                 username : "",
                 cid : "",
                 userid: ""

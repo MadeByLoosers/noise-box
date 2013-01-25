@@ -59,9 +59,22 @@ var walk = function(rootDir) {
     walker = walk.walk(baseName, options);
 
     walker.on("file", function (root, fileStats, next) {
-        filePath = path.join(root, fileStats.name);
-        dir = path.basename(root);
-        file = {path: filePath, filename: fileStats.name};
+
+        // ignore .files
+        if (fileStats.name.indexOf(".") === 0) {
+            next();
+        }
+
+        // prep file name and path
+        var filePath = path.join(root, fileStats.name),
+        dir = path.basename(root),
+        filename = fileStats.name
+            .replace(/_/g, ' ')                     // replace underscores with spaces
+            .replace(/\.[^.]*$/, '');               // remove file extention
+
+        filePath = filePath.replace("public/", ""); // remove public from dir
+
+        file = {path: filePath, filename: filename};
 
         // if dir is not in the filelist add it
         i = dirExists(fileList, dir);
