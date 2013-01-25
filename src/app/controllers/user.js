@@ -35,20 +35,18 @@ var UserController = {
                 return;
             }
 
-            fh.listFiles("./public/sfx",function (err,files) {
-
-                res.extendTemplateOptions({
-                    title: id + " | " + res.templateOptions.title,
-                    clientType : constants.TYPE_USER,
-                    id : id,
-                    files : files,
-                    username : "",
-                    cid : "",
-                    userid: ""
-                });
+            files = model.getFiles();
+            res.extendTemplateOptions({
+                title: id + " | " + res.templateOptions.title,
+                clientType : constants.TYPE_USER,
+                id : id,
+                files : files,
+                username : "",
+                cid : "",
+                userid: ""
+            });
 
                 res.render(constants.TYPE_USER,res.templateOptions);
-            });
         });
 
         // Attach socket events:

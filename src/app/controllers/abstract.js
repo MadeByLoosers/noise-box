@@ -102,6 +102,12 @@ var AbstractController = {
 
         if ( !nb ) { return; }
 
+        var track = nb.tracks.get(data.cid);
+        if (!track) {
+            track = nb.tracks.getByCid(data.cid);
+        }
+        track.set("played", true);
+
         nb.hosts.each(function (host) {
 
             host.get("socket").emit(constants.HOST_TRACK_COMPLETE, data);

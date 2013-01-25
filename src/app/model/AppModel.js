@@ -10,6 +10,7 @@ var NBCollection = require("./NBCollection");
 var NBHomeCollection = require("./NBHomeCollection");
 var server = require("./../../server");
 var constants;
+var fh = require("./../lib/file-helper");
 
 var AppModel = module.exports = Backbone.Model.extend({
 
@@ -23,6 +24,8 @@ var AppModel = module.exports = Backbone.Model.extend({
 
         this.noiseBoxes = new NBCollection();
         this.homeClients = new NBHomeCollection();
+        // TODO: get this dir for a settings file
+        this.files = this.files = fh.listFiles('./public/sfx');
 
         this.noiseBoxes.on("add",function (nbModel) {
             this.trigger(constants.NOISEBOX_ADDED,nbModel);
@@ -54,6 +57,10 @@ var AppModel = module.exports = Backbone.Model.extend({
     getHomeClient : function (id) {
 
         return this.homeClients.get(id);
+    },
+
+    getFiles : function () {
+        return this.files;
     },
 
     homeClientExists : function (id) {

@@ -57,6 +57,13 @@ var NBLogModel = module.exports = Backbone.Model.extend({
             });
         },this);
 
+        nb.tracks.on("change:played",function (nbTrackModel) {
+            this.add({
+                detail: nbTrackModel.get("track"),
+                eventType: "track-complete"
+            });
+        },this);
+
         nb.tracks.on("remove",function (nbTrackModel) {
             this.add({
                 eventType:"track-removed"

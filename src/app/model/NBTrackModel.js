@@ -5,7 +5,8 @@ var NBTrackModel = module.exports = Backbone.Model.extend({
     defaults : {
       track: "",
       user: "",
-      datetime: ""
+      datetime: "",
+      played:false
     },
 
     initialize : function (data) {
