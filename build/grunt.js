@@ -38,6 +38,7 @@ module.exports = function(grunt) {
         src: "<%= srcDir %>/",
         dest: "<%= distDir %>",
         recursive: true,
+        args: ['--copy-links'],
         exclude: [
             "scss",
             ".DS_Store",
