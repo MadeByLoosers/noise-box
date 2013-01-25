@@ -59,6 +59,7 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
                 // can't just change the src of an existing element
                 if (!!this.audioElement) {
                     this.audioElement.off('ended');
+                    this.audioElement.off('loadedmetadata');
                     this.audioElement.remove();
                 }
 
@@ -71,6 +72,15 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
                 this.audioElement[0].play();
 
                 this.audioElement.on('ended', $.proxy(this.onTrackComplete, this) );
+
+                this.audioElement.on('loadedmetadata', function(e) {
+                    console.log("track duration", Math.floor(this.duration));
+                });
+
+                // get track current time
+                //this.audioElement.on('ontimeupdate', function(e) {
+                //    console.log("time", Math.floor(this.currentTime) + ' / ' + Math.floor(this.duration));
+                //});
 
             }
         }
