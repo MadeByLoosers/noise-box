@@ -14,7 +14,7 @@ var templateOptions = require("./../middleware/template-options");
 var stats = require("./../middleware/stats");
 var AbstractController = require("./abstract.js");
 var _ = require("underscore");
-
+var log = require("../lib/log");
 
 var HostController = {
 
@@ -87,8 +87,8 @@ var HostController = {
                 req.session.flashMessage = msg;
                 res.redirect("/");
             } else {
+                log.info("created noise-box model",{id:id});
                 model.addNoiseBox(id);
-                console.log("Created NoiseBox '%s'",id);
                 res.redirect("/host/"+id);
             }
         }
@@ -119,7 +119,7 @@ var HostController = {
         });
     },
 
-        /**
+    /**
      * Called when a host client socket has connected.
      *
      * @param data Data object sent from client.
@@ -131,7 +131,7 @@ var HostController = {
 
         if ( !nb ) { return; }
 
-        console.log("Created host '%s' for NoiseBox '%s'",socket.id,data.id);
+        log.info("created host",{socketid:socket.id,noiseboxid:data.id});
 
         nb.addHost(socket.id,socket);
     },
@@ -153,7 +153,7 @@ var HostController = {
 
         if ( nb.hostExists(socket.id) ) {
 
-            console.log("Removed host '%s' for NoiseBox '%s'",socket.id,nb.id);
+            log.info("removed host",{socketid:socket.id,noiseboxid:nb.id});
 
             nb.removeHost(socket.id);
         }

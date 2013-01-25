@@ -12,6 +12,7 @@ var model = server.model;
 var constants = server.constants;
 var templateOptions = require("./../middleware/template-options");
 var stats = require("./../middleware/stats");
+var log = require("../lib/log");
 
 module.exports = function () {
 
@@ -59,7 +60,7 @@ module.exports = function () {
      */
     function onConnect (data,socket) {
 
-        console.log("Created home client '%s'",socket.id);
+        log.info("created home client",{socketid:socket.id});
 
         model.addHomeClient(socket.id,socket);
     }
@@ -76,7 +77,7 @@ module.exports = function () {
 
         if ( model.homeClientExists(socket.id) ) {
 
-            console.log("Removed home client '%s'",socket.id);
+            log.info("removed home client",{socketid:socket.id});
 
             model.removeHomeClient(socket.id);
         }

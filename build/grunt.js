@@ -52,8 +52,6 @@ module.exports = function(grunt) {
         recursive: true,
         syncDest: true,
         host: "wintermute",
-        compareMode: "sizeOnly",
-        args: ["--links"],
         exclude: [
           "node_modules"
         ]
