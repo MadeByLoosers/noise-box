@@ -60,7 +60,6 @@ var AppModel = module.exports = Backbone.Model.extend({
 
     getFiles : function () {
         if(this.files === null){
-            // get files with helper class
             this.files = fh.listFiles('./public/sfx');
         }
         return this.files;

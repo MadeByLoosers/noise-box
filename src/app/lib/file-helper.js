@@ -75,12 +75,6 @@ var walk = function(rootDir) {
         }
         next();
     });
-
-    walker.on("end", function () {
-        console.log('############returning filelist###################');
-        return fileList;
-    });
-
     return fileList;
 };
 
