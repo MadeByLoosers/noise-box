@@ -38,9 +38,7 @@ grunt.loadNpmTasks('grunt-ghost');
         options: {
           direct: true,
           printCommand: true,
-          args: {
-            port: '7002'
-          }
+          args: ['--port=7002']
         }
       }
     },
