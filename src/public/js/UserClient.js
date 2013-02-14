@@ -12,7 +12,7 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
         usernameField : null,
         chatField : null,
         user : {
-            id : "",
+            id : "", // room id
             username : "",
             cid : "",
             userid : ""
@@ -88,6 +88,8 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
 
             this.chatField.removeAttr("disabled");
             $("#chat-text-label").text("Chat");
+
+            _gaq.push(['_trackEvent','user','login', this.noiseBoxID]);
         },
 
 
@@ -99,6 +101,8 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
 
                 this.emit(Const.CHAT_MESSAGE_SENT, { message: this.chatField.val(), user: this.user});
                 this.chatField.val("");
+
+                _gaq.push(['_trackEvent','chat', 'talking', this.noiseBoxID]);
             }
 
         },
