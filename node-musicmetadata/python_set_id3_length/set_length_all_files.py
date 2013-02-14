@@ -7,10 +7,13 @@ def set_id3_length(file_path):
     audio = MP3(file_path)
     # get the seconds as a rounded number
     length = int(audio.info.length)
-    # format the length
+    # format the length hh:mm:ss
     length = str(datetime.timedelta(seconds=length))
-    print length
-    #length = "1:00:01"
+    # format time further
+    if length[0:3] == '0:0':
+        length = length[3:]
+    elif length[0:2] == '0:':
+        length = length[2:]
     #print length
 
     audio_id3 = EasyID3(file_path)
