@@ -1,6 +1,17 @@
 from mutagen.easyid3 import EasyID3
 from mutagen.mp3 import MP3
 import datetime
+import os
+
+
+def set_length_all_files(path):
+    #print 'loop files here'
+    for root, dirs, files in os.walk(path, topdown=False):
+        for name in files:
+            file_path = os.path.join(root, name)
+            set_id3_length(file_path)
+        # for name in dirs:
+        #     print 'DIR: ' + os.path.join(root, name)
 
 
 def set_id3_length(file_path):
@@ -20,4 +31,6 @@ def set_id3_length(file_path):
     audio_id3["length"] = length
     audio_id3.save()
 
-set_id3_length('/Users/pxg/Sites/noisebox/src/public/sfx/adam-and-joe/pirate-interruptions-chocolate-cake-slice.mp3')
+#set_id3_length('/Users/pxg/Sites/noisebox/src/public/sfx/adam-and-joe/pirate-interruptions-chocolate-cake-slice.mp3')
+set_length_all_files('/Users/pxg/Sites/noisebox/src/public/sfx/adam-and-joe/')
+#set_length_all_files('/Users/pxg/Sites/noisebox/src/public/sfx/')
