@@ -38,7 +38,7 @@ module.exports = function (cb) {
                 var dir = {
                     name: name,
                     files: []
-                }
+                };
                 sfx.push(dir);
             } else {
                 var dirName = pathParts.pop();

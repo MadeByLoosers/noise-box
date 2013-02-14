@@ -1,3 +1,4 @@
+/*global _gaq*/
 /**
  * NoiseBox
  * HomeClient.js
