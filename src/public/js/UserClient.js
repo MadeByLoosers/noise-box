@@ -12,6 +12,7 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
 
         usernameField : null,
         chatField : null,
+        tracks : null,
         user : {
             id : "", // room id
             username : "",
@@ -20,18 +21,22 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
         },
         broadcastMode: true, // false for preview
         audioElement : null,
+        debounceTimeout : null,
 
         init : function () {
 
             this._super();
 
-            $("#track-list a").on("click", _.bind(this.onTrackClicked,this));
+            this.tracks = $("#track-list a");
+            this.tracks.on("click", _.bind(this.onTrackClicked,this));
 
             $("#username-form").on("submit", _.bind(this.onUsernameUpdate,this));
 
             $("#chat-form").on("submit", _.bind(this.onChatMessage,this));
 
             $("#play-mode-form input[name=play-mode]").on("change", _.bind(this.onPlayModeChange,this));
+
+            $("#track-search").on("keyup", _.bind(this.debounceFilterContent,this));
 
             this.usernameField = $("#username");
             this.chatField = $("#chat-text");
@@ -141,6 +146,53 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
                 _gaq.push(['_trackEvent','chat', 'talking', this.noiseBoxID]);
             }
 
+        },
+
+
+        // debounce the search filter, so it doesn't happen immediately after every key input
+        debounceFilterContent: function(event) {
+            var self = this;
+            clearTimeout(this.debounceTimeout);
+            this.debounceTimeout = setTimeout(function(){
+                _.bind(self.filterContent(event), self);
+            }, 250);
+        },
+
+
+        // filter search content based on user input
+        // also used to reset the search content to default state
+        filterContent: function(e) {
+
+            var searchTerm = e.target.value,
+                searchWords, match;
+
+            // create an array of any search words, split on spaces
+             searchWords = searchTerm.split(/\s+/g),
+
+            // loop through all searchable items...
+            _.each(this.tracks, function(track){
+
+                // match each search word - separated on a space
+                // assume we have a match by default...
+                match = true;
+
+                // if no term is specified, we're resetting... (so probably showing all)
+                if (!!searchTerm) {
+                    _.each(searchWords, function(word){
+                        if (track.innerHTML.indexOf(word.toLowerCase()) === -1) {
+                            match = false;
+                            return;
+                        }
+                    });
+                }
+
+                // condition : was there a match? If so, show item
+                if (!match) {
+                    track.parentNode.style.display = "none";
+                } else {
+                    track.parentNode.style.display = "block";
+                }
+            });
         },
 
 
