@@ -5,13 +5,15 @@
   "private": true,
   "dependencies": {
     "express": "3.0.3",
-    "express-partials" : "0.0.6",
+    "express-partials": "0.0.6",
     "ejs": "0.8.3",
     "socket.io": "0.9.11",
     "underscore": "1.4.3",
     "backbone": "0.9.2",
-	  "winston": "0.6.2",
-	  "winston-loggly": "0.6.0",
-    "walk": "2.2.1"
+    "winston": "0.6.2",
+    "winston-loggly": "0.6.0",
+    "dive": "~0.3.0",
+    "async": "~0.2.5",
+    "musicmetadata": "~0.2.0"
   }
 }
