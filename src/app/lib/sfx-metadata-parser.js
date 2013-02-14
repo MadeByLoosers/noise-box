@@ -18,33 +18,47 @@ module.exports = function (sfx,cb) {
     var tasks = [];
     sfx.forEach(function (dir) {
         dir.files.forEach(function (file) {
-            tasks.push(function (file,dir) {
+            tasks.push((function (file,dir) {
                 return function (cb) {
                     parseFile(file,dir,cb);
-                }
-            }(file,dir));
+                };
+            }(file,dir)));
         });
     });
     async.series(tasks,function (err) {
         cb(err,sfx);
     });
-}
+};
 
 function parseFile (file,dir,cb) {
-    dir.parsed = true;
-    var filePath = sfxDir+"/"+dir.name+"/"+file.filename;
-    var parser = new MusicMetaData(fs.createReadStream(filePath));
-    parser.on("metadata",function (res) {
-        file.title = res.title;
-        file.artist = res.artist.toString();
-        file.album = res.album;
-    });
-    parser.on("TLEN",function (res) {
-        file.duration = res;
-    });
-    parser.on("done",function (err) {
-        //if ( err ) log.warn(file.filename+" "+err.toString());
-        parser.stream.destroy();
+    try{
+        dir.parsed = true;
+        var filePath = sfxDir+"/"+dir.name+"/"+file.filename;
+        console.log(filePath);
+        var parser = new MusicMetaData(fs.createReadStream(filePath));
+        parser.on("metadata",function (res) {
+            file.title = res.title;
+            file.artist = res.artist.toString();
+            file.album = res.album;
+        });
+        parser.on("TLEN",function (res) {
+            file.duration = res;
+        });
+        parser.on("done",function (err) {
+            //if ( err ) log.warn(file.filename+" "+err.toString());
+            /*
+            NOTE: uncommenting the below line crashes the app on pxg's machine:
+            events.js:48
+            throw arguments[1]; // Unhandled 'error' event
+                           ^
+            Error: EBADF, bad file descriptor
+            */
+            //parser.stream.destroy();
+            cb();
+        });
+    }catch(e){
+        console.log(e);
         cb();
-    });
+        return;
+    }
 }
