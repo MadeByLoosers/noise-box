@@ -31,6 +31,8 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
             this.usernameField = $("#username");
             this.chatField = $("#chat-text");
 
+            this.chatField.attr("disabled", "disabled");
+
             this.on(Const.USER_ADDED,this.updateUsernameField);
             this.on(Const.USER_UPDATED,this.updateUsernameField);
         },
@@ -83,6 +85,9 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
             if (!!window.localStorage) {
                 window.localStorage.username = this.user.username;
             }
+
+            this.chatField.removeAttr("disabled");
+            $("#chat-text-label").text("Chat");
         },
 
 
