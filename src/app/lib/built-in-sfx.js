@@ -7,6 +7,20 @@ var cacheTime = 1000*60*5;
 var sfx;
 var lastAccess;
 
+/**
+ * Async walks the sfx dir and builds a data structure. Data structure is
+ * rebuilt at most once every cacheTime (currently 5mins). Format:
+ *
+ * [
+ *     {
+ *         name: "dir",
+ *         files: [
+ *             filename: "example.mp3",
+ *             path: "/sfx/dir/example.mp3"
+ *          ]
+ *     }
+ * ]
+ */
 module.exports = function (cb) {
     if ( sfx && lastAccess && (Date.now()<(lastAccess+cacheTime)) ) {
         cb(null,sfx);
