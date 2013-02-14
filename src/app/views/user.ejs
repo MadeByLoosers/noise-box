@@ -1,41 +1,33 @@
 <h2>Viewing "<%= id %>"</h2>
-<section id="file-list">
+<section id="album-list">
+    <h3>Albums</h3>
+    <ul>
     <% files.forEach(function(dir){ %>
-        <p><%= dir.name %></p>
-        <ul>
-        <% dir.files.forEach(function(file){ %>
-            <li><a href="<%= file.path %>"><%= file.filename %></a></li>
-        <% }); %>
-        </ul>
+        <li><a href="#tracks-<%= dir.name %>"><%= dir.name %></a></li>
+    <% }); %>
+    </ul>
+</section>
+<section id="track-list">
+    <h3>Tracks</h3>
+    <input id="track-search" type="search" placeholder="Search tracks">
+    <% files.forEach(function(dir){ %>
+        <div class="tracks" id="tracks-<%= dir.name %>">
+            <p><%= dir.name %></p>
+            <ul>
+            <% dir.files.forEach(function(file){ %>
+                <li><a href="<%= file.path %>"><%= file.name %> (<%= file.duration %>s)</a></li>
+            <% }); %>
+            </ul>
+        </div>
     <% }); %>
 </section>
-<form id="username-form">
-  <fieldset>
-    <legend>Update your username</legend>
-    <label for="username">Username</label>
-    <input type="text" id="username" name="username" value="<%= username %>" />
-
-    <label for="userid">userid</label>
-    <input type="text" readonly id="userid" name="userid" value="<%= userid %>" />
-
-    <label for="cid">cid</label>
-    <input type="text" readonly id="cid" name="cid" value="<%= cid %>" />
-
-    <label for="id">id (room)</label>
-    <input type="text" readonly id="id" name="id" value="<%= id %>" />
-    <input type="submit" />
-  </fieldset>
-</form>
-<form id="chat-form">
-  <fieldset>
-    <legend>Chat</legend>
-    <label id="chat-text-label" for="chat-text">Sign in to chat</label>
-    <input type="text" id="chat-text" name="chat-text" value="" />
-    <input type="submit" />
-  </fieldset>
-</form>
-<% include partials/currently-playing %>
-<% include partials/play-queue %>
-<% include partials/users %>
-<% include partials/log %>
+<section id="stats">
+    <% include partials/play-mode-form %>
+    <% include partials/username-form %>
+    <% include partials/chat-form %>
+    <% include partials/currently-playing %>
+    <% include partials/play-queue %>
+    <% include partials/users %>
+    <% include partials/log %>
+</section>
 <% include partials/socket-io %>

@@ -17,16 +17,20 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
             cid : "",
             userid : ""
         },
+        broadcastMode: true, // false for preview
+        audioElement : null,
 
         init : function () {
 
             this._super();
 
-            $("#file-list").on("click","a",_.bind(this.onTrackClicked,this));
+            $("#track-list a").on("click", _.bind(this.onTrackClicked,this));
 
             $("#username-form").on("submit", _.bind(this.onUsernameUpdate,this));
 
             $("#chat-form").on("submit", _.bind(this.onChatMessage,this));
+
+            $("#play-mode-form input[name=play-mode]").on("change", _.bind(this.onPlayModeChange,this));
 
             this.usernameField = $("#username");
             this.chatField = $("#chat-text");
@@ -41,7 +45,38 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
 
             event.preventDefault();
 
-            this.emit(Const.USER_CLICKED_TRACK,{track:event.target.href});
+            var track = event.target.href;
+
+            if (this.broadcastMode) {
+                this.emit(Const.USER_CLICKED_TRACK,{track:track});
+            } else {
+                this.previewTrack(track);
+            }
+        },
+
+        onPlayModeChange : function(event) {
+            if (event.target.value === "broadcast") {
+                this.broadcastMode = true;
+            } else if (event.target.value === "preview") {
+                this.broadcastMode = false;
+            }
+        },
+
+        previewTrack : function(track) {
+
+            // need to create a new audio element each time
+            // can't just change the src of an existing element
+            if (!!this.audioElement) {
+                this.audioElement.remove();
+            }
+
+            this.audioElement = $("<audio />")
+                .attr("id", "audio-player")
+                .attr("preload", "auto")
+                .attr("src", track)
+                .appendTo("body");
+
+            this.audioElement[0].play();
         },
 
         updateUsernameField : function(data) {

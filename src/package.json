@@ -12,6 +12,8 @@
     "backbone": "0.9.2",
     "winston": "0.6.2",
     "winston-loggly": "0.6.0",
-    "dive": "~0.3.0"
+    "dive": "~0.3.0",
+    "async": "~0.2.5",
+    "musicmetadata": "~0.2.0"
   }
 }
