@@ -43,9 +43,10 @@ def set_id3_length(file_path):
     # title is filename (remove .mp3 remove underscores)
     dir, file = os.path.split(file_path)
     file = os.path.splitext(file)[0]
-    audio_id3['title'] = file.replace('_', ' ')
+    audio_id3['title'] = file.replace('_', ' ').replace('-', ' ')
     # album is folder name
-    audio_id3['album'] = os.path.split(dir)[1]
+    album = os.path.split(dir)[1]
+    audio_id3['album'] = album.replace('_', ' ').replace('-', ' ')
     # remove artist
     audio_id3['artist'] = ''
     # remove genre
@@ -53,5 +54,6 @@ def set_id3_length(file_path):
     audio_id3.save()
     print audio_id3
 
-set_id3_length('/Users/pxg/Sites/noisebox/src/public/sfx/_misc/hand_with_underscores.mp3')
-#set_length_all_files('/Users/pxg/Sites/noisebox/src/public/sfx/adam-and-joe/')
+#set_id3_length('/Users/pxg/Sites/noisebox/src/public/sfx/_misc/hand_with_underscores.mp3')
+set_length_all_files('/Users/pxg/Sites/noisebox/src/public/sfx/adam-and-joe/')
+#set_length_all_files('/Users/pxg/Sites/noisebox/src/public/sfx/')
