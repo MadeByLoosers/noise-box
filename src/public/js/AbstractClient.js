@@ -19,7 +19,7 @@ define(function (require) {
             this.users = [];
             this.playQueue = [];
             this.clientType = $("body").attr("id");
-            this.hostURL = $("body").data("host");
+            this.hostURL = $("body").data("host-ip") || $("body").data("host-name");
             this.noiseBoxID = $("body").data("noise-box-id");
             this.socket = io.connect(this.hostURL);
 
