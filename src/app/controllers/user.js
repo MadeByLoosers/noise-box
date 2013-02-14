@@ -35,18 +35,22 @@ var UserController = {
                 return;
             }
 
-            var files = model.getFiles();
-            res.extendTemplateOptions({
-                title: id + " | " + res.templateOptions.title,
-                clientType : constants.TYPE_USER,
-                id : id,
-                files : files,
-                username : "",
-                cid : "",
-                userid: ""
-            });
-
+            require("../lib/built-in-sfx")(function (err,sfx) {
+                if ( err ) {
+                    next(new Error("Failed to get SFX"));
+                    return;
+                }
+                res.extendTemplateOptions({
+                    title: id + " | " + res.templateOptions.title,
+                    clientType : constants.TYPE_USER,
+                    id : id,
+                    files : sfx,
+                    username : "",
+                    cid : "",
+                    userid: ""
+                });
                 res.render(constants.TYPE_USER,res.templateOptions);
+            });
         });
 
         // Attach socket events:
