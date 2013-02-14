@@ -13,6 +13,7 @@ var constants = require("./public/js/const");
 var error = require("./app/middleware/error");
 var AppModel = require("./app/model/AppModel");
 var log = require("./app/lib/log");
+var noiseBoxReaper = require("./app/lib/noise-box-reaper");
 
 // Detect environment:
 
@@ -66,3 +67,5 @@ var UserController = require("./app/controllers/user");
 HomeController();
 HostController.init();
 UserController.init();
+
+noiseBoxReaper();

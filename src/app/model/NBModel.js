@@ -16,7 +16,7 @@ var NBModel = module.exports = Backbone.Model.extend({
         this.tracks = new NBTrackCollection();
         this.users  = new NBUserCollection();
         this.hosts  = new NBHostCollection();
-
+        this.activityTimestamp = Date.now();
         this.log = new NBLogModel(this);
     },
 
@@ -28,14 +28,14 @@ var NBModel = module.exports = Backbone.Model.extend({
     addHost : function (id,socket) {
 
         this.hosts.add({id:id,socket:socket,parentNoiseBoxID:this.id});
-
+        this.activityTimestamp = Date.now();
         return this.hosts.get(id);
     },
 
     removeHost : function (id) {
 
         this.hosts.remove(this.getHost(id));
-
+        this.activityTimestamp = Date.now();
     },
 
     getHost : function (id) {
@@ -66,14 +66,14 @@ var NBModel = module.exports = Backbone.Model.extend({
     addUser : function (id,socket) {
 
         this.users.add({id:id,socket:socket,parentNoiseBoxID:this.id});
-
+        this.activityTimestamp = Date.now();
         return this.users.get(id);
     },
 
     removeUser : function (id) {
 
+        this.activityTimestamp = Date.now();
         this.users.remove(this.getUser(id));
-
     },
 
     getUser : function (id) {
@@ -108,11 +108,13 @@ var NBModel = module.exports = Backbone.Model.extend({
 
     addTrack : function(track) {
 
+        this.activityTimestamp = Date.now();
         this.tracks.add(track);
     },
 
     removeTrack : function(track) {
 
+        this.activityTimestamp = Date.now();
         this.tracks.remove(track);
     }
 });
