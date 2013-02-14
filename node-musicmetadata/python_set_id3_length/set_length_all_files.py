@@ -1,5 +1,6 @@
 from mutagen.easyid3 import EasyID3
 from mutagen.mp3 import MP3
+from mutagen.id3 import ID3, TIT2
 import datetime
 import os
 
@@ -33,9 +34,16 @@ def set_id3_length(file_path):
                 length = length[2:]
         #print length
 
-        audio_id3 = EasyID3(file_path)
-        audio_id3["length"] = str(length)
-        audio_id3.save()
+        try:
+            audio_id3 = EasyID3(file_path)
+            audio_id3["length"] = str(length)
+            audio_id3.save()
+        except:
+            print 'exception'
+            tags = ID3()
+            tags["TIT2"] = TIT2(encoding=3, text='test title')
+            tags.save(file_path)
+
     except Exception as e:
         print 'EXCEPTION %s %s' % (file_path, e)
 
