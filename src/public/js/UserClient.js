@@ -35,7 +35,7 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
 
             $("#play-mode-form input[name=play-mode]").on("change", _.bind(this.onPlayModeChange,this));
 
-            $("#track-search").on("keyup", _.bind(this.debounceFilterContent,this));
+            $("#track-search").on("keyup search", _.bind(this.debounceFilterContent,this));
 
             this.usernameField = $("#username");
             this.chatField = $("#chat-text");
@@ -153,23 +153,25 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
             var self = this;
             clearTimeout(this.debounceTimeout);
             this.debounceTimeout = setTimeout(function(){
-                _.bind(self.filterContent(event), self);
+                self.filterContent(event, self.tracks);
             }, 250);
         },
 
 
         // filter search content based on user input
         // also used to reset the search content to default state
-        filterContent: function(e) {
+        filterContent: function(e, tracks) {
 
             var searchTerm = e.target.value,
-                searchWords, match;
+                searchWords, match, counter = 0;
+
+            $("#search-counter").remove();
 
             // create an array of any search words, split on spaces
              searchWords = searchTerm.split(/\s+/g),
 
             // loop through all searchable items...
-            _.each(this.tracks, function(track){
+            _.each(tracks, function(track){
 
                 // match each search word - separated on a space
                 // assume we have a match by default...
@@ -189,9 +191,18 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
                 if (!match) {
                     track.parentNode.style.display = "none";
                 } else {
+                    counter++;
                     track.parentNode.style.display = "block";
                 }
             });
+
+            // add counter
+            if (searchTerm.length > 0) {
+                $("<p>")
+                    .attr("id", "search-counter")
+                    .text(counter+ " found")
+                    .appendTo($("#search-container"));
+            }
         },
 
 
