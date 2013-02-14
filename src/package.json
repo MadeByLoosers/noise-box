@@ -12,7 +12,6 @@
     "backbone": "0.9.2",
     "winston": "0.6.2",
     "winston-loggly": "0.6.0",
-    "walk": "2.2.1",
     "dive": "~0.3.0"
   }
 }
