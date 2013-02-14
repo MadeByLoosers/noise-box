@@ -18,17 +18,17 @@ module.exports = function (sfx,cb) {
     var tasks = [];
     sfx.forEach(function (dir) {
         dir.files.forEach(function (file) {
-            tasks.push(function (file,dir) {
+            tasks.push((function (file,dir) {
                 return function (cb) {
                     parseFile(file,dir,cb);
-                }
-            }(file,dir));
+                };
+            }(file,dir)));
         });
     });
     async.series(tasks,function (err) {
         cb(err,sfx);
     });
-}
+};
 
 function parseFile (file,dir,cb) {
     dir.parsed = true;
