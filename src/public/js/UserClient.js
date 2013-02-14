@@ -190,10 +190,10 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
 
                 // condition : was there a match? If so, show item
                 if (!match) {
-                    track.parentNode.style.display = "none";
+                    track.parentNode.className = "hidden";
                 } else {
                     counter++;
-                    track.parentNode.style.display = "block";
+                    track.parentNode.className = "";
                 }
             });
 
@@ -204,6 +204,18 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
                     .text(counter+ " found")
                     .appendTo($("#search-container"));
             }
+
+            // show/hide titles
+            $(".tracks").each(function(counter) {
+                var $trackContainer = $(this),
+                    $items = $trackContainer.find("li:not(.hidden)");
+
+                if ($items.length < 1) {
+                    $trackContainer.addClass("hidden");
+                } else {
+                    $trackContainer.removeClass("hidden");
+                }
+            });
         },
 
 
