@@ -77,6 +77,8 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
                     console.log("track duration", Math.floor(this.duration));
                 });
 
+                _gaq.push(['_trackEvent','track', this.currentTrack.track, this.noiseBoxID]);
+
                 // get track current time
                 //this.audioElement.on('ontimeupdate', function(e) {
                 //    console.log("time", Math.floor(this.currentTime) + ' / ' + Math.floor(this.duration));

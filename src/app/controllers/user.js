@@ -10,7 +10,6 @@ var app = server.app;
 var io = server.io;
 var model = server.model;
 var constants = server.constants;
-var fh = require("./../lib/file-helper");
 var moment = require("./../lib/moment");
 var templateOptions = require("./../middleware/template-options");
 var stats = require("./../middleware/stats");
@@ -35,18 +34,22 @@ var UserController = {
                 return;
             }
 
-            files = model.getFiles();
-            res.extendTemplateOptions({
-                title: id + " | " + res.templateOptions.title,
-                clientType : constants.TYPE_USER,
-                id : id,
-                files : files.reverse(),
-                username : "",
-                cid : "",
-                userid: ""
-            });
-
+            require("../lib/built-in-sfx")(function (err,sfx) {
+                if ( err ) {
+                    next(new Error("Failed to get SFX"));
+                    return;
+                }
+                res.extendTemplateOptions({
+                    title: id + " | " + res.templateOptions.title,
+                    clientType : constants.TYPE_USER,
+                    id : id,
+                    files : sfx,
+                    username : "",
+                    cid : "",
+                    userid: ""
+                });
                 res.render(constants.TYPE_USER,res.templateOptions);
+            });
         });
 
         // Attach socket events:
