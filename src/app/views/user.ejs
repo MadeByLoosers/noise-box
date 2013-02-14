@@ -9,7 +9,9 @@
 </section>
 <section id="track-list">
     <h3>Tracks</h3>
-    <input id="track-search" type="search" placeholder="Search tracks">
+    <div id="search-container">
+        <input id="track-search" type="search" placeholder="Search tracks">
+    </div>
     <% files.forEach(function(dir){ %>
         <div class="tracks" id="tracks-<%= dir.name %>">
             <p><%= dir.name %></p>
