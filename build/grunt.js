@@ -37,7 +37,9 @@ module.exports = function(grunt) {
         options: {
           direct: true,
           printCommand: false,
-          args: ['--port=7002']
+          args: {
+            port: 7002
+          }
         }
       }
     },
