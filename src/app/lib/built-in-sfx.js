@@ -8,7 +8,7 @@ var sfx;
 var lastAccess;
 
 module.exports = function (cb) {
-    if ( sfx && lastAccess && Date.now()<lastAccess+cacheTime ) {
+    if ( sfx && lastAccess && (Date.now()<(lastAccess+cacheTime)) ) {
         cb(null,sfx);
     } else {
         sfx = [];

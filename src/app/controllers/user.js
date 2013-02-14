@@ -10,7 +10,6 @@ var app = server.app;
 var io = server.io;
 var model = server.model;
 var constants = server.constants;
-var fh = require("./../lib/file-helper");
 var moment = require("./../lib/moment");
 var templateOptions = require("./../middleware/template-options");
 var stats = require("./../middleware/stats");
