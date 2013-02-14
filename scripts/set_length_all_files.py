@@ -52,8 +52,8 @@ def set_id3_length(file_path):
     # remove genre
     audio_id3['genre'] = ''
     audio_id3.save()
-    print audio_id3
+    #print audio_id3
 
 #set_id3_length('/Users/pxg/Sites/noisebox/src/public/sfx/_misc/hand_with_underscores.mp3')
-set_length_all_files('/Users/pxg/Sites/noisebox/src/public/sfx/adam-and-joe/')
-#set_length_all_files('/Users/pxg/Sites/noisebox/src/public/sfx/')
+#set_length_all_files('/Users/pxg/Sites/noisebox/src/public/sfx/adam-and-joe/')
+set_length_all_files('/Users/pxg/Sites/noisebox/src/public/sfx/')
