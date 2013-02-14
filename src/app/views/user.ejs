@@ -4,7 +4,7 @@
         <p><%= dir.name %></p>
         <ul>
         <% dir.files.forEach(function(file){ %>
-            <li><a href="<%= file.path %>"><%= file.filename %></a></li>
+            <li><a href="<%= file.path %>"><%= file.name %> (<%= file.duration %>s)</a></li>
         <% }); %>
         </ul>
     <% }); %>
