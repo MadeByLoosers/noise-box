@@ -34,17 +34,18 @@ def set_id3_length(file_path):
     except Exception as e:
         print 'EXCEPTION %s %s' % (file_path, e)
         tags = ID3()
-        tags["TIT2"] = TIT2(encoding=3, text='')
+        # below line is needed for tags to be created
+        tags['TIT2'] = TIT2(encoding=3, text='')
         tags.save(file_path)
         audio_id3 = EasyID3(file_path)
 
-    audio_id3["length"] = str(length)
-    #TODO: set title to file (remove .mp3 remove underscores)
-    audio_id3['title'] = ''
-    #TODO: album to folder name
+    audio_id3['length'] = str(length)
+    # title is filename (remove .mp3 remove underscores)
     dir, file = os.path.split(file_path)
-    dir, album = os.path.split(dir)
-    audio_id3['album'] = album
+    file = os.path.splitext(file)[0]
+    audio_id3['title'] = file.replace('_', ' ')
+    # album is folder name
+    audio_id3['album'] = os.path.split(dir)[1]
     # remove artist
     audio_id3['artist'] = ''
     # remove genre
@@ -52,5 +53,5 @@ def set_id3_length(file_path):
     audio_id3.save()
     print audio_id3
 
-set_id3_length('/Users/pxg/Sites/noisebox/src/public/sfx/_misc/hand.mp3')
+set_id3_length('/Users/pxg/Sites/noisebox/src/public/sfx/_misc/hand_with_underscores.mp3')
 #set_length_all_files('/Users/pxg/Sites/noisebox/src/public/sfx/adam-and-joe/')
