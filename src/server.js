@@ -57,6 +57,14 @@ module.exports.env = env;
 module.exports.port = port;
 module.exports.model = new AppModel();
 
+// Test controller
+
+if (env === 'testing') {
+  var TestController = require("./app/controllers/test");
+  app.get("/testing/killme",TestController);
+}
+
+
 // Init controllers:
 
 var HomeController = require("./app/controllers/home");

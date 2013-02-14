@@ -1,10 +1,11 @@
-/*global module:false*/
+/*global module:false process*/
 module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
     distDir: "../dist",
     srcDir: "../src",
+    testPort: "7002",
     pkg: '<json:../src/package.json>',
     meta: {
       banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
@@ -17,6 +18,7 @@ module.exports = function(grunt) {
     lint: {
       build: [
         "./grunt.js",
+        "./casperjs/*.js",
         "./tasks/*.js"
       ],
       site: [
@@ -27,6 +29,19 @@ module.exports = function(grunt) {
 
     qunit: {
       files: ['test/**/*.html']
+    },
+
+    ghost: {
+      test: {
+        src: ['test/casperjs/**/*.js'],
+        options: {
+          direct: true,
+          printCommand: false,
+          args: {
+            port: 7002
+          }
+        }
+      }
     },
 
     clean : {
@@ -82,19 +97,41 @@ module.exports = function(grunt) {
 
     shell: {
       npmInstall: {
-          command: "ssh wintermute 'cd /var/node/noise-box/app; npm install --production;'",
-          stdout: true
+        command: "ssh wintermute 'cd /var/node/noise-box/app; npm install --production;'",
+        stdout: true
       },
       monitRestart: {
-          command: "ssh wintermute 'sudo monit restart noise-box'",
-          stdout: true
+        command: "ssh wintermute 'sudo monit restart noise-box'",
+        stdout: true
       }
-  },
+    },
 
     watch: {
-      files: '<config:lint.files>',
-      tasks: 'lint qunit'
+      files: '<%= srcDir %>/public/less/*.less',
+      tasks: 'less'
     },
+
+    less: {
+      development: {
+        options: {
+          paths: ["<%= srcDir %>/public/less/*.less"]
+        },
+        files: {
+          "<%= srcDir %>/public/css/style.css": "<%= srcDir %>/public/less/.less"
+        }
+      }
+      // ,
+      // production: {
+      //   options: {
+      //     paths: ["assets/css"],
+      //     yuicompress: true
+      //   },
+      //   files: {
+      //     "path/to/result.css": "path/to/source.less"
+      //   }
+      // }
+    },
+
     jshint: {
       options: {
         curly: true,
@@ -121,18 +158,48 @@ module.exports = function(grunt) {
         Class: true
       }
     },
+    
     uglify: {}
+    
   });
 
   grunt.loadNpmTasks("grunt-contrib");
+  grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks("grunt-rsync");
   grunt.loadNpmTasks("grunt-shell");
+  grunt.loadNpmTasks('grunt-casperjs');
+  grunt.loadNpmTasks('grunt-ghost');
+
+  grunt.registerTask('spawn', 'Start app in the background', function () {
+    var fs = require('fs'),
+       spawn = require('child_process').spawn,
+       out = fs.openSync('./out.log', 'a'),
+       err = fs.openSync('./out.log', 'a'),
+       env = process.env;
+
+    env.NODE_ENV = 'testing';
+    env.PORT = 7002;
+
+    grunt.log.writeln('Starting app in the background');
+    grunt.log.writeln('stdout and stderr will be logged to out.log');
+
+    var child = spawn('node', ['../src/server.js'], {
+     detached: true,
+     stdio: [ 'ignore', out, err ],
+     env: env
+    });
+
+    child.unref();
+  });
 
   // Default task.
   grunt.registerTask('default', 'lint:site lint:build qunit');
 
+  // Test task.
+  grunt.registerTask('test', 'lint:site lint:build qunit spawn ghost');
+
   // Build task.
-  grunt.registerTask('dist', 'default clean rsync:dist requirejs:frontend mincss:frontend');
+  grunt.registerTask('dist', 'test clean rsync:dist requirejs:frontend mincss:frontend');
 
   // Deploy task.
   grunt.registerTask('deploy', 'dist rsync:deploy shell:npmInstall shell:monitRestart');

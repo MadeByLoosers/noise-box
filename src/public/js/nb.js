@@ -9,6 +9,10 @@
 define(["HomeClient","HostClient","UserClient","constants","jquery"], function (HomeClient,HostClient,UserClient,Const) {
 
     var init = function () {
+$('.popup').click(function(){
+  window.open(this.href, 'window name', 'window settings');
+  return false;
+});
 
         $(function () {
 

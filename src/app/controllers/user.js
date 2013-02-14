@@ -1,3 +1,4 @@
+/*global next*/
 /**
  * NoiseBox
  * user.js
