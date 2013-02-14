@@ -6,13 +6,10 @@ import os
 
 
 def set_length_all_files(path):
-    #print 'loop files here'
     for root, dirs, files in os.walk(path, topdown=False):
         for name in files:
             file_path = os.path.join(root, name)
             set_id3_length(file_path)
-        # for name in dirs:
-        #     print 'DIR: ' + os.path.join(root, name)
 
 
 def set_id3_length(file_path):
@@ -32,20 +29,22 @@ def set_id3_length(file_path):
                 length = length[3:]
             elif length[0:2] == '0:':
                 length = length[2:]
-        #print length
 
+        # Add tags if they don't already exist
         try:
             audio_id3 = EasyID3(file_path)
-            audio_id3["length"] = str(length)
-            audio_id3.save()
         except:
             print 'exception'
             tags = ID3()
-            tags["TIT2"] = TIT2(encoding=3, text='test title')
+            tags["TIT2"] = TIT2(encoding=3, text='')
             tags.save(file_path)
+            audio_id3 = EasyID3(file_path)
+
+        audio_id3["length"] = str(length)
+        audio_id3.save()
 
     except Exception as e:
         print 'EXCEPTION %s %s' % (file_path, e)
 
-set_id3_length('/Users/pxg/Sites/noisebox/src/public/sfx/_misc/destroy.mp3')
-#set_length_all_files('/Users/pxg/Sites/noisebox/src/public/sfx/')
+#set_id3_length('/Users/pxg/Sites/noisebox/src/public/sfx/_misc/hand.mp3')
+set_length_all_files('/Users/pxg/Sites/noisebox/src/public/sfx/')
