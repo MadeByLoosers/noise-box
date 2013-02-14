@@ -32,8 +32,6 @@ def format_length(length):
 
 def set_id3_length(file_path):
     audio = MP3(file_path)
-    # except:
-    #     print 'MP3 error %s' % file_path
     length = format_length(audio.info.length)
 
     # Exception will be thrown if tags don't exist
@@ -61,8 +59,5 @@ def set_id3_length(file_path):
     # remove genre
     audio_id3['genre'] = ''
     audio_id3.save()
-    #print audio_id3
 
-#set_id3_length('/Users/pxg/Sites/noisebox/src/public/sfx/_misc/hand_with_underscores.mp3')
-#set_length_all_files('/Users/pxg/Sites/noisebox/src/public/sfx/_misc/')
 set_length_all_files('/Users/pxg/Sites/noisebox/src/public/sfx/')
