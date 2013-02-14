@@ -60,4 +60,5 @@ def set_id3_length(file_path):
     audio_id3['genre'] = ''
     audio_id3.save()
 
+#TODO: change this path so it's relative
 set_length_all_files('/Users/pxg/Sites/noisebox/src/public/sfx/')
