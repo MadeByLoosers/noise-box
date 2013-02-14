@@ -1,4 +1,4 @@
-var casper,
+  var casper,
   audiofile,
   port,
   roomName = 'caspersroom',
@@ -6,8 +6,8 @@ var casper,
   clientPage;
 
 casper = require('casper').create({
-    verbose: true,
-    logLevel: "debug"
+    // verbose: true,
+    // logLevel: "debug"
 });
 
 port = casper.cli.get('port')
@@ -23,23 +23,23 @@ casper.start('http://localhost:'+ port +'/', function() {
 });
 
 casper.then(function() {
-    this.test.assertUrlMatch('/host/caspersroom', 'You can create a new host');
+    this.test.assertUrlMatch('/host/'+roomName, 'You can create a new host');
     this.test.assertTextExists('Hosting "'+roomName+'"', 'The host exists after being created');
     this.captureSelector('nbhost.png', 'body');
     this.click('p a');
 });
 
-casper.waitForPopup(/caspersroom$/, function() {
-    this.test.assertEquals(this.popups.length, 1);
-});
+// casper.waitForPopup(/caspersroom$/, function() {
+//     this.test.assertEquals(this.popups.length, 1);
+// });
 
-// this will set the popup DOM as the main active one only for time the
-// step closure being executed
-casper.withPopup(/caspersroom$/, function() {
-    this.test.assertTextExists('Viewing "'+roomName+'"', 'The client room identifies itself');
-    this.captureSelector('nbclient.png', 'body');
-    this.test.assertExists('a[href$=".mp3"]', 'An anchor element links to an mp3');
-});
+// // this will set the popup DOM as the main active one only for time the
+// // step closure being executed
+// casper.withPopup(/caspersroom$/, function() {
+//     this.test.assertTextExists('Viewing "'+roomName+'"', 'The client room identifies itself');
+//     this.captureSelector('nbclient.png', 'body');
+//     this.test.assertExists('a[href$=".mp3"]', 'An anchor element links to an mp3');
+// });
 
 
 // casper.then(function(){
@@ -66,14 +66,14 @@ casper.withPopup(/caspersroom$/, function() {
 //     this.echo(this.page);
 // });
 
-casper.thenOpen('http://localhost:'+ port +'/host/caspersroom', function() {
-    this.test.assertExists('audio[src$=".mp3"]', 'The host has an audio element pointing to an mp3');
-});
-
-// casper.then(function(){
-//     this.open('http://localhost:'+ port +'/testing/killme/');
-//     this.test.assert('a' === 'a', 'Visited url to kill app');
+// casper.thenOpen('http://localhost:'+ port +'/host/caspersroom', function() {
+//     this.test.assertExists('audio[src$=".mp3"]', 'The host has an audio element pointing to an mp3');
 // });
+
+casper.then(function(){
+    this.open('http://localhost:'+ port +'/testing/killme/');
+    this.test.assert('a' === 'a', 'Visited url to kill app');
+});
 
 casper.run(function() {
     this.test.done(5); // checks that all assertions have been executed
