@@ -89,12 +89,34 @@ module.exports = function(grunt) {
           command: "ssh wintermute 'sudo monit restart noise-box'",
           stdout: true
       }
-  },
+    },
 
     watch: {
-      files: '<config:lint.files>',
-      tasks: 'lint qunit'
+      files: '<%= srcDir %>/public/less/*.less',
+      tasks: 'less'
     },
+
+    less: {
+      development: {
+        options: {
+          paths: ["<%= srcDir %>/public/less/*.less"]
+        },
+        files: {
+          "<%= srcDir %>/public/css/style.css": "<%= srcDir %>/public/less/.less"
+        }
+      }
+      // ,
+      // production: {
+      //   options: {
+      //     paths: ["assets/css"],
+      //     yuicompress: true
+      //   },
+      //   files: {
+      //     "path/to/result.css": "path/to/source.less"
+      //   }
+      // }
+    },
+
     jshint: {
       options: {
         curly: true,
@@ -125,6 +147,7 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks("grunt-contrib");
+  grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks("grunt-rsync");
   grunt.loadNpmTasks("grunt-shell");
 

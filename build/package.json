@@ -7,6 +7,7 @@
     "dependencies": {
       "grunt": "~0.3.0",
       "grunt-contrib": "~0.3.0",
+      "grunt-contrib-less": "~0.3",
       "grunt-rsync": "~0.0.1",
       "grunt-shell": "~0.1.0",
       "vows": "~0.6.0",
