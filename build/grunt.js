@@ -196,7 +196,7 @@ module.exports = function(grunt) {
   grunt.registerTask('default', 'lint:site lint:build qunit');
 
   // Test task.
-  grunt.registerTask('test', 'lint:site lint:build qunit spawn ghost');
+  grunt.registerTask('test', 'less:development lint:site lint:build qunit spawn ghost');
 
   // Build task.
   grunt.registerTask('dist', 'test clean rsync:dist requirejs:frontend mincss:frontend');
