@@ -15,4 +15,4 @@ module.exports = function () {
             model.noiseBoxes.remove(noiseBox);
         });
     },reapInterval);
-}
+};
