@@ -22,9 +22,10 @@ cd noise-box/build
 ```
 Where _taskname_ is the name of the grunt task you'd like to run
 
-There are three useful grunt tasks
+Here are the useful grunt tasks
 * 'test' -   Run all available tests
 * 'dist' -   Run 'test' then create a dist folder containing deployable files
 * 'deploy' - Run previous tasks, then deploy site to host 'wintermute'.  This is unlikely to be useful unless you have an ssh host on your machine named 'wintermute'.
+* 'watch' - watches for files changes, converting LESS css into compiled css.  
 
 When running tests you'll need to make sure you have a fresh instance of noise-box running.  
