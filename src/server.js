@@ -49,6 +49,9 @@ var server = app.listen(port,function () {
 
 var io = socketIO.listen(server,{"log level":0});
 
+// test over long-polling (disable websockets)
+//io.set('transports', [ 'xhr-polling' ]);
+
 // Expose app actors:
 
 module.exports.constants = constants;

@@ -45,6 +45,8 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
 
             this.on(Const.USER_ADDED,this.updateUsernameField);
             this.on(Const.USER_UPDATED,this.updateUsernameField);
+
+            this.on(Const.SERVER_SOCKET_CONNECT,this.detectTransport);
         },
 
         onTrackClicked : function (event) {
@@ -216,6 +218,16 @@ define(["constants","AbstractClient","jquery","underscore"], function (Const,Abs
                     $trackContainer.removeClass("hidden");
                 }
             });
+        },
+
+
+
+        detectTransport: function() {
+            console.log("detected transport", this.socket.socket.transport.name);
+            var transport = this.socket.socket.transport.name;
+            if (transport !== 'websocket') {
+                this.createFlashMessage("Your connection to noisebox isn't great, it could be improved by using a modern browser or connecting via wifi");
+            }
         },
 
 

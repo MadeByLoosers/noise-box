@@ -7,9 +7,11 @@
     </head>
     <body id="<%= clientType %>" data-host="<%= host %>" data-noise-box-id="<%= id %>" data-env="<%= env %>">
         <div id="wrapper">
+            <% if (flashMessage.length > 0) { %>
             <div id="flashMessage" class="hidden">
                 <p><%= flashMessage %></p>
             </div>
+            <% } %>
             <h1><a href="/"><%= heading %></a></h1>
             <%- body %>
         </div>

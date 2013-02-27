@@ -26,7 +26,7 @@ define(function (require) {
             console.log("****************");
             console.log("Client init",this.clientType,this.hostURL,this.noiseBoxID===undefined?"":this.noiseBoxID);
 
-            $("#flashMessage p:parent").parent().slideDown(250).delay(5000).slideUp(250);
+            this.flashMessage();
 
             this.on(Const.SERVER_SOCKET_CONNECT,this.onConnect);
             this.on(Const.SOCKET_DISCONNECT,this.onDisconnect);
@@ -132,6 +132,29 @@ define(function (require) {
             $("<li />")
                 .text(log)
                 .appendTo(this.logEl);
+        },
+
+        // if there is a flash message, display it
+        flashMessage : function() {
+            var $flashMessage = $("#flashMessage");
+            if ($flashMessage.length > 0) {
+                $flashMessage
+                    .slideDown(250)
+                    .delay(5000)
+                    .slideUp(250, function(){
+                        $flashMessage.remove();
+                    });
+            }
+        },
+
+
+        createFlashMessage : function(message) {
+            var $flashMessage = $("<div>")
+                .attr("id", "flashMessage")
+                .css("display", "none")
+                .html("<p>"+message+"</p>")
+                .prependTo("#wrapper");
+            this.flashMessage();
         },
 
         /**
