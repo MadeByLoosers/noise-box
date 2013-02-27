@@ -50,7 +50,7 @@ var HostController = {
             res.extendTemplateOptions({
                 title: "Hosting " + id + " | " + res.templateOptions.title,
                 clientType:constants.TYPE_HOST,
-                userHostName : res.templateOptions.hostName+"/"+id,
+                userURL : res.templateOptions.host+"/"+id,
                 id : id
             });
 
