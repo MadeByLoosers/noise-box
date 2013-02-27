@@ -145,7 +145,10 @@ var UserController = {
 
         if ( !nb ) { return; }
 
-        track.user = nb.getUser(socket.id).get("username");
+        user = nb.getUser(socket.id);
+        if (!user) { return; }
+
+        track.user = user.get("username");
         track.datetime = moment().format("YYYY-MM-DD hh:mm:ss");
         track.track = data.track;
 
