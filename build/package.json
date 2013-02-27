@@ -5,13 +5,13 @@
   "private": true,
     "main": "grunt.js",
     "dependencies": {
-      "grunt": "~0.3.0",
-      "grunt-contrib": "~0.3.0",
-      "grunt-contrib-less": "~0.3",
-      "grunt-rsync": "~0.0.1",
-      "grunt-shell": "~0.1.0",
-      "grunt-ghost": "1.0",
+      "grunt": "~0.4",
+      "grunt-contrib-jshint": "~0.2",
+      "grunt-contrib-less": "~0.5",
+      "grunt-rsync": "~0.1",
+      "grunt-shell": "~0.2",
+      "grunt-ghost": "~1.0",
       "vows": "~0.7.0",
-      "grunt-vows": "~0.3.0"
+      "grunt-vows": "~0.4"
     }
 }

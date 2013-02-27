@@ -15,7 +15,7 @@ module.exports = function(grunt) {
         ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
     },
 
-    lint: {
+    jshint: {
       build: [
         "./grunt.js",
         "./casperjs/*.js",
@@ -24,24 +24,45 @@ module.exports = function(grunt) {
       site: [
         "<%= srcDir %>/public/js/*.js",
         "<%= srcDir %>/app/**/*.js"
-      ]
-    },
-
-    qunit: {
-      files: ['test/**/*.html']
+      ],
+      options: {
+        curly: true,
+        eqeqeq: true,
+        immed: true,
+        latedef: false,
+        newcap: true,
+        noarg: true,
+        sub: true,
+        undef: true,
+        boss: true,
+        eqnull: true,
+        browser: true,
+        globals: {
+          jQuery: true,
+          $: true,
+          _: true,
+          define: true,
+          require: true,
+          module: true,
+          console: true,
+          io: true,
+          Class: true,
+          __dirname: true
+        }
+      }
     },
 
     ghost: {
       test: {
-        src: ['test/casperjs/**/*.js'],
+        filesSrc: ['test/casperjs/frontend.js'],
         options: {
           direct: true,
-          printCommand: false,
+          printCommand: true,
           args: {
             port: 7002
           }
         }
-      }
+      },
     },
 
     clean : {
@@ -119,51 +140,14 @@ module.exports = function(grunt) {
         files: {
           "<%= srcDir %>/public/css/style.css": "<%= srcDir %>/public/less/*.less"
         }
-      }
-      // ,
-      // production: {
-      //   options: {
-      //     paths: ["assets/css"],
-      //     yuicompress: true
-      //   },
-      //   files: {
-      //     "path/to/result.css": "path/to/source.less"
-      //   }
-      // }
-    },
-
-    jshint: {
-      options: {
-        curly: true,
-        eqeqeq: true,
-        immed: true,
-        latedef: false,
-        newcap: true,
-        noarg: true,
-        sub: true,
-        undef: true,
-        boss: true,
-        eqnull: true,
-        browser: true
       },
-      globals: {
-        jQuery: true,
-        $: true,
-        _: true,
-        define: true,
-        require: true,
-        module: true,
-        console: true,
-        io: true,
-        Class: true
-      }
-    },
-    
-    uglify: {}
-    
+
+      uglify: {}
+    }
   });
 
-  grunt.loadNpmTasks("grunt-contrib");
+  // grunt.loadNpmTasks("grunt-contrib");
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks("grunt-rsync");
   grunt.loadNpmTasks("grunt-shell");
@@ -193,7 +177,8 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', 'lint:site lint:build qunit');
+  // grunt.registerTask('default', 'lint:site lint:build qunit');
+  grunt.registerTask('default', ['less:development', 'jshint:site', 'jshint:build', 'spawn', 'ghost']);
 
   // Test task.
   grunt.registerTask('test', 'less:development lint:site lint:build qunit spawn ghost');
