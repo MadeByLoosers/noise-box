@@ -30,17 +30,14 @@ module.exports = function(grunt) {
         boss: true,
         eqnull: true,
         browser: true,
+        node: true,
         globals: {
-          jQuery: true,
-          $: true,
+          jQuery: false,
+          $: false,
           _: true,
-          define: true,
-          require: true,
-          module: true,
-          console: true,
+          Class: false,
+          define: false,
           io: true,
-          Class: true,
-          __dirname: true
         }
       }
     },
