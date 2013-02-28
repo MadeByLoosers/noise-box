@@ -7,13 +7,6 @@ module.exports = function(grunt) {
     srcDir: "../src",
     testPort: "7002",
     pkg: '<json:../src/package.json>',
-    meta: {
-      banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
-        '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-        '<%= pkg.homepage ? "* " + pkg.homepage + "\n" : "" %>' +
-        '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-        ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
-    },
 
     jshint: {
       build: [
@@ -66,7 +59,10 @@ module.exports = function(grunt) {
     },
 
     clean : {
-      src: ["<%= distDir %>"]
+      src: ["<%= distDir %>"],
+      options: {
+        force: true
+      }
     },
 
     rsync : {
@@ -108,8 +104,8 @@ module.exports = function(grunt) {
       }
     },
 
-    mincss: {
-      frontend: {
+    cssmin: {
+      compress: {
         files: {
           "<%= distDir %>/public/css/style.css": ["<%= distDir %>/public/css/style.css"]
         }
@@ -140,19 +136,18 @@ module.exports = function(grunt) {
         files: {
           "<%= srcDir %>/public/css/style.css": "<%= srcDir %>/public/less/*.less"
         }
-      },
-
-      uglify: {}
+      }
     }
   });
 
-  // grunt.loadNpmTasks("grunt-contrib");
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
+  grunt.loadNpmTasks('grunt-ghost');
   grunt.loadNpmTasks("grunt-rsync");
   grunt.loadNpmTasks("grunt-shell");
-  grunt.loadNpmTasks('grunt-casperjs');
-  grunt.loadNpmTasks('grunt-ghost');
 
   grunt.registerTask('spawn', 'Start app in the background', function () {
     var fs = require('fs'),
@@ -176,16 +171,9 @@ module.exports = function(grunt) {
     child.unref();
   });
 
-  // Default task.
-  // grunt.registerTask('default', 'lint:site lint:build qunit');
-  grunt.registerTask('default', ['less:development', 'jshint:site', 'jshint:build', 'spawn', 'ghost']);
-
-  // Test task.
-  grunt.registerTask('test', 'less:development lint:site lint:build qunit spawn ghost');
-
-  // Build task.
-  grunt.registerTask('dist', 'test clean rsync:dist requirejs:frontend mincss:frontend');
-
-  // Deploy task.
-  grunt.registerTask('deploy', 'dist rsync:deploy shell:npmInstall shell:monitRestart');
+  grunt.registerTask('default', ['quick-test']);
+  grunt.registerTask('quick-test', 'Linting JS files', ['less:development', 'jshint:site', 'jshint:build',])
+  grunt.registerTask('test', 'Running in-browser tests', ['quick-test', 'spawn', 'ghost']);
+  grunt.registerTask('dist', 'Concat and minify into dist folder', ['clean', 'rsync:dist', 'requirejs:frontend', 'cssmin']);
+  grunt.registerTask('deploy', 'Deploying site', ['test', 'dist', 'rsync:deploy', 'shell:npmInstall', 'shell:monitRestart']);
 };
