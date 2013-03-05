@@ -12,7 +12,9 @@ module.exports = function () {
                 toRemove.push(noiseBox);
             }
         });
-        if ( toRemove.length > 0 ) log.info("now reaping "+toRemove.length+" stale boxes");
+        if ( toRemove.length > 0 ) {
+            log.info("now reaping "+toRemove.length+" stale boxes");
+        }
         toRemove.forEach(function (noiseBox) {
             server.model.noiseBoxes.remove(noiseBox);
         });
