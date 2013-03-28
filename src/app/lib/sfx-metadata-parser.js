@@ -20,7 +20,12 @@ module.exports = function (sfx,cb) {
         dir.files.forEach(function (file) {
             tasks.push((function (file,dir) {
                 return function (cb) {
-                    parseFile(file,dir,cb);
+
+                    // uncomment if checking files for length
+                    //parseFile(file,dir,cb);
+
+                    // comment if checking files for length
+                    cb();
                 };
             }(file,dir)));
         });
@@ -34,7 +39,7 @@ function parseFile (file,dir,cb) {
     try{
         dir.parsed = true;
         var filePath = sfxDir+"/"+dir.name+"/"+file.filename;
-        console.log(filePath);
+        console.log("Checking metadata for file:", filePath);
         var parser = new MusicMetaData(fs.createReadStream(filePath));
         parser.on("metadata",function (res) {
             file.title = res.title;
@@ -45,6 +50,7 @@ function parseFile (file,dir,cb) {
             file.duration = res;
         });
         parser.on("done",function (err) {
+            console.log("Done checking:", filePath);
             //if ( err ) log.warn(file.filename+" "+err.toString());
             /*
             NOTE: uncommenting the below line crashes the app on pxg's machine:
