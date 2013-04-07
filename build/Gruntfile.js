@@ -37,7 +37,7 @@ module.exports = function(grunt) {
           _: true,
           Class: false,
           define: false,
-          io: true,
+          io: true
         }
       }
     },
@@ -52,7 +52,7 @@ module.exports = function(grunt) {
             port: 7002
           }
         }
-      },
+      }
     },
 
     clean : {
@@ -128,7 +128,7 @@ module.exports = function(grunt) {
     less: {
       development: {
         options: {
-          paths: ["<%= srcDir %>/public/less/*.less"]
+          paths: ["<%= srcDir %>/public/less"]
         },
         files: {
           "<%= srcDir %>/public/css/style.css": "<%= srcDir %>/public/less/*.less"
@@ -169,7 +169,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('default', ['quick-test']);
-  grunt.registerTask('quick-test', 'Linting JS files', ['less:development', 'jshint:site', 'jshint:build',])
+  grunt.registerTask('quick-test', 'Linting JS files', ['less:development', 'jshint:site', 'jshint:build']);
   grunt.registerTask('test', 'Running in-browser tests', ['quick-test', 'spawn', 'ghost']);
   grunt.registerTask('dist', 'Concat and minify into dist folder', ['clean', 'rsync:dist', 'requirejs:frontend', 'cssmin']);
   grunt.registerTask('deploy', 'Deploying site', ['test', 'dist', 'rsync:deploy', 'shell:npmInstall', 'shell:monitRestart']);
