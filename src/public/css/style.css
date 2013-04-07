@@ -453,8 +453,11 @@ input[type=text] {
 input[type=submit] {
   background: #fff;
 }
-#wrapper {
-  padding-bottom: 30px;
+@media (min-width: 600px) {
+  #wrapper {
+    padding-top: 60px;
+    padding-bottom: 30px;
+  }
 }
 /* re-usable modules/components */
 /* flash message */
@@ -481,6 +484,15 @@ input[type=submit] {
 .horizontal-list .item {
   float: left;
 }
+/* header */
+@media (min-width: 600px) {
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+}
 /* banner */
 .banner {
   border-top: 1px solid #464646;
@@ -502,8 +514,8 @@ input[type=submit] {
   width: 165px;
   height: 30px;
 }
-/* header (share links) */
-.header {
+/* room (header share links) */
+.room {
   border: 1px solid #d9d9d9;
   padding: 10px 20px;
   background: #e6e6e6;
@@ -513,22 +525,22 @@ input[type=submit] {
   background: -o-linear-gradient(#ffffff, #e6e6e6);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
 }
-.header h2 {
+.room h2 {
   margin: 0 1em 0 0;
   float: left;
   padding: 5px 0;
   font-size: 1.33rem;
   font-weight: normal;
 }
-.header ul {
+.room ul {
   float: right;
 }
-.header ul li {
+.room ul li {
   margin-right: 10px;
 }
-.header ul li a,
-.header ul li a:active,
-.header ul li a:focus {
+.room ul li a,
+.room ul li a:active,
+.room ul li a:focus {
   display: block;
   font-size: 0.88rem;
   font-weight: bold;
@@ -543,49 +555,49 @@ input[type=submit] {
   -o-transition: all 250ms ease-out;
   transition: all 250ms ease-out;
 }
-.header ul li a:hover,
-.header ul li a.active {
+.room ul li a:hover,
+.room ul li a.active {
   color: #fff;
   background-color: #424242;
 }
 @media (min-width: 600px) {
-  .header ul li.share-trigger a {
+  .room ul li.share-trigger a {
     display: none;
   }
 }
-.header .share {
+.room .share {
   display: none;
   clear: both;
 }
 @media (min-width: 600px) {
-  .header .share {
+  .room .share {
     display: block;
     clear: none;
     float: right;
   }
 }
-.header .share .share-intro {
+.room .share .share-intro {
   display: none;
   float: left;
   margin: 0;
   padding: 5px 10px 5px 0;
 }
 @media (min-width: 600px) {
-  .header .share .share-intro {
+  .room .share .share-intro {
     display: block;
   }
 }
-.header .share input[type="text"],
-.header .share input[type="submit"],
-.header .share .share-intro {
+.room .share input[type="text"],
+.room .share input[type="submit"],
+.room .share .share-intro {
   font-size: 0.8rem;
 }
-.header .share input[type="text"] {
+.room .share input[type="text"] {
   width: 245px;
   margin-top: 10px;
 }
 @media (min-width: 600px) {
-  .header .share input[type="text"] {
+  .room .share input[type="text"] {
     float: right;
     margin: 0;
     width: 260px;
@@ -594,14 +606,19 @@ input[type=submit] {
 }
 /* footer */
 .footer {
+  clear: both;
   padding: 10px;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
   font-size: 0.8rem;
+}
+@media (min-width: 600px) {
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
 }
 .footer p {
   margin: 0;

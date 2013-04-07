@@ -3,6 +3,7 @@
  */
 @import "_elements.less";
 
+@mqWidth: 600px;
 
 /* default page styles */
 
@@ -36,8 +37,11 @@
     background:#fff;
   }
 
-  #wrapper {
-    padding-bottom:30px;
+  @media(min-width:@mqWidth) {
+    #wrapper {
+      padding-top:60px;
+      padding-bottom:30px;
+    }
   }
 
 
@@ -74,6 +78,17 @@
     }
 
 
+  /* header */
+    .header {
+
+      @media (min-width:@mqWidth) {
+        position:fixed;
+        top:0;
+        left:0;
+        right:0;
+      }
+    }
+
   /* banner */
     .banner {
       border-top:1px solid #464646;
@@ -94,8 +109,8 @@
     }
 
 
-  /* header (share links) */
-    .header {
+  /* room (header share links) */
+    .room {
       border:1px solid #d9d9d9;
       padding:10px 20px;
       .gradient(#e6e6e6, #e6e6e6, #fff);
@@ -137,7 +152,7 @@
             background-color:rgba(66,66,66,1);
           }
 
-          @media(min-width:600px) {
+          @media(min-width:@mqWidth) {
             &.share-trigger a {
               display:none;
             }
@@ -149,7 +164,7 @@
         display:none;
         clear:both;
 
-        @media(min-width:600px) {
+        @media(min-width:@mqWidth) {
           display:block;
           clear:none;
           float:right;
@@ -161,7 +176,7 @@
           margin:0;
           padding:5px 10px 5px 0;
 
-          @media(min-width:600px) {
+          @media(min-width:@mqWidth) {
             display:block;
           }
         }
@@ -176,7 +191,7 @@
           width:245px;
           margin-top:10px;
 
-          @media (min-width:600px) {
+          @media (min-width:@mqWidth) {
             float:right;
             margin:0;
             width:260px;
@@ -188,15 +203,19 @@
 
     /* footer */
       .footer {
+        clear:both;
         padding:10px;
-        position:fixed;
-        bottom:0;
-        left:0;
-        right:0;
 
         background:rgba(0,0,0,0.8);
         color:#fff;
         font-size:0.8rem;
+
+        @media(min-width:@mqWidth) {
+          position:fixed;
+          bottom:0;
+          left:0;
+          right:0;
+        }
 
         p {
           margin:0;
