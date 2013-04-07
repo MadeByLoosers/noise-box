@@ -136,7 +136,7 @@ define(function (require) {
 
         // if there is a flash message, display it
         flashMessage : function() {
-            var $flashMessage = $("#flashMessage");
+            var $flashMessage = $(".flash-message");
             if ($flashMessage.length > 0) {
                 $flashMessage
                     .slideDown(250)
@@ -150,7 +150,7 @@ define(function (require) {
 
         createFlashMessage : function(message) {
             var $flashMessage = $("<div>")
-                .attr("id", "flashMessage")
+                .attr("class", "flash-message")
                 .css("display", "none")
                 .html("<p>"+message+"</p>")
                 .prependTo("#wrapper");

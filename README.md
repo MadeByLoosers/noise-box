@@ -24,6 +24,23 @@ A `config.js` file also needs to be present in the `src` folder. There is a samp
 
 Create (or symlink) a directory in /src/public and call it 'sfx' - place mp3 files in here to have them listed.
 
+###less
+
+To update the styles, make changes to the style.less file
+
+To recompile the CSS file, first install less:
+
+```
+npm install less
+```
+
+Then from the src directory, run the following command:
+
+```
+./node_modules/less/bin/lessc public/less/style.less public/css/style.css -x
+```
+
+
 ###Usage
 
 Fire up the noise box server by switching to the ```src``` directory and running ```node server.js```

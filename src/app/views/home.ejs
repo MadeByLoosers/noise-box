@@ -1,6 +1,11 @@
-<p>Welcome to NoiseBox! Create a new NoiseBox to get started.</p>
+<h1 class="ir"><a href="/"><%= heading %></a></h1>
+<p>Broadcasting noise across the internet since 1972</p>
 <form action="/host/" method="post">
-    <label>Name</label>
-    <input type="text" name="id" id="id" value="" placeholder="e.g. ghetto-blaster" required="required" pattern="[a-zA-Z0-9]+" maxlength="20" />
-    <input type="submit" value="Go" />
+    <fieldset>
+        <legend>Create a room</legend>
+        <p class="legend">Create a room</p>
+        <label>Use letters and numbers, no spaces<br/>e.g. front-room</label>
+        <input type="text" name="id" id="id" value="" placeholder="room-name" required="required" pattern="[a-zA-Z0-9]+" maxlength="20" />
+        <input type="submit" value="Go" />
+    </fieldset>
 </form>

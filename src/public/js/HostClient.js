@@ -27,8 +27,6 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
 
         onServerAddTrack : function (data) {
 
-            console.log(data);
-
             this.playQueue.push(data);
             this.play();
 

@@ -11,7 +11,7 @@ define(function (require) {
 
     return Class.extend({
         init : function () {
-            $("#flashMessage p:parent").parent().slideDown(250).delay(5000).slideUp(250);
+            $(".flash-message p:parent").parent().slideDown(250).delay(5000).slideUp(250);
             $("#id").focus();
         }
     });
