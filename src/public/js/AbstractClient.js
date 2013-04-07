@@ -47,6 +47,12 @@ define(function (require) {
             this.userListEl = $("#users");
             this.logEl = $("#log ul");
 
+            this.shareLinkEl = $(".share-trigger a");
+            this.shareLinkEl.on("click", this.toggleShareLink);
+
+            this.shareEl = $(".share input");
+            this.shareEl.on("click", this.selectText);
+
         },
 
         onConnect : function () {
@@ -82,6 +88,21 @@ define(function (require) {
         },
 
         onNoiseBoxStatsUpdated : function (data) {
+            var $hostS = $(".hosts-stats-s"),
+                $userS = $(".users-stats-s");
+
+            if (data.numHosts === 1) {
+                $hostS.css("display","none");
+            } else {
+                $hostS.css("display","inline");
+            }
+
+            if (data.numUsers === 1) {
+                $userS.css("display","none");
+            } else {
+                $userS.css("display","inline");
+            }
+
             $(".hosts-stats-value").text(data.numHosts);
             $(".users-stats-value").text(data.numUsers);
         },
@@ -155,6 +176,21 @@ define(function (require) {
                 .html("<p>"+message+"</p>")
                 .prependTo("#wrapper");
             this.flashMessage();
+        },
+
+
+        // share link functionality
+        toggleShareLink: function(e) {
+            e.preventDefault();
+            var $this = $(this),
+                $share = $(".share");
+            $this.toggleClass("active");
+            $share.slideToggle();
+        },
+
+        selectText: function(e) {
+            e.preventDefault();
+            this.select();
         },
 
         /**

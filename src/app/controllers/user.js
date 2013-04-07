@@ -24,7 +24,7 @@ var UserController = {
 
         // Map route to middleware and rendering function:
 
-        app.get("/:id",templateOptions(),function (req,res) {
+        app.get("/:id",templateOptions(),stats(),function (req,res) {
 
             var id = req.params.id;
 
@@ -51,6 +51,7 @@ var UserController = {
                         clientType : constants.TYPE_USER,
                         id : id,
                         files : sfx,
+                        userURL : res.templateOptions.host+"/"+id,
                         username : "",
                         cid : "",
                         userid: ""

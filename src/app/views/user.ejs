@@ -1,5 +1,6 @@
-<h1><a href="/"><%= heading %></a></h1>
-<h2>Viewing "<%= id %>"</h2>
+<% include partials/banner %>
+<% include partials/header %>
+
 <section id="album-list">
     <h3>Albums</h3>
     <ul>
@@ -34,3 +35,4 @@
     <% include partials/log %>
 </section>
 <% include partials/socket-io %>
+<% include partials/footer %>
