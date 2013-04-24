@@ -15,7 +15,9 @@
             jquery : "lib/jquery",
             underscore : "lib/underscore",
             sji : "lib/sji",
-            constants : "const"
+            constants : "const",
+            scrollspy: "lib/bootstrap-scrollspy",
+            smoothscroll: "lib/smooth-scroll"
         },
         shim : {
             jquery : {

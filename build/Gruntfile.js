@@ -129,11 +129,8 @@ module.exports = function(grunt) {
 
     less: {
       development: {
-        options: {
-          paths: ["<%= srcDir %>/public/less"]
-        },
         files: {
-          "<%= srcDir %>/public/css/style.css": "<%= srcDir %>/public/less/*.less"
+          "<%= srcDir %>/public/css/style.css": "<%= srcDir %>/public/less/style.less"
         }
       }
     }
