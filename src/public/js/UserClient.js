@@ -6,7 +6,7 @@
  * Host page NoiseBox client.
  */
 
-define(["constants","AbstractClient","jquery","underscore", "scrollspy", "smoothscroll"], function (Const,AbstractClient) {
+define(["constants","AbstractClient","jquery","underscore", "scrollspy", "stickyheaders"], function (Const,AbstractClient) {
 
     return AbstractClient.extend({
 
@@ -47,6 +47,17 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "smooth
             this.on(Const.USER_UPDATED,this.updateUsernameField);
 
             this.on(Const.SERVER_SOCKET_CONNECT,this.detectTransport);
+
+            // scroll spy
+            $('#album-list .scrollable li').first().addClass('active');
+            $('#track-list .scrollable').scrollspy({target:"#album-list .scrollable"});
+
+            // sticky headers
+            $("#track-list .scrollable").stickySectionHeaders({
+                childEl         : '.tracks',
+                stickyClass     : 'sticky',
+                headlineSelector: 'h4'
+            });
         },
 
         onTrackClicked : function (event) {

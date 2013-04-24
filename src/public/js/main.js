@@ -17,7 +17,8 @@
             sji : "lib/sji",
             constants : "const",
             scrollspy: "lib/bootstrap-scrollspy",
-            smoothscroll: "lib/smooth-scroll"
+            smoothscroll: "lib/smooth-scroll",
+            stickyheaders: "lib/jquery.stickysectionheaders"
         },
         shim : {
             jquery : {
