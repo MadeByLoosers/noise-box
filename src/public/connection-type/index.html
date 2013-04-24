@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Connection Type</title>
+  <meta name="viewport" content="width=device-width">
+  <style></style>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    window.onload = function() {
+      // set up websockets
+      var socket = io.connect();
+
+      // connection established
+      socket.on('connect', function (data) {
+        var transport = socket.socket.transport.name;
+        document.querySelector("p#connection-type").innerHTML = transport;
+      });
+    };
+  </script>
+</head>
+<body>
+  <h1>Connection type</h1>
+  <p id="connection-type">Loading...</p>
+</body>
+</html>

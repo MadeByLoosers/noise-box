@@ -7,7 +7,7 @@
 
 var Backbone = require("backbone");
 var NBCollection = require("./NBCollection");
-var NBHomeCollection = require("./NBHomeCollection");
+var NBHomeModel = require("./NBHomeModel");
 var server = require("./../../server");
 var constants;
 
@@ -21,8 +21,8 @@ var AppModel = module.exports = Backbone.Model.extend({
 
         constants = server.constants;
 
+        this.homeModel = new NBHomeModel();
         this.noiseBoxes = new NBCollection();
-        this.homeClients = new NBHomeCollection();
 
         this.noiseBoxes.on("add",function (nbModel) {
             this.trigger(constants.NOISEBOX_ADDED,nbModel);
@@ -31,38 +31,14 @@ var AppModel = module.exports = Backbone.Model.extend({
         this.noiseBoxes.on("remove",function (nbModel) {
             this.trigger(constants.NOISEBOX_REMOVED,nbModel);
         },this);
-
-        this.homeClients.on("add",function (homeClientModel) {
-            this.trigger(constants.HOME_ADDED,homeClientModel);
-        },this);
-
-        this.homeClients.on("remove",function (homeClientModel) {
-            this.trigger(constants.HOME_REMOVED,homeClientModel);
-        },this);
     },
 
-    addHomeClient : function (id,socket) {
-
-        this.homeClients.add({id:id,socket:socket});
-    },
-
-    removeHomeClient : function (id) {
-
-        this.homeClients.remove(this.getHomeClient(id));
-    },
-
-    getHomeClient : function (id) {
-
-        return this.homeClients.get(id);
+    getHomeModel : function () {
+        return this.homeModel;
     },
 
     getFiles : function () {
         return this.files;
-    },
-
-    homeClientExists : function (id) {
-
-        return this.getHomeClient(id) !== undefined;
     },
 
     addNoiseBox : function (id) {
@@ -144,8 +120,7 @@ var AppModel = module.exports = Backbone.Model.extend({
 
     getNumConnectedClients : function () {
 
-        var numClients = this.homeClients.length;
-
+        var numClients = 0;
         var numHosts = 0;
         var numUsers = 0;
 

@@ -6,6 +6,13 @@
         <meta name="description" content="Broadcasting noise across the internet since 1972" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="/css/style.css" />
+        <% if (locals.bg) { %>
+            <style>
+                body#home {
+                    background-image:url(./img/bg-home/<%= bg %>);
+                }
+            </style>
+        <% } %>
     </head>
     <body id="<%= clientType %>" data-host="<%= host %>" data-noise-box-id="<%= id %>" data-env="<%= env %>">
         <% if (flashMessage.length > 0) { %>
