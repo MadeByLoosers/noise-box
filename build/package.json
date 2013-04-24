@@ -11,6 +11,7 @@
       "grunt-contrib-jshint": "~0.2",
       "grunt-contrib-less": "~0.5",
       "grunt-contrib-requirejs": "~0.4",
+      "grunt-contrib-watch": "~0.3",
       "grunt-rsync": "~0.1",
       "grunt-shell": "~0.2",
       "grunt-ghost": "~1.0",

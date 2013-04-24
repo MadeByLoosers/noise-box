@@ -121,8 +121,10 @@ module.exports = function(grunt) {
     },
 
     watch: {
-      files: '<%= srcDir %>/public/less/*.less',
-      tasks: 'less'
+      less: {
+        files: '<%= srcDir %>/public/less/*.less',
+        tasks: 'less:development'
+      }
     },
 
     less: {
@@ -142,6 +144,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-ghost');
   grunt.loadNpmTasks("grunt-rsync");
   grunt.loadNpmTasks("grunt-shell");
