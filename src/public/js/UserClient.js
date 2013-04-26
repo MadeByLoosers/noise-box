@@ -6,7 +6,7 @@
  * Host page NoiseBox client.
  */
 
-define(["constants","AbstractClient","jquery","underscore", "scrollspy", "stickyheaders"], function (Const,AbstractClient) {
+define(["constants","AbstractClient","jquery","underscore", "scrollspy", "tabs", "stickyheaders"], function (Const,AbstractClient) {
 
     return AbstractClient.extend({
 
@@ -64,6 +64,9 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "sticky
                 stickyClass     : 'sticky',
                 headlineSelector: 'h4'
             });
+
+            // tabs
+            $('#stats-tabs .tabs a:first').tab('show');
 
             this.initSmoothScroll();
         },

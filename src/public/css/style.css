@@ -1916,7 +1916,8 @@ body#home {
 /* main content area */
 .content,
 .content section,
-.content .scrollable {
+.content .scrollable,
+#stats-tabs {
   -ms-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -2147,13 +2148,66 @@ section#stats .play-mode-container .play-mode.active {
   color: #fff;
   background-color: #424242;
 }
-section#stats .scrollable {
+section#stats #stats-tabs,
+section#stats .tab-container,
+section#stats .tab {
+  height: 100%;
+}
+section#stats .tab-container {
+  position: relative;
+}
+section#stats .tab {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+section#stats #stats-tabs {
   margin-top: 3rem;
   /* height of the main heading */
 
-  margin-bottom: 2rem;
-  /* play mode container */
+  padding-bottom: 4rem;
+  /* play mode container + magic */
 
+}
+section#stats .tabs li a {
+  float: left;
+  width: 33%;
+  background: #eee;
+  text-align: center;
+  cursor: pointer;
+  font-size: 0.8rem;
+  line-height: 2.5;
+  color: #000;
+  text-decoration: none;
+}
+section#stats .tabs li:first-child a {
+  width: 34%;
+}
+section#stats .tabs li.active a {
+  color: #fff;
+  background-color: #424242;
+}
+section#stats .tab-container {
+  clear: both;
+}
+section#stats .tab {
+  display: none;
+}
+section#stats .tab.active {
+  display: block;
+}
+section#stats #tab-log .scrollable {
+  padding-bottom: 3em;
+}
+section#stats #chat-form {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+}
+section#stats #play-queue strong {
+  display: block;
 }
 section#stats input[type="text"] {
   border: 1px solid #666;

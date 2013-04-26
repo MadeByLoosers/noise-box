@@ -43,7 +43,7 @@ define(function (require) {
             this.on(Const.HOST_TRACK_COMPLETE,this.onHostTrackComplete);
 
             this.playQueueEl = $("#play-queue ol");
-            this.userListEl = $("#users");
+            this.userListEl = $("#users ul");
             this.logEl = $("#log ul");
             this.currentlyPlayingHeaderEl = $("#currently-playing");
 
@@ -69,7 +69,7 @@ define(function (require) {
         onServerAddTrack : function (data) {
             $("<li />")
                 .attr("id",data.cid)
-                .text(data.user+" added the track "+data.track+" on "+data.datetime)
+                .html("<i class='icon-music'></i><strong>"+data.album+" - "+data.trackName+"</strong>"+"<em>"+data.user+","+data.datetime+"</em>")
                 .hide()
                 .slideDown()
                 .appendTo(this.playQueueEl);
@@ -143,14 +143,24 @@ define(function (require) {
 
         onUserAdded : function(data) {
             if ($("li#"+data.id).length > 0) { return; }
-            $("<li />")
+            var $li = $("<li />")
                 .attr("id", data.id)
                 .text(data.username)
                 .appendTo(this.userListEl);
+
+            var $icon = $("<i/>")
+                .addClass("icon-user")
+                .prependTo($li);
         },
 
         onUserUpdated : function(data) {
-            $("li#"+data.id).text(data.username);
+            var $li = $("li#"+data.id);
+            $li.text(data.username);
+            if ($li.find('i').length < 1) {
+                var $icon = $("<i/>")
+                    .addClass("icon-user")
+                    .prependTo($li);
+            }
         },
 
         onUserRemoved : function(data) {
@@ -173,6 +183,12 @@ define(function (require) {
             $("<li />")
                 .text(log)
                 .appendTo(this.logEl);
+
+            // scroll the log to the bottom if we're nearly there anyway...
+            var $scrollable = this.logEl.closest('.scrollable');
+            if (this.logEl.outerHeight() - $scrollable.scrollTop() - $scrollable.outerHeight() < 150) {
+                $scrollable.animate({ scrollTop: this.logEl.outerHeight() }, 250);
+            }
         },
 
         // if there is a flash message, display it

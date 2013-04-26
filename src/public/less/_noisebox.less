@@ -434,7 +434,8 @@
     /* main content area */
       .content,
       .content section,
-      .content .scrollable {
+      .content .scrollable,
+      #stats-tabs {
         .box-sizing(border-box);
         height:100%;
       }
@@ -677,10 +678,78 @@
           }
         }
 
-        .scrollable {
-          margin-top:3rem; /* height of the main heading */
-          margin-bottom:2rem; /* play mode container */
+        #stats-tabs,
+        .tab-container,
+        .tab {
+          height:100%;
         }
+
+        .tab-container {
+          position:relative;
+        }
+
+        .tab {
+          position:absolute;
+          left:0;
+          right:0;
+        }
+
+        #stats-tabs {
+          margin-top:3rem; /* height of the main heading */
+          padding-bottom:4rem; /* play mode container + magic */
+        }
+
+        .tabs li a {
+          float:left;
+          width:33%;
+          background:#eee;
+          text-align:center;
+          cursor:pointer;
+          font-size:0.8rem;
+          line-height:2.5;
+          color:#000;
+          text-decoration:none;
+        }
+
+        .tabs li:first-child a {
+          width:34%;
+        }
+
+        .tabs li.active a {
+          color:#fff;
+          background-color:rgba(66,66,66,1);
+        }
+
+        .tab-container {
+          clear:both;
+        }
+
+        .tab {
+          display:none;
+        }
+
+        .tab.active {
+          display:block;
+        }
+
+        #tab-log .scrollable {
+          padding-bottom:3em;
+        }
+
+        #chat-form {
+          position:absolute;
+          bottom:0;
+          left:0;
+          right:0;
+          background:#fff;
+        }
+
+        #play-queue {
+          strong {
+            display:block;
+          }
+        }
+
 
         input[type="text"] {
           border:1px solid #666;
