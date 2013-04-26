@@ -100,7 +100,7 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "sticky
             $('#'+trackData.trackId).find('.icon')
                 .removeClass("queued")
                 .addClass("playing")
-                .removeClass("icon-plus-sign")
+                .removeClass("icon-plus")
                 .addClass("icon-play");
         },
 
@@ -109,7 +109,7 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "sticky
                 .removeClass("queued")
                 .removeClass("playing")
                 .removeClass("icon-play")
-                .addClass("icon-plus-sign");
+                .addClass("icon-plus");
         },
 
         onPlayModeChange : function(event) {
