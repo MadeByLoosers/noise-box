@@ -1929,9 +1929,9 @@ section#track-list .search-container input {
 section#track-list .search-container input:focus {
   background: #eee;
   outline: none;
-  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.4);
-  -moz-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.4);
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.4);
 }
 section#track-list .search-container .search-clear {
   position: absolute;

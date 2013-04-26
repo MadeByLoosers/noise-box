@@ -36,7 +36,7 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "sticky
 
             $("#play-mode-form input[name=play-mode]").on("change", _.bind(this.onPlayModeChange,this));
 
-            $("#track-search").on("keyup search", _.bind(this.debounceFilterContent,this));
+            $("#track-search").focus().on("keyup search", _.bind(this.debounceFilterContent,this));
 
             this.usernameField = $("#username");
             this.chatField = $("#chat-text");
