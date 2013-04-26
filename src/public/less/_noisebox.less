@@ -410,7 +410,7 @@
         }
 
         span {
-          display:inline-block;
+          float:right;
         }
 
         // loop: http://blog.thehippo.de/2012/04/programming/do-a-loop-with-less-css/
@@ -648,7 +648,7 @@
         .play-mode-container {
           position:absolute;
           z-index:2;
-          top:3rem;
+          bottom:0;
           left:0;
           right:0;
           height:2rem;
@@ -671,13 +671,15 @@
             }
           }
 
-          .play-mode.selected {
-            background:#aaa;
+          .play-mode.active {
+            color:#fff;
+            background-color:rgba(66,66,66,1);
           }
         }
 
         .scrollable {
-          margin-top:5rem; /* height of the main heading + play mode container */
+          margin-top:3rem; /* height of the main heading */
+          margin-bottom:2rem; /* play mode container */
         }
 
         input[type="text"] {

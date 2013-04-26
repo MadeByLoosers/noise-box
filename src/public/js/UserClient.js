@@ -123,8 +123,8 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "sticky
                 $labels = $form.find('label'),
                 $label = $(event.target).closest('label');
 
-                $labels.removeClass('selected');
-                $label.addClass('selected');
+                $labels.removeClass('active');
+                $label.addClass('active');
 
             if (event.target.value === "broadcast") {
                 this.broadcastMode = true;

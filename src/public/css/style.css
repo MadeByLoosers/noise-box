@@ -1880,7 +1880,7 @@ body#home {
   overflow: hidden;
 }
 #currently-playing span {
-  display: inline-block;
+  float: right;
 }
 #currently-playing li:nth-child(10) {
   opacity: 0.1;
@@ -2122,7 +2122,7 @@ section#stats {
 section#stats .play-mode-container {
   position: absolute;
   z-index: 2;
-  top: 3rem;
+  bottom: 0;
   left: 0;
   right: 0;
   height: 2rem;
@@ -2143,12 +2143,16 @@ section#stats .play-mode-container .play-mode {
 section#stats .play-mode-container .play-mode i {
   margin-left: 5px;
 }
-section#stats .play-mode-container .play-mode.selected {
-  background: #aaa;
+section#stats .play-mode-container .play-mode.active {
+  color: #fff;
+  background-color: #424242;
 }
 section#stats .scrollable {
-  margin-top: 5rem;
-  /* height of the main heading + play mode container */
+  margin-top: 3rem;
+  /* height of the main heading */
+
+  margin-bottom: 2rem;
+  /* play mode container */
 
 }
 section#stats input[type="text"] {

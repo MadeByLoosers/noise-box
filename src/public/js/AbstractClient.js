@@ -43,7 +43,6 @@ define(function (require) {
             this.on(Const.HOST_TRACK_COMPLETE,this.onHostTrackComplete);
 
             this.playQueueEl = $("#play-queue ol");
-            this.currentlyPlayingEl = $("#currently-playing p");
             this.userListEl = $("#users");
             this.logEl = $("#log ul");
             this.currentlyPlayingHeaderEl = $("#currently-playing");
@@ -75,31 +74,34 @@ define(function (require) {
                 .slideDown()
                 .appendTo(this.playQueueEl);
 
-            $("<li />")
+            var $li = $("<li />")
                 .text(data.album + " - " + data.trackName)
                 .wrapInner("<span/>")
                 .attr("id","header-"+data.cid)
                 .appendTo(this.currentlyPlayingHeaderEl.find('ul'));
 
+            var liWidth = $li.outerWidth();
+            $li.find('span').width(liWidth);
+
             this.currentlyPlayingHeaderEl.find("h3").css({display:"block"});
         },
 
         onHostTrackPlaying : function (track) {
-            this.currentlyPlayingEl.text(track.track);
         },
 
         onHostTrackComplete : function (track) {
+            var self = this;
+
             this.playQueueEl.find("li#"+track.cid).slideUp().remove();
 
             this.currentlyPlayingHeaderEl.find("li#header-"+track.cid)
-                .animate({width:0}, 200)
-                .remove();
+                .animate({width:0}, 200, function(){
+                    $(this).remove();
 
-            this.currentlyPlayingEl.text("");
-
-            if (this.currentlyPlayingHeaderEl.find("li").length < 1) {
-                this.currentlyPlayingHeaderEl.find("h3").fadeOut();
-            }
+                    if (self.currentlyPlayingHeaderEl.find("li").length < 1) {
+                        self.currentlyPlayingHeaderEl.find("h3").fadeOut();
+                    }
+                });
         },
 
         onServerRemoveTrack : function (data) {
