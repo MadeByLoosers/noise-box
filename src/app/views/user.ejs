@@ -10,7 +10,8 @@
         <div class="scrollable">
             <ul class="nav">
             <% files.forEach(function(dir){ %>
-                <li><a href="#tracks-<%= dir.name %>"><%= dir.name %></a></li>
+            <% dirname = dir.name.replace(/-/g, " ") %>
+                <li><a href="#tracks-<%= dir.name %>"><%= dirname %></a></li>
             <% }); %>
             </ul>
         </div>
@@ -25,7 +26,8 @@
             <div class="scrollable">
                 <% files.forEach(function(dir){ %>
                     <div id="tracks-<%= dir.name %>" class="tracks">
-                        <h4><%= dir.name %></h4>
+                        <% dirname = dir.name.replace(/-/g, " ") %>
+                        <h4><%= dirname %></h4>
                         <ul>
                         <% dir.files.forEach(function(file){ %>
                         <% filename = file.name.replace(/_/g, " ") %>
