@@ -28,7 +28,8 @@
                         <h4><%= dir.name %></h4>
                         <ul>
                         <% dir.files.forEach(function(file){ %>
-                            <li><a href="<%= file.path %>"><%= file.name %> <span class="duration"><%= file.duration %>s</span></a></li>
+                        <% filename = file.name.replace(/_/g, " ") %>
+                            <li><a href="<%= file.path %>"><%= filename %> <span class="duration"><%= file.duration %>s</span></a></li>
                         <% }); %>
                         </ul>
                     </div>
