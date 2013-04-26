@@ -58,6 +58,8 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "sticky
                 stickyClass     : 'sticky',
                 headlineSelector: 'h4'
             });
+
+            this.initSmoothScroll();
         },
 
         onTrackClicked : function (event) {
@@ -247,6 +249,37 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "sticky
             this._super();
 
             this.emit(Const.USER_CONNECT);
+        },
+
+
+        initSmoothScroll : function() {
+
+            var self = this;
+
+            this.$scrollablePane = $("#track-list .scrollable");
+            this.$trackBlocks = this.$scrollablePane.find(".tracks");
+            this.trackBlockPositions = {};
+            this.$trackBlocks.each(function(counter){
+                self.trackBlockPositions[this.id] = $(this).position().top;
+            });
+
+            $("#album-list a").on("click", _.bind(this.smoothScroll, this));
+        },
+
+
+        smoothScroll : function (e) {
+            e.preventDefault();
+
+            var linkHref = e.target.href.split("#")[1],
+                pos;
+
+            pos = this.trackBlockPositions[linkHref];
+
+            console.log(linkHref, pos);
+
+            this.$scrollablePane.animate({
+                scrollTop: pos
+            }, 500);
         }
     });
 });
