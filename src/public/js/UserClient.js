@@ -206,7 +206,7 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "sticky
             var self = this;
             clearTimeout(this.debounceTimeout);
             this.debounceTimeout = setTimeout(function(){
-                self.filterContent(event, self.tracks);
+                self.filterContent.call(self, event, self.tracks);
             }, 250);
         },
 
@@ -215,10 +215,9 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "sticky
         // also used to reset the search content to default state
         filterContent: function(e, tracks) {
 
-            var searchTerm = e.target.value,
+            var self = this,
+                searchTerm = e.target.value,
                 searchWords, match, counter = 0;
-
-            $("#search-counter").remove();
 
             // create an array of any search words, split on spaces
              searchWords = searchTerm.split(/\s+/g),
@@ -250,11 +249,27 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "sticky
             });
 
             // add counter
-            if (searchTerm.length > 0) {
+            $(".search-results").remove();
+            if (counter < 1) {
                 $("<p>")
-                    .attr("id", "search-counter")
-                    .text(counter+ " found")
-                    .appendTo($("#search-container"));
+                    .addClass("search-results")
+                    .text("no results found")
+                    .appendTo($("#track-list .scrollable"));
+            }
+
+            // show/hide clear icon
+            var $searchClear = $(".search-clear");
+            if (searchTerm.length < 1) {
+                $searchClear.remove();
+            } else {
+                if ($searchClear.length < 1) {
+                    $searchClear = $("<i>")
+                        .addClass("search-clear")
+                        .addClass("icon-remove")
+                        .appendTo($(".search-container"));
+
+                    $searchClear.on("click", self.clearSearch);
+                }
             }
 
             // show/hide titles
@@ -268,6 +283,13 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "sticky
                     $trackContainer.removeClass("hidden");
                 }
             });
+        },
+
+
+        clearSearch: function() {
+            $("#track-search")
+                .val("")
+                .trigger("search");
         },
 
 

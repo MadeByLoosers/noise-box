@@ -433,12 +433,23 @@
             width:100%;
             border:0;
             font-size:1rem;
+            .inner-shadow(0, 0, 0, 0);
             .transition();
 
             &:focus {
               background:#eee;
               outline:none;
+              .inner-shadow(0, 0, 5px, 0.4);
             }
+          }
+
+          .search-clear {
+            position:absolute;
+            right:9px;
+            top:9px;
+            color:#333;
+            cursor:pointer;
+            font-size:0.8rem;
           }
         }
 
@@ -451,6 +462,11 @@
         }
 
         .scrollable {
+        }
+
+        .search-results {
+          padding:0 10px;
+          font-weight:bold;
         }
 
         .sticky h4 {
