@@ -119,6 +119,13 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "sticky
         },
 
         onPlayModeChange : function(event) {
+            var $form = $(event.target).closest('form'),
+                $labels = $form.find('label'),
+                $label = $(event.target).closest('label');
+
+                $labels.removeClass('selected');
+                $label.addClass('selected');
+
             if (event.target.value === "broadcast") {
                 this.broadcastMode = true;
             } else if (event.target.value === "preview") {

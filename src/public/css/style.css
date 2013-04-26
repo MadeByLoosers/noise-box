@@ -1876,7 +1876,7 @@ body#home {
 }
 #currently-playing li {
   float: right;
-  margin-left: 10px;
+  margin-left: 2rem;
   overflow: hidden;
 }
 #currently-playing span {
@@ -2119,9 +2119,36 @@ section#stats {
   float: left;
   width: 40%;
 }
+section#stats .play-mode-container {
+  position: absolute;
+  z-index: 2;
+  top: 3rem;
+  left: 0;
+  right: 0;
+  height: 2rem;
+}
+section#stats .play-mode-container #play-mode-form {
+  height: 100%;
+}
+section#stats .play-mode-container .play-mode {
+  float: left;
+  width: 50%;
+  height: 100%;
+  background: #eee;
+  text-align: center;
+  cursor: pointer;
+  font-size: 0.8rem;
+  line-height: 2.5;
+}
+section#stats .play-mode-container .play-mode i {
+  margin-left: 5px;
+}
+section#stats .play-mode-container .play-mode.selected {
+  background: #aaa;
+}
 section#stats .scrollable {
-  margin-top: 3rem;
-  /* height of the main heading */
+  margin-top: 5rem;
+  /* height of the main heading + play mode container */
 
 }
 section#stats input[type="text"] {

@@ -405,7 +405,7 @@
 
         li {
           float:right;
-          margin-left:10px;
+          margin-left:2rem;
           overflow:hidden;
         }
 
@@ -645,8 +645,39 @@
         float:left;
         width:40%;
 
+        .play-mode-container {
+          position:absolute;
+          z-index:2;
+          top:3rem;
+          left:0;
+          right:0;
+          height:2rem;
+
+          #play-mode-form {
+            height:100%;
+          }
+
+          .play-mode {
+            float:left;
+            width:50%;
+            height:100%;
+            background:#eee;
+            text-align:center;
+            cursor:pointer;
+            font-size:0.8rem;
+            line-height:2.5;
+            i {
+              margin-left:5px;
+            }
+          }
+
+          .play-mode.selected {
+            background:#aaa;
+          }
+        }
+
         .scrollable {
-          margin-top:3rem; /* height of the main heading */
+          margin-top:5rem; /* height of the main heading + play mode container */
         }
 
         input[type="text"] {

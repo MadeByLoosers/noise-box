@@ -1,11 +1,10 @@
 <form id="play-mode-form">
-  <h3>Play mode</h3>
-  <label for="play-mode-broadcast">
-    Broadcast
-    <input type="radio" name="play-mode" id="play-mode-broadcast" checked="checked" value="broadcast" />
+  <label for="play-mode-broadcast" class="play-mode selected">
+    <span>Broadcast mode <i class="icon-volume-up"></i></span>
+    <input type="radio" name="play-mode" id="play-mode-broadcast" class="visuallyhidden" checked="checked" value="broadcast" />
   </label>
-  <label for="play-mode-preview">
-    Preview
-    <input type="radio" name="play-mode" id="play-mode-preview" value="preview" />
+  <label for="play-mode-preview" class="play-mode">
+    <span>Preview mode <i class="icon-headphones"></i></span>
+    <input type="radio" name="play-mode" id="play-mode-preview" class="visuallyhidden" value="preview" />
   </label>
 </form>
