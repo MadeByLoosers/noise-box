@@ -152,6 +152,7 @@ var UserController = {
         track.user = user.get("username");
         track.datetime = moment().format("YYYY-MM-DD hh:mm:ss");
         track.track = data.track;
+        track.trackId = data.trackId;
 
         log.info("track clicked",{socketid:socket.id,track:data.track,noiseboxid:data.id});
 

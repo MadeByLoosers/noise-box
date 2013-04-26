@@ -28,6 +28,7 @@ var AbstractController = {
         nb.hosts.each(function (host) {
             host.get("socket").emit(constants.SERVER_ADD_TRACK,{
                 track: nbTrackModel.get("track"),
+                trackId: nbTrackModel.get("trackId"),
                 user: nbTrackModel.get("user"),
                 datetime: nbTrackModel.get("datetime"),
                 cid: nbTrackModel.cid
@@ -37,6 +38,7 @@ var AbstractController = {
         nb.users.each(function (user) {
             user.get("socket").emit(constants.SERVER_ADD_TRACK,{
                 track: nbTrackModel.get("track"),
+                trackId: nbTrackModel.get("trackId"),
                 user: nbTrackModel.get("user"),
                 datetime: nbTrackModel.get("datetime"),
                 cid: nbTrackModel.cid

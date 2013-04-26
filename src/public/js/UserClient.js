@@ -48,6 +48,10 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "sticky
 
             this.on(Const.SERVER_SOCKET_CONNECT,this.detectTransport);
 
+            this.on(Const.SERVER_ADD_TRACK,this.onTrackQueued);
+            this.on(Const.HOST_TRACK_PLAYING,this.onTrackPlaying);
+            this.on(Const.HOST_TRACK_COMPLETE,this.onTrackComplete);
+
             // scroll spy
             $('#album-list .scrollable li').first().addClass('active');
             $('#track-list .scrollable').scrollspy({target:"#album-list .scrollable"});
@@ -66,13 +70,46 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "sticky
 
             event.preventDefault();
 
-            var track = event.target.href;
+            var $el, track, trackId;
+
+            if (event.target.nodeName.toLowerCase() === "a") {
+                $el = $(event.target);
+            } else {
+                $el = $(event.target).closest('a');
+            }
+
+            track = $el.attr('href');
+            trackId = $el.attr('id');
 
             if (this.broadcastMode) {
-                this.emit(Const.USER_CLICKED_TRACK,{track:track});
+                this.emit(Const.USER_CLICKED_TRACK,{
+                    track:track,
+                    trackId:trackId
+                });
             } else {
                 this.previewTrack(track);
             }
+        },
+
+        onTrackQueued : function (trackData) {
+            $('#'+trackData.trackId).find('.icon')
+                .addClass("queued");
+        },
+
+        onTrackPlaying : function (trackData) {
+            $('#'+trackData.trackId).find('.icon')
+                .removeClass("queued")
+                .addClass("playing")
+                .removeClass("icon-plus-sign")
+                .addClass("icon-play");
+        },
+
+        onTrackComplete : function (trackData) {
+            $('#'+trackData.trackId).find('.icon')
+                .removeClass("queued")
+                .removeClass("playing")
+                .removeClass("icon-play")
+                .addClass("icon-plus-sign");
         },
 
         onPlayModeChange : function(event) {

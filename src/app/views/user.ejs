@@ -29,9 +29,15 @@
                         <% dirname = dir.name.replace(/-/g, " ") %>
                         <h4><%= dirname %></h4>
                         <ul>
-                        <% dir.files.forEach(function(file){ %>
+                        <% dir.files.forEach(function(file, index){ %>
                         <% filename = file.name.replace(/_/g, " ") %>
-                            <li><a href="<%= file.path %>"><%= filename %> <span class="duration"><%= file.duration %>s</span></a></li>
+                            <li>
+                                <a href="<%= file.path %>" id="tracks-<%= dir.name %>-<%= index %>">
+                                    <span class="icon icon-plus-sign"></span>
+                                    <span class="trackname"><%= filename %></span>
+                                    <span class="duration"><%= file.duration %>s</span>
+                                </a>
+                            </li>
                         <% }); %>
                         </ul>
                     </div>
