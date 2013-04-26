@@ -130,7 +130,7 @@
       }
 
       h2 {
-        margin:0.5em 0 0 0.5em;
+        margin:0.5em 0.5rem 0 0.5em;
         float:left;
         padding:0;
 
@@ -139,60 +139,41 @@
       }
 
       ul {
-        float:right;
+        float:left;
+        margin:0.7rem 0 0 0;
 
-        li {
-          margin-right:10px;
+        a,
+        a:active,
+        a:focus {
+          display:block;
+          font-size:0.88rem;
+          line-height:1.2;
+          text-decoration:none;
+          color:#333;
+          border:1px solid #ccc;
+          border-radius:3px;
+          padding:5px 10px;
+          background-color:rgba(66,66,66,0);
 
-          a,
-          a:active,
-          a:focus {
-            display:block;
-            font-size:0.88rem;
-            font-weight:bold;
-            text-decoration:none;
-            color:#333;
-            border:1px solid #ccc;
-            border-radius:3px;
-            padding:5px 15px;
-            background-color:rgba(66,66,66,0);
+          .transition(all, 250ms);
+        }
 
-            .transition(color, 250ms);
-          }
-
-          a:hover,
-          a.active {
-            color:#fff;
-            background-color:rgba(66,66,66,1);
-          }
-
-          @media(min-width:@mqWidth) {
-            &.share-trigger a {
-              display:none;
-            }
-          }
+        a:hover,
+        a.active {
+          color:#fff;
+          background-color:rgba(66,66,66,1);
         }
       }
 
       .share {
         display:none;
-        clear:both;
-
-        @media(min-width:@mqWidth) {
-          display:block;
-          clear:none;
-          float:right;
-        }
+        float:left;
 
         .share-intro {
           display:none;
           float:left;
           margin:0;
           padding:5px 10px 5px 0;
-
-          @media(min-width:@mqWidth) {
-            display:block;
-          }
         }
 
         input[type="text"],
@@ -202,14 +183,13 @@
         }
 
         input[type="text"] {
-          width:245px;
+          min-width:245px;
           margin-top:10px;
+          background:transparent;
+          padding:6px 10px;
 
           @media (min-width:@mqWidth) {
-            float:right;
-            margin:0;
-            width:260px;
-            text-align:right;
+            float:left;
           }
         }
       }
@@ -314,6 +294,16 @@
 
 
   /* user page */
+    /* username form */
+
+
+    /* currently playing */
+
+
+    /* broadcast mode */
+
+
+    /* main content area */
       .content,
       .content section,
       .content .scrollable {
@@ -526,4 +516,17 @@
       section#stats {
         float:left;
         width:40%;
+
+        .scrollable {
+          margin-top:3rem; /* height of the main heading */
+        }
+
+        input[type="text"] {
+          border:1px solid #666;
+        }
+
+        input[type="submit"] {
+          background:#666;
+          color:#fff;
+        }
       }

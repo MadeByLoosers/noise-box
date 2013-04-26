@@ -1642,55 +1642,41 @@ input[type=submit] {
   }
 }
 .room h2 {
-  margin: 0.5em 0 0 0.5em;
+  margin: 0.5em 0.5rem 0 0.5em;
   float: left;
   padding: 0;
   font-size: 1.33rem;
   font-weight: normal;
 }
 .room ul {
-  float: right;
+  float: left;
+  margin: 0.7rem 0 0 0;
 }
-.room ul li {
-  margin-right: 10px;
-}
-.room ul li a,
-.room ul li a:active,
-.room ul li a:focus {
+.room ul a,
+.room ul a:active,
+.room ul a:focus {
   display: block;
   font-size: 0.88rem;
-  font-weight: bold;
+  line-height: 1.2;
   text-decoration: none;
   color: #333;
   border: 1px solid #ccc;
   border-radius: 3px;
-  padding: 5px 15px;
+  padding: 5px 10px;
   background-color: rgba(66, 66, 66, 0);
-  -webkit-transition: color 250ms ease-out;
-  -moz-transition: color 250ms ease-out;
-  -o-transition: color 250ms ease-out;
-  transition: color 250ms ease-out;
+  -webkit-transition: all 250ms ease-out;
+  -moz-transition: all 250ms ease-out;
+  -o-transition: all 250ms ease-out;
+  transition: all 250ms ease-out;
 }
-.room ul li a:hover,
-.room ul li a.active {
+.room ul a:hover,
+.room ul a.active {
   color: #fff;
   background-color: #424242;
 }
-@media (min-width: 600px) {
-  .room ul li.share-trigger a {
-    display: none;
-  }
-}
 .room .share {
   display: none;
-  clear: both;
-}
-@media (min-width: 600px) {
-  .room .share {
-    display: block;
-    clear: none;
-    float: right;
-  }
+  float: left;
 }
 .room .share .share-intro {
   display: none;
@@ -1698,26 +1684,20 @@ input[type=submit] {
   margin: 0;
   padding: 5px 10px 5px 0;
 }
-@media (min-width: 600px) {
-  .room .share .share-intro {
-    display: block;
-  }
-}
 .room .share input[type="text"],
 .room .share input[type="submit"],
 .room .share .share-intro {
   font-size: 0.8rem;
 }
 .room .share input[type="text"] {
-  width: 245px;
+  min-width: 245px;
   margin-top: 10px;
+  background: transparent;
+  padding: 6px 10px;
 }
 @media (min-width: 600px) {
   .room .share input[type="text"] {
-    float: right;
-    margin: 0;
-    width: 260px;
-    text-align: right;
+    float: left;
   }
 }
 /* footer - for host / user pages */
@@ -1797,6 +1777,10 @@ body#home {
 }
 /* host page */
 /* user page */
+/* username form */
+/* currently playing */
+/* broadcast mode */
+/* main content area */
 .content,
 .content section,
 .content .scrollable {
@@ -2001,6 +1985,18 @@ section#track-list li a .icon.playing {
 section#stats {
   float: left;
   width: 40%;
+}
+section#stats .scrollable {
+  margin-top: 3rem;
+  /* height of the main heading */
+
+}
+section#stats input[type="text"] {
+  border: 1px solid #666;
+}
+section#stats input[type="submit"] {
+  background: #666;
+  color: #fff;
 }
 /* ==========================================================================
    Helper classes

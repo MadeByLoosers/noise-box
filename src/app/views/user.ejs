@@ -1,6 +1,7 @@
 <div class="header">
     <% include partials/banner %>
     <% include partials/room %>
+    <% include partials/username-form %>
 </div>
 
 <div class="content clearfix">
@@ -48,13 +49,21 @@
 
     <section id="stats">
         <div class="scrollable">
+            <h4>Play Mode</h4>
             <% include partials/play-mode-form %>
-            <% include partials/username-form %>
-            <% include partials/chat-form %>
+
+            <h4>Currently playing</h4>
             <% include partials/currently-playing %>
+
+            <h4>Play Queue</h4>
             <% include partials/play-queue %>
+
+            <h4>Users</h4>
             <% include partials/users %>
+
+            <h4>Log</h4>
             <% include partials/log %>
+            <% include partials/chat-form %>
         </div>
     </section>
 
