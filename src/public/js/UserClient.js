@@ -38,6 +38,8 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "sticky
 
             $("#track-search").focus().on("keyup search", _.bind(this.debounceFilterContent,this));
 
+            $("#username-display a").on("click", this.showUsernameForm);
+
             this.usernameField = $("#username");
             this.chatField = $("#chat-text");
 
@@ -70,7 +72,7 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "sticky
 
             event.preventDefault();
 
-            var $el, track, trackId;
+            var $el, track, trackId, trackName, album;
 
             if (event.target.nodeName.toLowerCase() === "a") {
                 $el = $(event.target);
@@ -80,11 +82,15 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "sticky
 
             track = $el.attr('href');
             trackId = $el.attr('id');
+            trackName = $el.find('.trackname').text();
+            album = $el.closest('.tracks').find('h4').text();
 
             if (this.broadcastMode) {
                 this.emit(Const.USER_CLICKED_TRACK,{
                     track:track,
-                    trackId:trackId
+                    trackId:trackId,
+                    trackName:trackName,
+                    album:album
                 });
             } else {
                 this.previewTrack(track);
@@ -140,7 +146,8 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "sticky
         updateUsernameField : function(data) {
 
             this.user.username = data.username || "new user";
-            var changed = false;
+            var changed = false,
+                $form = $("#username-form");
 
             if (!!window.localStorage && !!window.localStorage.username) {
                 this.user.username = window.localStorage.username;
@@ -148,28 +155,34 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "sticky
             }
 
             this.usernameField.val(this.user.username);
+            $("#username-display .username").text(this.user.username);
+            $("#username-display i.icon-user").removeClass("default");
 
 
             if (!!data.id) {
                 this.user.id = data.id;
             }
             if (!!data.cid) {
-                $("#cid").val(data.cid); //TEMP
+                $("#cid").val(data.cid);
                 this.user.cid = data.cid;
             }
             if (!!data.userid) {
-                $("#userid").val(data.userid); //TEMP
+                $("#userid").val(data.userid);
                 this.user.userid = data.userid;
             }
 
             if (changed) {
-                $("#username-form").submit();
+                $form.submit();
             }
+
+            $form.fadeOut();
         },
 
         onUsernameUpdate : function (event) {
 
             if (!!event) { event.preventDefault(); }
+
+            var $form = $("#username-form");
 
             this.user.username = this.usernameField.val();
 
@@ -181,6 +194,10 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "sticky
 
             this.chatField.removeAttr("disabled");
             $("#chat-text-label").text("Chat");
+
+            $form.fadeOut();
+            $("#username-display .username").text(this.user.username);
+            $("#username-display i.icon-user").removeClass("default");
 
             _gaq.push(['_trackEvent','user','login', this.noiseBoxID]);
         },
@@ -292,6 +309,13 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "sticky
                 .trigger("search");
         },
 
+
+        showUsernameForm: function(e) {
+            e.preventDefault();
+            var $form = $("#username-form");
+            $form.fadeToggle();
+            $form.find("input[type=text]").focus();
+        },
 
 
         detectTransport: function() {

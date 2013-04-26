@@ -85,6 +85,7 @@
         left:0;
         right:0;
         min-height:100px;
+        z-index:3;
       }
     }
 
@@ -295,9 +296,136 @@
 
   /* user page */
     /* username form */
+      #login {
+        position:absolute;
+        right:1rem;
+        top:0.6rem;
+        z-index:2;
+        color:#fff;
+      }
+
+      #username-display {
+        text-align:right;
+
+        p {
+          margin:0;
+        }
+
+        a {
+          font-size:0.65rem;
+          color:#fff;
+          margin-right:5px;
+        }
+
+        i {
+          margin-left:5px;
+          opacity:0.6;
+        }
+
+        .default {
+          opacity:0.3;
+        }
+      }
+
+      #username-form {
+        display:none;
+        position:relative;
+        background:#fff;
+        color:#333;
+        padding:10px;
+        margin-top:10px;
+        border: 4px solid #999;
+        border-radius:10px;
+        font-size:0.8rem;
+        .drop-shadow(0, 1px, 5px, 0.3);
+
+        label {
+          display:block;
+        }
+
+        input[type="text"] {
+          border:1px solid #333;
+        }
+
+        input[type="submit"] {
+          background:#333;
+          color:#fff;
+        }
+      }
+
+      #username-form:after,
+      #username-form:before {
+        bottom: 100%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+      }
+
+      #username-form:after {
+        border-color: rgba(255, 255, 255, 0);
+        border-bottom-color: #ffffff;
+        border-width: 10px;
+        left: 85%;
+        margin-left: -10px;
+      }
+      #username-form:before {
+        border-color: rgba(153, 153, 153, 0);
+        border-bottom-color: #999;
+        border-width: 16px;
+        left: 85%;
+        margin-left: -16px;
+      }
+
 
 
     /* currently playing */
+      #currently-playing {
+        position:absolute;
+        top:3.5rem;
+        right:1rem;
+        width:50%;
+        overflow:hidden;
+        text-align:right;
+
+        h3 {
+          display:none;
+          font-size:0.7rem;
+          line-height:1.2;
+          margin:0;
+        }
+
+        ul {
+          float:right;
+          width:100000px; /* big enough to keep everything on one line */
+          font-size:1rem;
+        }
+
+        li {
+          float:right;
+          margin-left:10px;
+          overflow:hidden;
+        }
+
+        span {
+          display:inline-block;
+        }
+
+        // loop: http://blog.thehippo.de/2012/04/programming/do-a-loop-with-less-css/
+        @iterations: 10;
+        .loopingClass (@index) when (@index > 0) {
+          (~"li:nth-child(@{index})") {
+            opacity: ((11-@index)/10);
+          }
+          .loopingClass(@index - 1);
+        }
+        .loopingClass (0) {}
+        .loopingClass (@iterations);
+      }
+
+
 
 
     /* broadcast mode */

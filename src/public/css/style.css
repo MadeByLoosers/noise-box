@@ -1590,6 +1590,7 @@ input[type=submit] {
     left: 0;
     right: 0;
     min-height: 100px;
+    z-index: 3;
   }
 }
 /* banner bar - for user / host pages */
@@ -1778,7 +1779,139 @@ body#home {
 /* host page */
 /* user page */
 /* username form */
+#login {
+  position: absolute;
+  right: 1rem;
+  top: 0.6rem;
+  z-index: 2;
+  color: #fff;
+}
+#username-display {
+  text-align: right;
+}
+#username-display p {
+  margin: 0;
+}
+#username-display a {
+  font-size: 0.65rem;
+  color: #fff;
+  margin-right: 5px;
+}
+#username-display i {
+  margin-left: 5px;
+  opacity: 0.6;
+}
+#username-display .default {
+  opacity: 0.3;
+}
+#username-form {
+  display: none;
+  position: relative;
+  background: #fff;
+  color: #333;
+  padding: 10px;
+  margin-top: 10px;
+  border: 4px solid #999;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+}
+#username-form label {
+  display: block;
+}
+#username-form input[type="text"] {
+  border: 1px solid #333;
+}
+#username-form input[type="submit"] {
+  background: #333;
+  color: #fff;
+}
+#username-form:after,
+#username-form:before {
+  bottom: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+#username-form:after {
+  border-color: rgba(255, 255, 255, 0);
+  border-bottom-color: #ffffff;
+  border-width: 10px;
+  left: 85%;
+  margin-left: -10px;
+}
+#username-form:before {
+  border-color: rgba(153, 153, 153, 0);
+  border-bottom-color: #999;
+  border-width: 16px;
+  left: 85%;
+  margin-left: -16px;
+}
 /* currently playing */
+#currently-playing {
+  position: absolute;
+  top: 3.5rem;
+  right: 1rem;
+  width: 50%;
+  overflow: hidden;
+  text-align: right;
+}
+#currently-playing h3 {
+  display: none;
+  font-size: 0.7rem;
+  line-height: 1.2;
+  margin: 0;
+}
+#currently-playing ul {
+  float: right;
+  width: 100000px;
+  /* big enough to keep everything on one line */
+
+  font-size: 1rem;
+}
+#currently-playing li {
+  float: right;
+  margin-left: 10px;
+  overflow: hidden;
+}
+#currently-playing span {
+  display: inline-block;
+}
+#currently-playing li:nth-child(10) {
+  opacity: 0.1;
+}
+#currently-playing li:nth-child(9) {
+  opacity: 0.2;
+}
+#currently-playing li:nth-child(8) {
+  opacity: 0.3;
+}
+#currently-playing li:nth-child(7) {
+  opacity: 0.4;
+}
+#currently-playing li:nth-child(6) {
+  opacity: 0.5;
+}
+#currently-playing li:nth-child(5) {
+  opacity: 0.6;
+}
+#currently-playing li:nth-child(4) {
+  opacity: 0.7;
+}
+#currently-playing li:nth-child(3) {
+  opacity: 0.8;
+}
+#currently-playing li:nth-child(2) {
+  opacity: 0.9;
+}
+#currently-playing li:nth-child(1) {
+  opacity: 1;
+}
 /* broadcast mode */
 /* main content area */
 .content,

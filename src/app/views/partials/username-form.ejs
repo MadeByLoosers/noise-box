@@ -1,12 +1,18 @@
-<form id="username-form">
-  <fieldset>
-    <legend class="visuallyhidden">Update your username</legend>
-    <label for="username">Username</label>
-    <input type="text" id="username" name="username" value="<%= username %>" />
+<div id="login">
+    <div id="username-display">
+        <p><a href="#username-form">Change</a> <span class="username"><%= username %></span><i class="icon-user default"></i></p>
+    </div>
 
-    <input type="hidden" readonly id="userid" name="userid" value="<%= userid %>" />
-    <input type="hidden" readonly id="cid"    name="cid"    value="<%= cid %>" />
-    <input type="hidden" readonly id="id"     name="id"     value="<%= id %>" />
-    <input type="submit" />
-  </fieldset>
-</form>
+    <form id="username-form">
+      <fieldset>
+        <legend class="visuallyhidden">Update your username</legend>
+        <label for="username">Set a new username</label>
+        <input type="text" id="username" name="username" value="<%= username %>" required />
+
+        <input type="hidden" readonly id="userid" name="userid" value="<%= userid %>" />
+        <input type="hidden" readonly id="cid"    name="cid"    value="<%= cid %>" />
+        <input type="hidden" readonly id="id"     name="id"     value="<%= id %>" />
+        <input type="submit" value="Go" />
+      </fieldset>
+    </form>
+</div>

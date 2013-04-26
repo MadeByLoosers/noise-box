@@ -153,6 +153,8 @@ var UserController = {
         track.datetime = moment().format("YYYY-MM-DD hh:mm:ss");
         track.track = data.track;
         track.trackId = data.trackId;
+        track.trackName = data.trackName;
+        track.album = data.album;
 
         log.info("track clicked",{socketid:socket.id,track:data.track,noiseboxid:data.id});
 

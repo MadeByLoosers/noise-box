@@ -29,6 +29,8 @@ var AbstractController = {
             host.get("socket").emit(constants.SERVER_ADD_TRACK,{
                 track: nbTrackModel.get("track"),
                 trackId: nbTrackModel.get("trackId"),
+                trackName: nbTrackModel.get("trackName"),
+                album: nbTrackModel.get("album"),
                 user: nbTrackModel.get("user"),
                 datetime: nbTrackModel.get("datetime"),
                 cid: nbTrackModel.cid
@@ -39,6 +41,8 @@ var AbstractController = {
             user.get("socket").emit(constants.SERVER_ADD_TRACK,{
                 track: nbTrackModel.get("track"),
                 trackId: nbTrackModel.get("trackId"),
+                trackName: nbTrackModel.get("trackName"),
+                album: nbTrackModel.get("album"),
                 user: nbTrackModel.get("user"),
                 datetime: nbTrackModel.get("datetime"),
                 cid: nbTrackModel.cid

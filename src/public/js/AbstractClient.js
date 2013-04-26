@@ -46,6 +46,7 @@ define(function (require) {
             this.currentlyPlayingEl = $("#currently-playing p");
             this.userListEl = $("#users");
             this.logEl = $("#log ul");
+            this.currentlyPlayingHeaderEl = $("#currently-playing");
 
             this.shareLinkEl = $(".share-trigger a");
             this.shareLinkEl.on("click", this.toggleShareLink);
@@ -73,6 +74,14 @@ define(function (require) {
                 .hide()
                 .slideDown()
                 .appendTo(this.playQueueEl);
+
+            $("<li />")
+                .text(data.album + " - " + data.trackName)
+                .wrapInner("<span/>")
+                .attr("id","header-"+data.cid)
+                .appendTo(this.currentlyPlayingHeaderEl.find('ul'));
+
+            this.currentlyPlayingHeaderEl.find("h3").css({display:"block"});
         },
 
         onHostTrackPlaying : function (track) {
@@ -81,7 +90,16 @@ define(function (require) {
 
         onHostTrackComplete : function (track) {
             this.playQueueEl.find("li#"+track.cid).slideUp().remove();
+
+            this.currentlyPlayingHeaderEl.find("li#header-"+track.cid)
+                .animate({width:0}, 200)
+                .remove();
+
             this.currentlyPlayingEl.text("");
+
+            if (this.currentlyPlayingHeaderEl.find("li").length < 1) {
+                this.currentlyPlayingHeaderEl.find("h3").fadeOut();
+            }
         },
 
         onServerRemoveTrack : function (data) {
