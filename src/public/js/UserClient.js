@@ -57,12 +57,14 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "tabs",
             $('#album-list .scrollable li').first().addClass('active');
             $('#track-list .scrollable').scrollspy({target:"#album-list .scrollable"});
 
-            // sticky headers
-            $("#track-list .scrollable").stickySectionHeaders({
-                childEl         : '.tracks',
-                stickyClass     : 'sticky',
-                headlineSelector: 'h4'
-            });
+            // sticky headers - not for touch devices
+            if (!('ontouchstart' in document.documentElement)) {
+                $("#track-list .scrollable").stickySectionHeaders({
+                    childEl         : '.tracks',
+                    stickyClass     : 'sticky',
+                    headlineSelector: 'h4'
+                });
+            }
 
             // tabs
             $('#stats-tabs .tabs a:first').tab('show');
