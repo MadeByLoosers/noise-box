@@ -2032,12 +2032,35 @@ body#home {
 #currently-playing li:nth-child(1) {
   opacity: 1;
 }
-/* broadcast mode */
-/* column - album list */
-section#album-list {
+/* columns */
+section#album-list,
+section#track-list,
+section#stats {
   float: left;
+  overflow: hidden;
+  -webkit-transition: width 0.2s ease-out;
+  -moz-transition: width 0.2s ease-out;
+  -o-transition: width 0.2s ease-out;
+  transition: width 0.2s ease-out;
+}
+section#album-list {
   width: 20%;
 }
+section#track-list,
+section#stats {
+  width: 40%;
+}
+@media (max-width: 750px) {
+  section#album-list {
+    width: 0;
+    border: none;
+  }
+  section#track-list,
+  section#stats {
+    width: 50%;
+  }
+}
+/* column - album list */
 section#album-list .scrollable {
   margin-top: 3rem;
   /* height of the main heading */
@@ -2068,8 +2091,6 @@ section#album-list li.active a {
 }
 /* column - track list */
 section#track-list {
-  float: left;
-  width: 40%;
   /* extra wrapper needed due to sticky header fiddlyness... */
 
 }
@@ -2173,8 +2194,6 @@ section#track-list li a .icon.playing {
 }
 /* column - stats */
 section#stats {
-  float: left;
-  width: 40%;
   /* play mode */
 
   /* tabs */

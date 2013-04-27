@@ -5,7 +5,8 @@
 
 
 // the width at which to switch to mobile styles
-@mqWidth: 600px;
+@mobileWidth: 600px;
+@tabletWidth: 750px;
 
 
 
@@ -146,7 +147,7 @@
 
   /* header bar - for user / host pages */
     .header {
-      @media (min-width:@mqWidth) {
+      @media (min-width:@mobileWidth) {
         position:fixed;
         top:0;
         left:0;
@@ -163,7 +164,7 @@
       height:50px;
       .gradient(#000, #000, #444);
 
-      @media (min-width:@mqWidth) {
+      @media (min-width:@mobileWidth) {
         position:absolute;
         top:0;
         left:0;
@@ -191,7 +192,7 @@
       min-height:50px;
       .gradient(#e6e6e6, #e6e6e6, #fff);
 
-      @media (min-width:@mqWidth) {
+      @media (min-width:@mobileWidth) {
         position:absolute;
         top:50px;
         left:0;
@@ -257,7 +258,7 @@
           background:transparent;
           padding:6px 10px;
 
-          @media (min-width:@mqWidth) {
+          @media (min-width:@mobileWidth) {
             float:left;
           }
         }
@@ -272,7 +273,7 @@
         color:#fff;
         font-size:0.8rem;
 
-        @media(min-width:@mqWidth) {
+        @media(min-width:@mobileWidth) {
           position:fixed;
           z-index:10;
           min-height:3rem;
@@ -557,13 +558,37 @@
       }
 
 
-    /* broadcast mode */
+    /* columns */
+      section#album-list,
+      section#track-list,
+      section#stats {
+        float:left;
+        overflow:hidden;
+        .transition(width);
+      }
+
+      section#album-list {
+        width:20%;
+      }
+      section#track-list,
+      section#stats {
+        width:40%;
+      }
+
+      @media (max-width:@tabletWidth) {
+        section#album-list {
+          width:0;
+          border:none;
+        }
+        section#track-list,
+        section#stats {
+          width:50%;
+        }
+      }
 
 
     /* column - album list */
       section#album-list {
-        float:left;
-        width:20%;
 
         .scrollable {
           margin-top:3rem; /* height of the main heading */
@@ -600,8 +625,6 @@
 
     /* column - track list */
       section#track-list {
-        float:left;
-        width:40%;
 
         .search-container {
           background:#fff;
@@ -710,9 +733,6 @@
 
     /* column - stats */
       section#stats {
-        float:left;
-        width:40%;
-
 
       /* play mode */
         .play-mode-container {
