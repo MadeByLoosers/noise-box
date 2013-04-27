@@ -235,7 +235,7 @@ var AbstractController = {
             user : data.user.username,
             detail: data.message,
             eventType: "chat",
-            datetime: moment().format("YYYY-MM-DD hh:mm:ss")
+            datetime: moment().format("YYYY-MM-DD HH:mm:ss")
         };
 
         nb.hosts.each(function (host) {

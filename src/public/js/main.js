@@ -19,7 +19,7 @@
             scrollspy: "lib/bootstrap-scrollspy",
             tabs: "lib/bootstrap-tabs",
             stickyheaders: "lib/jquery.stickysectionheaders",
-            timeago: "lib/jquery-timeago"
+            timeago: "lib/timeago"
         },
         shim : {
             jquery : {

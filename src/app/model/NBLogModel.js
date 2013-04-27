@@ -51,7 +51,7 @@ var NBLogModel = module.exports = Backbone.Model.extend({
         nb.tracks.on("add",function (nbTrackModel) {
             this.add({
                 user: nbTrackModel.get("user"),
-                detail: nbTrackModel.get("track"),
+                detail: nbTrackModel.get("album") + " - " + nbTrackModel.get("trackName"),
                 datetime: nbTrackModel.get("datetime"),
                 eventType: "track-added"
             });
@@ -59,7 +59,7 @@ var NBLogModel = module.exports = Backbone.Model.extend({
 
         nb.tracks.on("change:played",function (nbTrackModel) {
             this.add({
-                detail: nbTrackModel.get("track"),
+                detail: nbTrackModel.get("album") + " - " + nbTrackModel.get("trackName"),
                 eventType: "track-complete"
             });
         },this);
@@ -82,7 +82,7 @@ var NBLogModel = module.exports = Backbone.Model.extend({
                 user : event && event.user || undefined,
                 detail: event && event.detail || undefined,
                 eventType: event && event.eventType || undefined,
-                datetime: event && event.datetime || moment().format("YYYY-MM-DD hh:mm:ss")
+                datetime: event && event.datetime || moment().format("YYYY-MM-DD HH:mm:ss")
             };
 
         log.push(item);

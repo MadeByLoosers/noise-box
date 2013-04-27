@@ -11,6 +11,7 @@ define(function (require) {
     var Const = require("constants");
     var $ = require("jquery");
     var _ = require("underscore");
+    require("timeago");
 
     return Class.extend({
 
@@ -42,7 +43,7 @@ define(function (require) {
             this.on(Const.HOST_TRACK_PLAYING,this.onHostTrackPlaying);
             this.on(Const.HOST_TRACK_COMPLETE,this.onHostTrackComplete);
 
-            this.playQueueEl = $("#play-queue ol");
+            this.playQueueEl = $("#play-queue ul");
             this.userListEl = $("#users ul");
             this.logEl = $("#log ul");
             this.currentlyPlayingHeaderEl = $("#currently-playing");
@@ -52,6 +53,9 @@ define(function (require) {
 
             this.shareEl = $(".share input");
             this.shareEl.on("click", this.selectText);
+
+            // start relative time count
+            timeAgo.init();
 
         },
 
@@ -67,21 +71,28 @@ define(function (require) {
          * A track has been added to the NoiseBox.
          */
         onServerAddTrack : function (data) {
-            $("<li />")
+
+            var $li, $icon, $headerLi;
+
+            $icon = this.createIcon("track");
+
+            $li = $("<li />")
                 .attr("id",data.cid)
-                .html("<i class='icon-music'></i><strong>"+data.album+" - "+data.trackName+"</strong>"+"<em>"+data.user+","+data.datetime+"</em>")
+                .addClass("log")
+                .html(data.album+" - "+data.trackName)
+                .prepend($icon)
                 .hide()
                 .slideDown()
                 .appendTo(this.playQueueEl);
 
-            var $li = $("<li />")
+            $headerLi = $("<li />")
                 .text(data.album + " - " + data.trackName)
                 .wrapInner("<span/>")
                 .attr("id","header-"+data.cid)
                 .appendTo(this.currentlyPlayingHeaderEl.find('ul'));
 
-            var liWidth = $li.outerWidth();
-            $li.find('span').width(liWidth);
+            var liWidth = $headerLi.outerWidth();
+            $headerLi.find('span').width(liWidth);
 
             this.currentlyPlayingHeaderEl.find("h3").css({display:"block"});
         },
@@ -143,23 +154,27 @@ define(function (require) {
 
         onUserAdded : function(data) {
             if ($("li#"+data.id).length > 0) { return; }
-            var $li = $("<li />")
+            var $i, $icon;
+
+            $icon = this.createIcon("user");
+
+            $li = $("<li />")
                 .attr("id", data.id)
+                .addClass("log")
+                .prepend($icon)
                 .text(data.username)
                 .appendTo(this.userListEl);
-
-            var $icon = $("<i/>")
-                .addClass("icon-user")
-                .prependTo($li);
         },
 
         onUserUpdated : function(data) {
-            var $li = $("li#"+data.id);
+            var $li, $icon;
+
+            $li = $("li#"+data.id);
             $li.text(data.username);
+
             if ($li.find('i').length < 1) {
-                var $icon = $("<i/>")
-                    .addClass("icon-user")
-                    .prependTo($li);
+                $icon = this.createIcon("user");
+                $li.prepend($icon);
             }
         },
 
@@ -168,21 +183,49 @@ define(function (require) {
         },
 
         onLogUpdated : function (item) {
-            var log = "["+item.eventType+"] ";
+            var logMessage, $li, $icon;
 
-            if (item && item.detail) {
-                log += "["+item.detail+"] ";
+            switch(item.eventType) {
+                case "user-added":
+                    logMessage = "<strong>" + item.user + "</strong> joined the room";
+                    break;
+                case "username-updated":
+                    logMessage = item.user + " is now known as <strong>" + item.detail + "</strong>";
+                    break;
+                case "user-removed":
+                    logMessage = item.user + " left the room";
+                    break;
+                case "track-added":
+                    logMessage = item.user + " added the track <strong>" + item.detail + "</strong>";
+                    break;
+                case "track-complete":
+                    logMessage = item.detail + " finished playing";
+                    break;
+                case "track-removed":
+                    logMessage = item.detail + " was removed from the playlist";
+                    break;
+                case "chat":
+                    logMessage = item.user + " says: &ldquo;" + item.detail + "&rdquo;";
+                    break;
+                case "host-added":
+                    logMessage = "A host has been added";
+                    break;
+                case "host-removed":
+                    logMessage = "A host has been removed";
+                    break;
             }
 
-            if (item && item.user) {
-                log += "["+item.user+"] ";
-            }
+            logMessage += ' <span class="datetime" data-datetime="'+item.datetime+'">0s</span>';
 
-            log += " ("+item.datetime+")";
+            $icon = this.createIcon(item.eventType);
 
-            $("<li />")
-                .text(log)
+            $li = $("<li />")
+                .addClass("log")
+                .html(logMessage)
+                .prepend($icon)
                 .appendTo(this.logEl);
+
+            timeAgo.add($li.find('span'));
 
             // scroll the log to the bottom if we're nearly there anyway...
             var $scrollable = this.logEl.closest('.scrollable');
@@ -190,6 +233,43 @@ define(function (require) {
                 $scrollable.animate({ scrollTop: this.logEl.outerHeight() }, 250);
             }
         },
+
+
+        createIcon : function(type) {
+            var icon = "icon-",
+                $icon;
+
+            switch(type) {
+                case "user":
+                case "user-added":
+                case "username-updated":
+                case "user-removed":
+                    icon += "user";
+                    break;
+
+                case "track":
+                case "track-added":
+                case "track-complete":
+                case "track-removed":
+                    icon += "music";
+                    break;
+
+                case "chat":
+                    icon += "comment-alt";
+                    break;
+
+                case "host-added":
+                case "host-removed":
+                    icon += "desktop";
+                    break;
+            }
+
+            $icon = $("<i /> ")
+                .addClass(icon);
+
+            return $icon;
+        },
+
 
         // if there is a flash message, display it
         flashMessage : function() {

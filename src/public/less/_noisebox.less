@@ -3,7 +3,11 @@
  */
 @import "_elements.less";
 
+
+// the width at which to switch to mobile styles
 @mqWidth: 600px;
+
+
 
 /* default page styles */
 
@@ -70,6 +74,69 @@
     }
 
 
+  /* tabs */
+    .tab-trigger a,
+    .tab-trigger span {
+      float:left;
+      background:#eee;
+      text-align:center;
+      cursor:pointer;
+      font-size:0.8rem;
+      line-height:2.5;
+      color:#000;
+      text-decoration:none;
+      .transition(all, 250ms);
+    }
+
+    .tab-trigger a:hover,
+    .tab-trigger span:hover {
+      background-color:#ddd;
+    }
+
+    .tab-trigger.active a,
+    .tab-trigger.active span {
+      color:#fff;
+      background-color:rgba(66,66,66,1);
+    }
+
+    .tab-container {
+      clear:both;
+      height:100%;
+      position:relative;
+    }
+
+    .tab {
+      height:100%;
+      position:absolute;
+      left:0;
+      right:0;
+      display:none;
+    }
+
+    .tab.active {
+      display:block;
+    }
+
+
+  /* log messages */
+    li.log {
+      font-size:0.8rem;
+
+      i {
+        margin-right:5px;
+      }
+
+      span.datetime {
+        font-size:0.7rem;
+        font-style:italic;
+        color:#999;
+      }
+    }
+
+
+
+/* page layout */
+
   /* page containers */
     #wrapper,
     #middle {
@@ -88,6 +155,7 @@
         z-index:3;
       }
     }
+
 
   /* banner bar - for user / host pages */
     .banner {
@@ -196,6 +264,7 @@
       }
     }
 
+
     /* footer - for host / user pages */
       .footer {
         clear:both;
@@ -219,7 +288,67 @@
       }
 
 
-/* page styles */
+    /* main content area - for host / user pages */
+      .content,
+      .content section,
+      .content .scrollable {
+        .box-sizing(border-box);
+        height:100%;
+      }
+
+      .content {
+        padding-top:100px; /* header height */
+        padding-bottom:3rem; /* footer height */
+      }
+
+      .content section {
+        border-right:1px solid #999;
+        position:relative;
+        overflow:hidden;
+        padding-bottom:3rem; /* footer height */
+      }
+
+      .content .scrollable {
+        overflow:auto;
+      }
+
+      .content h3,
+      .content h4 {
+        position:absolute;
+        z-index:2;
+        top:0;
+        left:0;
+        right:0;
+        margin:0;
+        padding:0 10px;
+        height:3rem;
+        line-height:3rem;
+        .box-sizing(border-box);
+
+        font-size:1.2rem;
+        background:#999;
+        color:#fff;
+        font-size:1rem;
+        text-shadow:1px 1px 1px rgba(0,0,0,0.5);
+      }
+
+      .content h4 {
+        font-size:1rem;
+        position:static;
+        background:#bbb;
+        height:2rem;
+        line-height:2rem;
+      }
+
+      .content ul,
+      .content li {
+        list-style:none;
+        margin:0;
+        padding:0;
+      }
+
+
+/* individual page styles */
 
   /* home page */
     #home {
@@ -291,10 +420,11 @@
 
 
   /* host page */
-
+    /* ... */
 
 
   /* user page */
+
     /* username form */
       #login {
         position:absolute;
@@ -353,6 +483,7 @@
         }
       }
 
+    /* username form - up arrow */
       #username-form:after,
       #username-form:before {
         bottom: 100%;
@@ -380,8 +511,7 @@
       }
 
 
-
-    /* currently playing */
+    /* currently playing block */
       #currently-playing {
         position:absolute;
         top:3.5rem;
@@ -399,7 +529,7 @@
 
         ul {
           float:right;
-          width:100000px; /* big enough to keep everything on one line */
+          width:100000px; /* big enough to keep everything on one line - mostly masked */
           font-size:1rem;
         }
 
@@ -413,83 +543,21 @@
           float:right;
         }
 
-        // loop: http://blog.thehippo.de/2012/04/programming/do-a-loop-with-less-css/
-        @iterations: 10;
-        .loopingClass (@index) when (@index > 0) {
-          (~"li:nth-child(@{index})") {
-            opacity: ((11-@index)/10);
+        /* reduce opacity for queued tracks */
+          // loop: http://blog.thehippo.de/2012/04/programming/do-a-loop-with-less-css/
+          @iterations: 10;
+          .loopingClass (@index) when (@index > 0) {
+            (~"li:nth-child(@{index})") {
+              opacity: ((11-@index)/10);
+            }
+            .loopingClass(@index - 1);
           }
-          .loopingClass(@index - 1);
-        }
-        .loopingClass (0) {}
-        .loopingClass (@iterations);
+          .loopingClass (0) {}
+          .loopingClass (@iterations);
       }
-
-
 
 
     /* broadcast mode */
-
-
-    /* main content area */
-      .content,
-      .content section,
-      .content .scrollable,
-      #stats-tabs {
-        .box-sizing(border-box);
-        height:100%;
-      }
-
-      .content {
-        padding-top:100px; /* header height */
-        padding-bottom:3rem; /* footer height */
-      }
-
-      .content section {
-        border-right:1px solid #999;
-        position:relative;
-        overflow:hidden;
-        padding-bottom:3rem; /* footer height */
-      }
-
-      .content .scrollable {
-        overflow:auto;
-      }
-
-      .content h3,
-      .content h4 {
-        position:absolute;
-        z-index:2;
-        top:0;
-        left:0;
-        right:0;
-        margin:0;
-        padding:0 10px;
-        height:3rem;
-        line-height:3rem;
-        .box-sizing(border-box);
-
-        font-size:1.2rem;
-        background:#999;
-        color:#fff;
-        font-size:1rem;
-        text-shadow:1px 1px 1px rgba(0,0,0,0.5);
-      }
-
-      .content h4 {
-        font-size:1rem;
-        position:static;
-        background:#bbb;
-        height:2rem;
-        line-height:2rem;
-      }
-
-      .content ul,
-      .content li {
-        list-style:none;
-        margin:0;
-        padding:0;
-      }
 
 
     /* column - album list */
@@ -503,7 +571,6 @@
 
 
         li {
-
           &:nth-of-type(odd) a {
             background:#f3f3f3;
           }
@@ -558,7 +625,7 @@
             &:focus {
               background:#eee;
               outline:none;
-              .inner-shadow(0, 0, 15px, 0.4);
+              .inner-shadow(0, 0, 5px, 0.4);
             }
           }
 
@@ -646,6 +713,8 @@
         float:left;
         width:40%;
 
+
+      /* play mode */
         .play-mode-container {
           position:absolute;
           z-index:2;
@@ -658,105 +727,78 @@
             height:100%;
           }
 
-          .play-mode {
-            float:left;
+          .play-mode span {
             width:50%;
-            height:100%;
-            background:#eee;
-            text-align:center;
-            cursor:pointer;
-            font-size:0.8rem;
-            line-height:2.5;
             i {
               margin-left:5px;
             }
           }
-
-          .play-mode.active {
-            color:#fff;
-            background-color:rgba(66,66,66,1);
-          }
         }
 
-        #stats-tabs,
-        .tab-container,
-        .tab {
-          height:100%;
-        }
 
-        .tab-container {
-          position:relative;
-        }
-
-        .tab {
-          position:absolute;
-          left:0;
-          right:0;
-        }
-
+      /* tabs */
         #stats-tabs {
+          .box-sizing(border-box);
+          height:100%;
           margin-top:3rem; /* height of the main heading */
           padding-bottom:4rem; /* play mode container + magic */
         }
 
         .tabs li a {
-          float:left;
           width:33%;
-          background:#eee;
-          text-align:center;
-          cursor:pointer;
-          font-size:0.8rem;
-          line-height:2.5;
-          color:#000;
-          text-decoration:none;
         }
 
         .tabs li:first-child a {
           width:34%;
         }
 
-        .tabs li.active a {
-          color:#fff;
-          background-color:rgba(66,66,66,1);
-        }
-
-        .tab-container {
-          clear:both;
-        }
-
-        .tab {
-          display:none;
-        }
-
-        .tab.active {
-          display:block;
-        }
-
-        #tab-log .scrollable {
-          padding-bottom:3em;
-        }
-
-        #chat-form {
-          position:absolute;
-          bottom:0;
-          left:0;
-          right:0;
-          background:#fff;
-        }
-
-        #play-queue {
-          strong {
-            display:block;
+        /* set inner padding for each tab */
+          #log,
+          #play-queue,
+          #users {
+            padding:0.5rem;
           }
-        }
 
 
-        input[type="text"] {
-          border:1px solid #666;
-        }
+        /* log tab */
+          #tab-log .scrollable {
+            padding-bottom:3em; /* stop above chat form */
+          }
 
-        input[type="submit"] {
-          background:#666;
-          color:#fff;
-        }
+
+          /* log - chat form */
+            #chat-form {
+              position:absolute;
+              bottom:0;
+              left:0;
+              right:0;
+              background:#fff;
+            }
+
+            input[type="text"],
+            input[type="submit"] {
+              .box-sizing(border-box);
+              border-radius:0;
+              margin:0;
+              font-size:0.75rem;
+            }
+
+            input[type="text"] {
+              padding-top:9px;
+              padding-bottom:9px;
+              border-top:1px solid #333;
+              border-bottom:1px solid #333;
+              width:75%;
+            }
+
+            input[type="submit"] {
+              background:#333;
+              color:#fff;
+              width:25%;
+
+              &[disabled] {
+                background:#ccc;
+              }
+            }
+
       }

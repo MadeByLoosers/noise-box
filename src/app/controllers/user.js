@@ -150,7 +150,7 @@ var UserController = {
         if (!user) { return; }
 
         track.user = user.get("username");
-        track.datetime = moment().format("YYYY-MM-DD hh:mm:ss");
+        track.datetime = moment().format("YYYY-MM-DD HH:mm:ss");
         track.track = data.track;
         track.trackId = data.trackId;
         track.trackName = data.trackName;

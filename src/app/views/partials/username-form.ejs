@@ -1,12 +1,12 @@
 <div id="login">
     <div id="username-display">
-        <p><a href="#username-form">Change name</a> <span class="username"><%= username %></span><i class="icon-user default"></i></p>
+        <p><a href="#username-form">Update username</a> <span class="username"><%= username %></span><i class="icon-user default"></i></p>
     </div>
 
     <form id="username-form">
       <fieldset>
-        <legend class="visuallyhidden">Update your username</legend>
-        <label for="username">Set a new username</label>
+        <legend class="visuallyhidden">Update username</legend>
+        <label for="username">Update username:</label>
         <input type="text" id="username" name="username" value="<%= username %>" required />
 
         <input type="hidden" readonly id="userid" name="userid" value="<%= userid %>" />

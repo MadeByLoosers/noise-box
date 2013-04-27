@@ -43,8 +43,6 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "tabs",
             this.usernameField = $("#username");
             this.chatField = $("#chat-text");
 
-            this.chatField.attr("disabled", "disabled");
-
             this.on(Const.USER_ADDED,this.updateUsernameField);
             this.on(Const.USER_UPDATED,this.updateUsernameField);
 
@@ -53,6 +51,7 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "tabs",
             this.on(Const.SERVER_ADD_TRACK,this.onTrackQueued);
             this.on(Const.HOST_TRACK_PLAYING,this.onTrackPlaying);
             this.on(Const.HOST_TRACK_COMPLETE,this.onTrackComplete);
+
 
             // scroll spy
             $('#album-list .scrollable li').first().addClass('active');
@@ -77,6 +76,8 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "tabs",
 
             var $el, track, trackId, trackName, album;
 
+            // sometimes click event may be span element within link el
+            // if so, grab the <a> element
             if (event.target.nodeName.toLowerCase() === "a") {
                 $el = $(event.target);
             } else {
@@ -203,7 +204,9 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "tabs",
             }
 
             this.chatField.removeAttr("disabled");
-            $("#chat-text-label").text("Chat");
+            this.chatField.removeAttr("readonly");
+            this.chatField.attr("Placeholder","Add message");
+            $("#chat-form input[type='submit']").removeAttr("disabled");
 
             $form.fadeOut();
             $("#username-display .username").text(this.user.username);
