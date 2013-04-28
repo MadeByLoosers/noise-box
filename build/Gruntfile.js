@@ -37,7 +37,8 @@ module.exports = function(grunt) {
           _: true,
           Class: false,
           define: false,
-          io: true
+          io: true,
+          timeAgo: false
         }
       }
     },

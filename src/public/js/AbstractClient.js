@@ -154,7 +154,7 @@ define(function (require) {
 
         onUserAdded : function(data) {
             if ($("li#"+data.id).length > 0) { return; }
-            var $i, $icon;
+            var $i, $li, $icon;
 
             $icon = this.createIcon("user");
 
