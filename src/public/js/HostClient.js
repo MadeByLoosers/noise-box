@@ -21,7 +21,39 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
 
             this._super();
 
+            this.log({ eventType: "room-created" });
+
+            // some mobile/touch devices require the user
+            // to add an audio track via touch interaction
+            if ('ontouchstart' in document.documentElement) {
+                this.log({ eventType: "audio-start-note" });
+                $('.audio-start').one('click', _.bind(this.addAudioStartNote, this));
+            }
+
             this.emit(Const.HOST_CONNECT);
+        },
+
+
+        addAudioStartNote : function(e) {
+            e.preventDefault();
+            var $a = $(e.target),
+                $li = $a.closest('li');
+
+            $li.slideUp();
+
+            this.audioElement = $("<audio />")
+                .attr("id", "audio-player")
+                .attr("preload", "auto")
+                .attr("src", "/noise/alive.mp3")
+                .appendTo("body");
+
+            this.audioElement.on('ended', function(e) {
+                this.audioElement.off('ended');
+            });
+
+            this.audioElement[0].load();
+            this.audioElement[0].play();
+
         },
 
 
@@ -54,20 +86,19 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
 
                 this.emit(Const.HOST_TRACK_PLAYING,this.currentTrack);
 
-                // need to create a new audio element each time
-                // can't just change the src of an existing element
                 if (!!this.audioElement) {
                     this.audioElement.off('ended');
                     this.audioElement.off('loadedmetadata');
-                    this.audioElement.remove();
+                    this.audioElement.attr("src", this.currentTrack.track);
+                } else {
+                    this.audioElement = $("<audio />")
+                        .attr("id", "audio-player")
+                        .attr("preload", "auto")
+                        .attr("src", this.currentTrack.track)
+                        .appendTo("body");
                 }
 
-                this.audioElement = $("<audio />")
-                    .attr("id", "audio-player")
-                    .attr("preload", "auto")
-                    .attr("src", this.currentTrack.track)
-                    .appendTo("body");
-
+                this.audioElement[0].load();
                 this.audioElement[0].play();
 
                 this.audioElement.on('ended', $.proxy(this.onTrackComplete, this) );

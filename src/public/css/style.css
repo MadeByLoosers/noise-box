@@ -1904,8 +1904,6 @@ body#home {
 #home input[type=text] {
   width: 170px;
 }
-/* host page */
-/* ... */
 /* user page */
 /* username form */
 #login {
@@ -2082,41 +2080,41 @@ section#stats {
   width: 40%;
 }
 @media (max-width: 750px) {
-  section#album-list {
+  body#user section#album-list {
     width: 0;
     border: none;
   }
-  section#track-list,
-  section#stats {
+  body#user section#track-list,
+  body#user section#stats {
     width: 50%;
   }
 }
 @media (max-width: 480px) {
-  section#track-list,
-  section#stats {
+  body#user section#track-list,
+  body#user section#stats {
     width: 100%;
     border: none;
     float: none;
   }
-  section#track-list {
+  body#user section#track-list {
     height: 70%;
   }
-  section#stats {
+  body#user section#stats {
     border-top: 2px solid #333;
     height: 30%;
   }
 }
 @media (max-height: 310px) {
-  .room {
+  body#user .room {
     display: none;
   }
-  .content {
+  body#user .content {
     padding-top: 50px;
   }
-  section#track-list {
+  body#user section#track-list {
     height: 100%;
   }
-  section#stats {
+  body#user section#stats {
     height: 0;
   }
 }
@@ -2211,7 +2209,7 @@ section#track-list .scrollable-container {
   overflow: hidden;
 }
 @media (max-width: 600px) {
-  section#track-list .scrollable-container {
+  section#track-list body#user .scrollable-container {
     margin-top: 2rem;
   }
 }
@@ -2325,7 +2323,7 @@ section#stats .tabs li:first-child a {
   width: 34%;
 }
 @media (max-width: 600px) {
-  section#stats .tabs {
+  section#stats body#user .tabs {
     display: none;
   }
 }
@@ -2340,7 +2338,7 @@ section#stats #tab-log .scrollable {
 
 }
 @media (max-width: 600px) {
-  section#stats #tab-log .scrollable {
+  section#stats body#user #tab-log .scrollable {
     padding-top: 3em;
     padding-bottom: 0;
   }
@@ -2393,6 +2391,52 @@ section#stats input[type="submit"] {
 }
 section#stats input[type="submit"][disabled] {
   background: #ccc;
+}
+/* host page */
+/* stats - full width */
+#host section#stats {
+  width: 100%;
+  border: none;
+  padding: 0;
+  /* remove tabs for non-mobile */
+
+}
+#host section#stats #stats-tabs {
+  margin: 0;
+  padding: 0;
+}
+@media (min-width: 600px) {
+  #host section#stats .tab-trigger a {
+    padding: 0 10px;
+    height: 3rem;
+    line-height: 3rem;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 1.2rem;
+    font-size: 1rem;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    text-align: left;
+    cursor: default;
+    color: #fff;
+    background-color: #999;
+    font-weight: bold;
+  }
+  #host section#stats .tab {
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: block !important;
+    float: left;
+    width: 33%;
+    border-right: 1px solid #999;
+    position: static;
+  }
+  #host section#stats .tab#tab-log {
+    width: 34%;
+  }
 }
 /* ==========================================================================
    Helper classes

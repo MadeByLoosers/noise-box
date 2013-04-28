@@ -1,13 +1,41 @@
 <div class="header">
     <% include partials/banner %>
     <% include partials/room %>
+    <% include partials/currently-playing %>
 </div>
 
 <div class="content">
-    <% include partials/currently-playing %>
-    <% include partials/play-queue %>
-    <% include partials/users %>
-    <% include partials/log %>
+    <section id="stats">
+
+        <div id="stats-tabs">
+
+            <ul class="tabs">
+                <li class="tab-trigger tab-log active"><a data-toggle="tab" href="#tab-log">Log</a></li>
+                <li class="tab-trigger tab-play-queue"><a data-toggle="tab" href="#tab-play-queue">Play Queue</a></li>
+                <li class="tab-trigger tab-users"><a data-toggle="tab" href="#tab-users">Users</a></li>
+            </ul>
+
+            <div class="tab-container">
+                <div class="tab active" id="tab-log">
+                    <div class="scrollable">
+                        <% include partials/log %>
+                    </div>
+                </div>
+
+                <div class="tab" id="tab-play-queue">
+                    <div class="scrollable">
+                        <% include partials/play-queue %>
+                    </div>
+                </div>
+
+                <div class="tab" id="tab-users">
+                    <div class="scrollable">
+                        <% include partials/users %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
 <% include partials/socket-io %>
 <% include partials/footer %>

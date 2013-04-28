@@ -213,6 +213,16 @@ define(function (require) {
                 case "host-removed":
                     logMessage = "A host has been removed";
                     break;
+                case "room-created":
+                    logMessage = "Noisebox room created: <strong>" + this.hostURL + "/" + this.noiseBoxID + "</strong>";
+                    break;
+                case "audio-start-note":
+                    logMessage = "Note: <a class='audio-start' href='#'>You need to click here to enable sound</a>";
+                    break;
+            }
+
+            if (!item.datetime) {
+                item.datetime = timeAgo.now();
             }
 
             logMessage += ' <span class="datetime" data-datetime="'+item.datetime+'">0s</span>';
@@ -232,6 +242,11 @@ define(function (require) {
             if (this.logEl.outerHeight() - $scrollable.scrollTop() - $scrollable.outerHeight() < 150) {
                 $scrollable.animate({ scrollTop: this.logEl.outerHeight() }, 250);
             }
+        },
+
+
+        log : function(msg) {
+            this.onLogUpdated(msg);
         },
 
 
@@ -261,6 +276,14 @@ define(function (require) {
                 case "host-added":
                 case "host-removed":
                     icon += "desktop";
+                    break;
+
+                case "room-created":
+                    icon += "bullhorn";
+                    break;
+
+                case "audio-start-note":
+                    icon += "warning-sign";
                     break;
             }
 

@@ -7,7 +7,7 @@ var timeAgo = (function() {
         timeout,
         interval = 1000,
         els = [],
-        init, count, add, parseTime, calculateTimeDifferenceInSeconds, calculateTimeDifference;
+        init, count, add, parseTime, calculateTimeDifferenceInSeconds, calculateTimeDifference, now;
 
     init = function(){
         if (!!timeout) return;
@@ -67,8 +67,24 @@ var timeAgo = (function() {
       }
     };
 
+    now = function() {
+      if (!Date.prototype.toISOString) {
+        Date.prototype.toISOString = function() {
+            function pad(n) { return n < 10 ? '0' + n : n; }
+            return this.getUTCFullYear() + '-' +
+                pad(this.getUTCMonth() + 1) + '-' +
+                pad(this.getUTCDate()) + 'T' +
+                pad(this.getUTCHours()) + ':' +
+                pad(this.getUTCMinutes()) + ':' +
+                pad(this.getUTCSeconds()) + 'Z';
+        };
+      }
+      return new Date().toISOString();
+    };
+
     return {
         init : init,
-        add  : add
+        add  : add,
+        now  : now
     };
 })();
