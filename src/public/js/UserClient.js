@@ -37,6 +37,7 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "tabs",
             $("#play-mode-form input[name=play-mode]").on("change", _.bind(this.onPlayModeChange,this));
 
             $("#track-search").focus().on("keyup search", _.bind(this.debounceFilterContent,this));
+            $("#track-search").on("keypress",_.bind(this.onTrackSearchKeyPress,this));
 
             $("#username-display a").on("click", this.showUsernameForm);
 
@@ -232,6 +233,10 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "tabs",
 
         },
 
+        onTrackSearchKeyPress: function (event) {
+            // Play the top track when enter button is pressed:
+            if ( (event.keyCode||event.which) === 13 ) $("#track-list li:not(.hidden) a").first().trigger("click");
+        },
 
         // debounce the search filter, so it doesn't happen immediately after every key input
         debounceFilterContent: function(event) {
