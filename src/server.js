@@ -39,6 +39,18 @@ app.use(express.bodyParser());
 app.use(app.router);
 app.use(error());
 
+// Get file list
+require("./app/lib/built-in-sfx")(function (err,sfx) {
+    if ( err ) {
+        console.log("Error walking SFX dir");
+    }
+    require("./app/lib/sfx-metadata-parser")(sfx,function (err,sfx) {
+        if ( err ) {
+            console.log("Error parsing SFX metadata");
+        }
+    });
+});
+
 // Start the Express server:
 
 var server = app.listen(port,function () {
