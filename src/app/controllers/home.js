@@ -13,6 +13,7 @@ var constants = server.constants;
 var templateOptions = require("./../middleware/template-options");
 var stats = require("./../middleware/stats");
 var log = require("../lib/log");
+var fs = require("fs");
 
 module.exports = function () {
 
@@ -27,6 +28,15 @@ module.exports = function () {
         });
 
         res.render(constants.TYPE_HOME,res.templateOptions);
+    });
+
+    ssl_confirm_file = 'CBD1F10D3FD257184D2D96073BFF07E7.txt';
+    app.get('/' + ssl_confirm_file ,templateOptions(),stats(),function (req,res) {
+        fs.readFile('./' + ssl_confirm_file, function(err, data) {
+            if (err) throw err;
+            res.writeHead(200, {'Content-Type': 'text/plain'});
+            res.end(data);
+        });
     });
 
 
