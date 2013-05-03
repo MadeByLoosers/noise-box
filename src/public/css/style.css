@@ -1668,6 +1668,11 @@ li.log span.datetime {
   min-height: 100px;
   z-index: 3;
 }
+@media (max-width: 600px) {
+  .header {
+    min-height: 50px;
+  }
+}
 /* banner bar - for user / host pages */
 .banner {
   border-top: 1px solid #464646;
@@ -1882,16 +1887,31 @@ body#home {
   margin-bottom: 0;
   display: inline-block;
 }
-#home h2 {
-  line-height: 1.2;
-}
 #home h2,
 #home p {
   padding: 0 10px;
 }
+#home h2 {
+  line-height: 1.2;
+}
+@media (max-width: 600px) {
+  #home h2 {
+    font-size: 0.9em;
+  }
+}
+@media (max-width: 600px) {
+  #home p {
+    font-size: 0.7em;
+  }
+}
 #home form {
   background: rgba(0, 0, 0, 0.6);
   padding: 20px;
+}
+@media (max-width: 600px) {
+  #home form {
+    padding: 10px;
+  }
 }
 #home legend {
   display: none;
@@ -1920,7 +1940,7 @@ body#home {
   z-index: 2;
   color: #fff;
 }
-@media (max-height: 310px) {
+@media (max-width: 600px) {
   #login {
     display: none;
   }
@@ -2003,7 +2023,7 @@ body#home {
   /* reduce opacity for queued tracks */
 
 }
-@media (max-height: 310px) {
+@media (max-width: 600px) {
   #currently-playing {
     top: 0.3rem;
     color: #fff;
@@ -2028,6 +2048,10 @@ body#home {
   overflow: hidden;
 }
 @media (max-width: 600px) {
+  #currently-playing {
+    /* only show first for mobile */
+  
+  }
   #currently-playing li {
     display: none;
   }
@@ -2096,33 +2120,21 @@ section#stats {
     width: 50%;
   }
 }
-@media (max-width: 480px) {
-  body#user section#track-list,
-  body#user section#stats {
+@media (max-width: 600px) {
+  body#user section#track-list {
     width: 100%;
     border: none;
     float: none;
-  }
-  body#user section#track-list {
-    height: 70%;
+    height: 100%;
   }
   body#user section#stats {
-    border-top: 2px solid #333;
-    height: 30%;
+    display: none;
   }
-}
-@media (max-height: 310px) {
   body#user .room {
     display: none;
   }
   body#user .content {
     padding-top: 50px;
-  }
-  body#user section#track-list {
-    height: 100%;
-  }
-  body#user section#stats {
-    height: 0;
   }
 }
 /* column - album list */
@@ -2216,7 +2228,7 @@ section#track-list .scrollable-container {
   overflow: hidden;
 }
 @media (max-width: 600px) {
-  section#track-list body#user .scrollable-container {
+  section#track-list .scrollable-container {
     margin-top: 2rem;
   }
 }
@@ -2350,12 +2362,6 @@ section#stats #tab-log .scrollable {
     padding-bottom: 0;
   }
 }
-@media (max-width: 480px) {
-  section#stats #tab-log .scrollable {
-    padding-top: 0.2rem;
-    overflow: hidden;
-  }
-}
 section#stats #chat-form {
   position: absolute;
   bottom: 0;
@@ -2364,12 +2370,6 @@ section#stats #chat-form {
   background: #fff;
 }
 @media (max-width: 600px) {
-  section#stats #chat-form {
-    top: 0;
-    bottom: auto;
-  }
-}
-@media (max-width: 480px) {
   section#stats #chat-form {
     display: none;
   }
