@@ -49,6 +49,7 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "tabs",
             this.on(Const.SERVER_SOCKET_CONNECT,this.detectTransport);
 
             this.on(Const.SERVER_ADD_TRACK,this.onTrackQueued);
+            this.on(Const.SERVER_BOOT_CLIENT,this.bootClient);
             this.on(Const.HOST_TRACK_PLAYING,this.onTrackPlaying);
             this.on(Const.HOST_TRACK_COMPLETE,this.onTrackComplete);
 
@@ -339,6 +340,11 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "tabs",
             if (transport !== 'websocket') {
                 this.createFlashMessage("Your connection to noisebox isn't great, it could be improved by using a modern browser or connecting via wifi");
             }
+        },
+
+
+        bootClient: function(e) {
+            console.log('Got boot message', arguments);
         },
 
 

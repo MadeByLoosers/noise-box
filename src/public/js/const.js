@@ -53,6 +53,7 @@ var Const = {
     SERVER_NOISE_BOX_STATS_UPDATED : "noiseBoxStatsUpdated",
     SERVER_ADD_TRACK : "addTrack",
     SERVER_REMOVE_TRACK : "removeTrack",
+    SERVER_BOOT_CLIENT : 'bootClient',
 
     // Custom client > server socket events
 
