@@ -5,8 +5,6 @@
 
 
 // the width at which to switch to mobile styles
-@miniWidth: 480px;
-@miniHeight: 310px;
 @mobileWidth: 600px;
 @tabletWidth: 750px;
 
@@ -179,6 +177,10 @@
             right:0;
             min-height:100px;
             z-index:3;
+
+            @media(max-width:@mobileWidth) {
+                min-height:50px;
+            }
         }
 
 
@@ -411,18 +413,32 @@
                 display:inline-block;
             }
 
-            h2 {
-                line-height:1.2;
-            }
-
             h2,
             p {
                 padding:0 10px;
             }
 
+            h2 {
+                line-height:1.2;
+
+                @media (max-width:@mobileWidth) {
+                    font-size:0.9em;
+                }
+            }
+
+            p {
+                @media (max-width:@mobileWidth) {
+                    font-size:0.7em;
+                }
+            }
+
             form {
                 background:rgba(0,0,0,0.6);
                 padding:20px;
+
+                @media (max-width:@mobileWidth) {
+                    padding:10px;
+                }
             }
 
             legend {
@@ -461,7 +477,7 @@
                 color:#fff;
             }
 
-            @media (max-height:@miniHeight) {
+            @media (max-width:@mobileWidth) {
                 #login {
                     display:none;
                 }
@@ -553,7 +569,7 @@
                 overflow:hidden;
                 text-align:right;
 
-                @media (max-height:@miniHeight) {
+                @media (max-width:@mobileWidth) {
                     top:0.3rem;
                     color:#fff;
                 }
@@ -578,6 +594,7 @@
                 }
 
                 @media(max-width:@mobileWidth) {
+                    /* only show first for mobile */
                     li {
                         display:none;
                     }
@@ -633,36 +650,21 @@
                     }
                 }
 
-                @media (max-width:@miniWidth) {
-                    section#track-list,
-                    section#stats {
+                @media (max-width:@mobileWidth) {
+                    section#track-list {
                         width:100%;
                         border:none;
                         float:none;
+                        height:100%;
                     }
-
-                    section#track-list {
-                        height:70%;
-                    }
-
                     section#stats {
-                        border-top:2px solid #333;
-                        height:30%;
+                        display:none;
                     }
-                }
-
-                @media (max-height:@miniHeight) {
                     .room {
                         display:none;
                     }
                     .content {
                         padding-top:50px;
-                    }
-                    section#track-list {
-                        height:100%;
-                    }
-                    section#stats {
-                        height:0;
                     }
                 }
             }
@@ -758,7 +760,7 @@
                 }
 
                 @media(max-width:@mobileWidth) {
-                    body#user .scrollable-container {
+                    .scrollable-container {
                         margin-top:2rem;
                     }
                 }
@@ -905,14 +907,6 @@
                         }
                     }
 
-                    @media (max-width:@miniWidth) {
-                        #tab-log .scrollable {
-                            padding-top:0.2rem;
-                            overflow:hidden;
-                        }
-                    }
-
-
                     /* log - chat form */
                         #chat-form {
                             position:absolute;
@@ -923,13 +917,6 @@
                         }
 
                         @media (max-width: @mobileWidth) {
-                            #chat-form {
-                                top:0;
-                                bottom:auto;
-                            }
-                        }
-
-                        @media (max-width:@miniWidth) {
                             #chat-form {
                                 display:none;
                             }
