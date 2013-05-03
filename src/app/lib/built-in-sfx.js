@@ -25,6 +25,17 @@ var lastAccess;
  *     }
  * ]
  */
+
+// TODO: switch to sortPropertyAlphabetical
+// var = ?
+function sortName() {
+    return function(a,b) {
+        if( a.name<b.name ) return -1;
+        if( a.name>b.name ) return 1;
+        return 0;
+    };
+}
+
 module.exports = function (cb) {
     if ( sfx && lastAccess && (Date.now()<(lastAccess+cacheTime)) ) {
         console.log('generated sfx: ' + sfx);
@@ -42,12 +53,8 @@ module.exports = function (cb) {
                 };
                 sfx.push(dir);
                 // This will sort the Albums, needed on live server
-                sfx.sort(function(a, b){
-                    if(a.name<b.name) return -1;
-                    if(a.name>b.name) return 1;
-                    return 0;
-                });
-                dir.files.reverse();
+                sfx.sort(sortName());
+                sfx.reverse();
             } else {
                 var dirName = pathParts.pop();
                 sfx.forEach(function (dir) {
@@ -62,12 +69,7 @@ module.exports = function (cb) {
                             album: ""
                         });
                         // This will sort the Tracks, needed on live server
-                        // TODO: DRY for sort function sortName sortPropAlphabetical
-                        dir.files.sort(function(a, b){
-                            if(a.name<b.name) return -1;
-                            if(a.name>b.name) return 1;
-                            return 0;
-                        });
+                        dir.files.sort(sortName());
                         dir.files.reverse();
                     }
                 });
