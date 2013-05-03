@@ -26,19 +26,16 @@ var lastAccess;
  * ]
  */
 
-// TODO: switch to sortPropertyAlphabetical
-// var = ?
-function sortName() {
+var sortPropertyAlphabetical = function(property){
     return function(a,b) {
-        if( a.name<b.name ) return -1;
-        if( a.name>b.name ) return 1;
+        if( a[property] < b[property] ) return -1;
+        if( a[property] > b[property] ) return 1;
         return 0;
     };
-}
+};
 
 module.exports = function (cb) {
     if ( sfx && lastAccess && (Date.now()<(lastAccess+cacheTime)) ) {
-        console.log('generated sfx: ' + sfx);
         cb(null,sfx);
     } else {
         sfx = [];
@@ -53,7 +50,7 @@ module.exports = function (cb) {
                 };
                 sfx.push(dir);
                 // This will sort the Albums, needed on live server
-                sfx.sort(sortName());
+                sfx.sort(sortPropertyAlphabetical('name'));
                 sfx.reverse();
             } else {
                 var dirName = pathParts.pop();
@@ -69,13 +66,12 @@ module.exports = function (cb) {
                             album: ""
                         });
                         // This will sort the Tracks, needed on live server
-                        dir.files.sort(sortName());
+                        dir.files.sort(sortPropertyAlphabetical('name'));
                         dir.files.reverse();
                     }
                 });
             }
         },function () {
-            console.log('newly generated sfx: ' + sfx);
             cb(null,sfx);
         });
     }
