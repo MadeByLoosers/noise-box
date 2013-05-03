@@ -15,10 +15,10 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
 
         init : function () {
 
-            if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-                window.location = "/boot?m=Sorry your browser doesn't support playback of MP3s, try Google Chrome";
-            } else {
+            if (this.canPlayMP3()) {
                 this._super();
+            } else {
+                window.location = "/boot?m=Sorry your browser doesn't support playback of MP3s, try Google Chrome";
             }
         },
 
@@ -121,6 +121,11 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
                 //});
 
             }
+        },
+
+        canPlayMP3: function  () {
+            var a = document.createElement('audio');
+            return !!(a.canPlayType && a.canPlayType('audio/mpeg;').replace(/no/, ''));
         }
     });
 });
