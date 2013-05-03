@@ -19,7 +19,7 @@ module.exports = function(grunt) {
         "<%= srcDir %>/app/**/*.js"
       ],
       options: {
-        curly: true,
+        curly: false,
         eqeqeq: true,
         immed: true,
         latedef: false,
