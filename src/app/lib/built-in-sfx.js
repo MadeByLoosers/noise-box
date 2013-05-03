@@ -27,6 +27,7 @@ var lastAccess;
  */
 module.exports = function (cb) {
     if ( sfx && lastAccess && (Date.now()<(lastAccess+cacheTime)) ) {
+        console.log('generated sfx: ' + sfx);
         cb(null,sfx);
     } else {
         sfx = [];
@@ -40,6 +41,13 @@ module.exports = function (cb) {
                     files: []
                 };
                 sfx.push(dir);
+                // This will sort the Albums, needed on live server
+                sfx.sort(function(a, b){
+                    if(a.name<b.name) return -1;
+                    if(a.name>b.name) return 1;
+                    return 0;
+                });
+                dir.files.reverse();
             } else {
                 var dirName = pathParts.pop();
                 sfx.forEach(function (dir) {
@@ -53,10 +61,19 @@ module.exports = function (cb) {
                             artist: "",
                             album: ""
                         });
+                        // This will sort the Tracks, needed on live server
+                        // TODO: DRY for sort function sortName sortPropAlphabetical
+                        dir.files.sort(function(a, b){
+                            if(a.name<b.name) return -1;
+                            if(a.name>b.name) return 1;
+                            return 0;
+                        });
+                        dir.files.reverse();
                     }
                 });
             }
         },function () {
+            console.log('newly generated sfx: ' + sfx);
             cb(null,sfx);
         });
     }
