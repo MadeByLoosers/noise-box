@@ -51,7 +51,6 @@ module.exports = function (cb) {
                 sfx.push(dir);
                 // This will sort the Albums, needed on live server
                 sfx.sort(sortPropertyAlphabetical('name'));
-                sfx.reverse();
             } else {
                 var dirName = pathParts.pop();
                 sfx.forEach(function (dir) {
@@ -67,7 +66,6 @@ module.exports = function (cb) {
                         });
                         // This will sort the Tracks, needed on live server
                         dir.files.sort(sortPropertyAlphabetical('name'));
-                        dir.files.reverse();
                     }
                 });
             }
