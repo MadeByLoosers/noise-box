@@ -31,7 +31,7 @@ module.exports = function () {
     });
 
     // prove we own the domain for Gandi SSL cert
-    ssl_confirm_file = 'CBD1F10D3FD257184D2D96073BFF07E7.txt';
+    var ssl_confirm_file = 'CBD1F10D3FD257184D2D96073BFF07E7.txt';
     app.get('/' + ssl_confirm_file, function (req,res) {
         fs.readFile('./' + ssl_confirm_file, function(err, data) {
             if (err) throw err;
