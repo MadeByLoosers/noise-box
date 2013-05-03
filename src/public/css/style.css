@@ -1635,9 +1635,22 @@ li.log {
 li.log i {
   margin-right: 5px;
 }
+li.log a {
+  text-decoration: none;
+  color: #666;
+  font-weight: bold;
+  -webkit-transition: all 250ms ease-out;
+  -moz-transition: all 250ms ease-out;
+  -o-transition: all 250ms ease-out;
+  transition: all 250ms ease-out;
+}
+li.log a:hover {
+  color: #000;
+}
 li.log span.datetime {
   font-size: 0.7rem;
   font-style: italic;
+  font-weight: normal;
   color: #999;
 }
 /* page layout */

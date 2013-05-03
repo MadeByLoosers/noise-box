@@ -22,6 +22,7 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
             this._super();
 
             this.log({ eventType: "room-created" });
+            this.log({ eventType: "share-link" });
 
             // some mobile/touch devices require the user
             // to add an audio track via touch interaction
