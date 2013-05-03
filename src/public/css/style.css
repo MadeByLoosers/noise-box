@@ -1882,6 +1882,13 @@ body#home {
   margin-bottom: 0;
   display: inline-block;
 }
+#home h2 {
+  line-height: 1.2;
+}
+#home h2,
+#home p {
+  padding: 0 10px;
+}
 #home form {
   background: rgba(0, 0, 0, 0.6);
   padding: 20px;
