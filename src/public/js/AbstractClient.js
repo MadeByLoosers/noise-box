@@ -164,8 +164,8 @@ define(function (require) {
             $li = $("<li />")
                 .attr("id", data.id)
                 .addClass("log")
-                .prepend($icon)
                 .text(data.username)
+                .prepend($icon)
                 .appendTo(this.userListEl);
         },
 
