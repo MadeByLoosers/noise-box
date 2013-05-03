@@ -25,6 +25,15 @@ var lastAccess;
  *     }
  * ]
  */
+
+var sortPropertyAlphabetical = function(property){
+    return function(a,b) {
+        if( a[property] < b[property] ) return -1;
+        if( a[property] > b[property] ) return 1;
+        return 0;
+    };
+};
+
 module.exports = function (cb) {
     if ( sfx && lastAccess && (Date.now()<(lastAccess+cacheTime)) ) {
         cb(null,sfx);
@@ -40,6 +49,8 @@ module.exports = function (cb) {
                     files: []
                 };
                 sfx.push(dir);
+                // This will sort the Albums, needed on live server
+                sfx.sort(sortPropertyAlphabetical('name'));
             } else {
                 var dirName = pathParts.pop();
                 sfx.forEach(function (dir) {
@@ -53,6 +64,8 @@ module.exports = function (cb) {
                             artist: "",
                             album: ""
                         });
+                        // This will sort the Tracks, needed on live server
+                        dir.files.sort(sortPropertyAlphabetical('name'));
                     }
                 });
             }
