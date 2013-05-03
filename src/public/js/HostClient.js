@@ -14,7 +14,12 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
         audioElement : null,
 
         init : function () {
-            this._super();
+
+            if (this.canPlayMP3()) {
+                this._super();
+            } else {
+                window.location = "/boot?m=Sorry your browser doesn't support playback of MP3s, try Google Chrome";
+            }
         },
 
         onConnect : function () {
@@ -116,6 +121,11 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
                 //});
 
             }
+        },
+
+        canPlayMP3: function  () {
+            var a = document.createElement('audio');
+            return !!(a.canPlayType && a.canPlayType('audio/mpeg;').replace(/no/, ''));
         }
     });
 });
