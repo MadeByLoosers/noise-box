@@ -27,6 +27,8 @@ define(function (require) {
             console.log("****************");
             console.log("Client init",this.clientType,this.hostURL,this.noiseBoxID===undefined?"":this.noiseBoxID);
 
+            this.addWebSocketConnect();
+
             this.flashMessage();
 
             this.on(Const.SERVER_SOCKET_CONNECT,this.onConnect);
@@ -62,11 +64,22 @@ define(function (require) {
 
         },
 
+        addWebSocketConnect : function () {
+            this.$addWebSocketConnectEl = $("<div/>")
+                                            .attr("class", "web-socket-connect")
+                                            .appendTo($("body"));
+
+            var $p = $("<p/>").text("Connecting").appendTo(this.$addWebSocketConnectEl);
+            var $i = this.createIcon("loading").prependTo($p);
+        },
+
         onConnect : function () {
+            this.$addWebSocketConnectEl.fadeOut(500);
             console.log("Socket connected");
         },
 
         onDisconnect : function () {
+            this.$addWebSocketConnectEl.fadeIn(500);
             console.log("Socket disconnected");
         },
 
@@ -294,6 +307,10 @@ define(function (require) {
 
                 case "audio-start-note":
                     icon += "warning-sign";
+                    break;
+
+                case "loading":
+                    icon += "refresh icon-spin";
                     break;
             }
 
