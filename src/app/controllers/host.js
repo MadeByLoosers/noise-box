@@ -154,8 +154,21 @@ var HostController = {
         if ( nb.hostExists(socket.id) ) {
 
             log.info("removed host",{socketid:socket.id,noiseboxid:nb.id});
-
             nb.removeHost(socket.id);
+
+            // that was the last host so boot all the users out
+            log.info("removed hosts users",{socketid:socket.id,noiseboxid:nb.id});
+            if (nb.hosts.length < 1) {
+                nb.users.each(function(user){
+                    user.get('socket').emit(server.constants.SERVER_BOOT_CLIENT,{
+                        message: 'The host no longer exists'
+                    });
+                });
+
+                // now destroy the noisebox
+                console.log('removed noisebox',{noiseboxid:nb.id});
+                model.removeNoiseBox(nb.id);
+            }
         }
     }
 };
