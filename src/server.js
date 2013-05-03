@@ -74,6 +74,7 @@ if (env === 'testing') {
 var HomeController = require("./app/controllers/home");
 var HostController = require("./app/controllers/host");
 var UserController = require("./app/controllers/user");
+var BootController = require("./app/controllers/boot");
 
 HomeController();
 HostController.init();
