@@ -342,7 +342,7 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "tabs",
             console.log("detected transport", this.socket.socket.transport.name);
             var transport = this.socket.socket.transport.name;
             if (transport !== 'websocket') {
-                this.createFlashMessage("Your connection to noisebox isn't great, it could be improved by using a modern browser or connecting via wifi");
+                this.createFlashMessage("Your connection to NoiseBox isn't great, it could be improved by using a modern browser or connecting via wifi");
             }
         },
 
