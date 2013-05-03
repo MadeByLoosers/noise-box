@@ -57,6 +57,9 @@ define(function (require) {
             // start relative time count
             timeAgo.init();
 
+            // open external links in a new window
+            $("a[rel='external']").attr("target", "_blank");
+
         },
 
         onConnect : function () {

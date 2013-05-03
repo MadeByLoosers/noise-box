@@ -1703,18 +1703,16 @@ li.log span.datetime {
   font-size: 1.33rem;
   font-weight: normal;
 }
-.room ul {
+.room p {
   float: left;
-  margin: 0.7rem 0 0 0;
+  margin: 0.7rem 0.5rem 0 0;
 }
-.room ul a,
-.room ul a:active,
-.room ul a:focus {
+.room a {
   display: block;
   font-size: 0.88rem;
   line-height: 1.2;
   text-decoration: none;
-  color: #333;
+  color: #666;
   border: 1px solid #ccc;
   border-radius: 3px;
   padding: 5px 10px;
@@ -1724,8 +1722,8 @@ li.log span.datetime {
   -o-transition: all 250ms ease-out;
   transition: all 250ms ease-out;
 }
-.room ul a:hover,
-.room ul a.active {
+.room a:hover,
+.room a.active {
   color: #fff;
   background-color: #424242;
 }
@@ -1733,23 +1731,12 @@ li.log span.datetime {
   display: none;
   float: left;
 }
-.room .share .share-intro {
-  display: none;
-  float: left;
-  margin: 0;
-  padding: 5px 10px 5px 0;
+.room .share a {
+  border-color: transparent;
 }
-.room .share input[type="text"],
-.room .share input[type="submit"],
-.room .share .share-intro {
-  font-size: 0.8rem;
-}
-.room .share input[type="text"] {
-  min-width: 245px;
-  margin-top: 10px;
-  background: transparent;
-  padding: 6px 10px;
-  float: left;
+.room .share a:hover {
+  background: none;
+  color: #000;
 }
 /* footer - for host / user pages */
 .footer {
