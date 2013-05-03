@@ -64,6 +64,13 @@ define(function (require) {
 
         onConnect : function () {
             console.log("Socket connected");
+
+            // Check Websockets are available.  Don't allow ajax fallback.
+            console.log("detected transport", this.socket.socket.transport.name);
+            var transport = this.socket.socket.transport.name;
+            if (transport !== 'websocket') {
+                window.location = "/boot?m=Sorry you need a better connection (websockets) to use noisebox. Have you tried using a modern browser or connecting via wifi?";
+            }
         },
 
         onDisconnect : function () {

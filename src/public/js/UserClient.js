@@ -47,8 +47,6 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "tabs",
             this.on(Const.USER_ADDED,this.updateUsernameField);
             this.on(Const.USER_UPDATED,this.updateUsernameField);
 
-            this.on(Const.SERVER_SOCKET_CONNECT,this.detectTransport);
-
             this.on(Const.SERVER_ADD_TRACK,this.onTrackQueued);
             this.on(Const.SERVER_BOOT_CLIENT,this.bootClient);
             this.on(Const.HOST_TRACK_PLAYING,this.onTrackPlaying);
@@ -336,15 +334,6 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "tabs",
             var $form = $("#username-form");
             $form.fadeToggle();
             $form.find("input[type=text]").focus();
-        },
-
-
-        detectTransport: function() {
-            console.log("detected transport", this.socket.socket.transport.name);
-            var transport = this.socket.socket.transport.name;
-            if (transport !== 'websocket') {
-                window.location = "/boot?m=Sorry you need a better connection (websockets) to use noisebox. Have you tried using a modern browser or connecting via wifi?";
-            }
         },
 
 
