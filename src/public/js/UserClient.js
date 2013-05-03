@@ -344,7 +344,7 @@ define(["constants","AbstractClient","jquery","underscore", "scrollspy", "tabs",
 
 
         bootClient: function(e) {
-            console.log('Got boot message', arguments);
+            window.location = '/boot/?m=The host has left, and kicked you out!';
         },
 
 
