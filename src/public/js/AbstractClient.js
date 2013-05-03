@@ -217,7 +217,10 @@ define(function (require) {
                     logMessage = "A host has been removed";
                     break;
                 case "room-created":
-                    logMessage = "Noisebox room created: <strong>" + this.hostURL + "/" + this.noiseBoxID + "</strong>";
+                    logMessage = "Joining NoiseBox room: <strong>" + this.noiseBoxID + "</strong>";
+                    break;
+                case "share-link":
+                    logMessage = "Share this room: <a href='" + this.hostURL + "/" + this.noiseBoxID + "' rel='external' target='_blank'>" + this.hostURL + "/" + this.noiseBoxID + "</a>";
                     break;
                 case "audio-start-note":
                     logMessage = "Note: <a class='audio-start' href='#'>You need to click here to enable sound</a>";
@@ -283,6 +286,10 @@ define(function (require) {
 
                 case "room-created":
                     icon += "bullhorn";
+                    break;
+
+                case "share-link":
+                    icon += "link";
                     break;
 
                 case "audio-start-note":
