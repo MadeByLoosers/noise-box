@@ -14,7 +14,12 @@ define(["constants","AbstractClient","jquery"], function (Const,AbstractClient) 
         audioElement : null,
 
         init : function () {
-            this._super();
+
+            if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+                window.location = "/boot?m=Sorry your browser doesn't support playback of MP3s, try Google Chrome";
+            } else {
+                this._super();
+            }
         },
 
         onConnect : function () {
