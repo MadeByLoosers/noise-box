@@ -14,6 +14,7 @@ var constants = server.constants;
 var moment = require("./../lib/moment");
 var templateOptions = require("./../middleware/template-options");
 var stats = require("./../middleware/stats");
+var cacheNuker = require("./../middleware/cache-nuker");
 var AbstractController = require("./abstract.js");
 var _ = require("underscore");
 var log = require("../lib/log");
@@ -24,7 +25,7 @@ var UserController = {
 
         // Map route to middleware and rendering function:
 
-        app.get("/:id",templateOptions(),stats(),function (req,res) {
+        app.get("/:id",templateOptions(),stats(),cacheNuker(),function (req,res) {
 
             var id = req.params.id;
 
